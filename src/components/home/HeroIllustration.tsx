@@ -3,26 +3,25 @@
 import { useEffect } from "react";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { Logo } from "@/components/brand/Logo";
-import { VendorMark } from "@/components/brand/VendorMark";
+import { VendorTile } from "@/components/brand/VendorMark";
 import { tools } from "@/data/tools";
 
 /**
- * Layered brand illustration placeholder: a "pass" card in front, a stack of
- * tool tiles behind. Both layers float on a slow loop and parallax ±10 px
- * with the pointer. Replace the inner content with the real front/back
- * artwork (PNG/SVG) — keep the two-layer structure for the parallax.
+ * Brand illustration: two passes hanging from a lanyard. The front pass is
+ * the brand card, the back one is a grid of tool tiles. Straps are SVG, the
+ * cards are HTML so they stay crisp and themeable; both swing gently (CSS)
+ * and parallax ±10 px with the pointer.
  */
-export function HeroIllustration({ interactive = true }: { interactive?: boolean }) {
+export function HeroIllustration({ interactive = true, compact = false }: { interactive?: boolean; compact?: boolean }) {
   const reduce = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 60, damping: 18 });
   const sy = useSpring(my, { stiffness: 60, damping: 18 });
-
-  const backX = useTransform(sx, (v) => v * -10);
-  const backY = useTransform(sy, (v) => v * -10);
+  const backX = useTransform(sx, (v) => v * -8);
+  const backY = useTransform(sy, (v) => v * -6);
   const frontX = useTransform(sx, (v) => v * 10);
-  const frontY = useTransform(sy, (v) => v * 10);
+  const frontY = useTransform(sy, (v) => v * 8);
 
   useEffect(() => {
     if (!interactive || reduce) return;
@@ -34,56 +33,74 @@ export function HeroIllustration({ interactive = true }: { interactive?: boolean
     return () => window.removeEventListener("mousemove", onMove);
   }, [interactive, reduce, mx, my]);
 
-  const featured = tools.filter((t) => ["cursor", "notion", "framer", "linear", "posthog", "supabase"].includes(t.slug));
+  const grid = tools.filter((t) => ["cursor", "notion", "framer", "linear", "posthog", "supabase", "lovable", "elevenlabs", "replit"].includes(t.slug)).slice(0, 9);
 
   return (
-    <div className="relative mx-auto aspect-[5/4] w-full max-w-[520px] select-none" aria-hidden>
-      {/* soft glow */}
-      <div className="absolute inset-0 rounded-full bg-[radial-gradient(closest-side,rgba(0,87,255,0.18),transparent)] blur-2xl" />
+    <div className={`relative mx-auto w-full select-none ${compact ? "max-w-[380px]" : "max-w-[400px] md:max-w-[540px]"} aspect-[1/1] md:aspect-[5/4]`} aria-hidden>
+      {/* soft amber halo */}
+      <div className="absolute inset-x-[10%] top-[18%] h-[70%] rounded-full bg-[radial-gradient(closest-side,rgba(245,158,11,0.28),transparent)] blur-2xl" />
 
-      {/* back layer: tool tiles */}
-      <motion.div style={{ x: backX, y: backY }} className="absolute inset-0">
-        <div className="anim-float-rev absolute inset-0">
-          {featured.map((t, i) => {
-            const pos = [
-              "left-[4%] top-[8%] -rotate-6",
-              "right-[6%] top-[4%] rotate-3",
-              "left-[0%] top-[46%] rotate-2",
-              "right-[2%] top-[42%] -rotate-3",
-              "left-[14%] bottom-[2%] rotate-6",
-              "right-[14%] bottom-[0%] -rotate-2",
-            ][i];
-            return (
-              <div
-                key={t.slug}
-                className={`absolute rounded-2xl border border-line bg-white/90 px-3.5 py-2.5 shadow-[var(--shadow-card)] backdrop-blur ${pos}`}
-              >
-                <VendorMark name={t.vendor} hue={t.hue} size="sm" />
-              </div>
-            );
-          })}
+      {/* lanyard straps */}
+      <svg viewBox="0 0 540 432" className="absolute inset-0 h-full w-full overflow-visible">
+        <defs>
+          <linearGradient id="strap" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stopColor="#b45309" />
+            <stop offset="1" stopColor="#7c2d12" />
+          </linearGradient>
+        </defs>
+        {/* back strap */}
+        <path d="M292 -40 C 330 40, 372 60, 388 118" stroke="url(#strap)" strokeWidth="22" strokeLinecap="round" fill="none" />
+        <path d="M292 -40 C 330 40, 372 60, 388 118" stroke="#fcd34d" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" fill="none" opacity="0.7" />
+        {/* front strap */}
+        <path d="M248 -40 C 236 40, 200 70, 178 136" stroke="url(#strap)" strokeWidth="22" strokeLinecap="round" fill="none" />
+        <path d="M248 -40 C 236 40, 200 70, 178 136" stroke="#fcd34d" strokeWidth="2" strokeDasharray="6 8" strokeLinecap="round" fill="none" opacity="0.7" />
+        {/* clips */}
+        <rect x="374" y="108" width="28" height="18" rx="6" fill="#d6a55d" stroke="#7c2d12" strokeWidth="2" />
+        <rect x="164" y="126" width="28" height="18" rx="6" fill="#d6a55d" stroke="#7c2d12" strokeWidth="2" />
+        {/* hand-drawn sparks */}
+        <g stroke="var(--brand-accent)" strokeWidth="4" strokeLinecap="round" className="anim-wiggle" style={{ transformOrigin: "60px 90px" }}>
+          <path d="M40 92 l16 -6" />
+          <path d="M46 110 l14 -12" />
+          <path d="M62 122 l6 -16" />
+        </g>
+        <g stroke="var(--brand-accent-2)" strokeWidth="4" strokeLinecap="round" className="anim-wiggle" style={{ transformOrigin: "490px 300px", animationDelay: "1.2s" }}>
+          <path d="M478 292 l16 6" />
+          <path d="M484 312 l14 10" />
+          <path d="M470 318 l-2 16" />
+        </g>
+      </svg>
+
+      {/* back pass: tool grid */}
+      <motion.div style={{ x: backX, y: backY }} className="absolute left-[54%] top-[27%] w-[42%]">
+        <div className="anim-swing-rev">
+          <div className="relative rotate-[7deg] rounded-[22px] border-2 border-line-strong bg-white p-4 shadow-[0_24px_50px_rgba(146,64,14,0.18)]">
+            <span className="absolute left-1/2 top-2 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 border-line-strong bg-bg" />
+            <div className="mt-3 grid grid-cols-3 gap-2.5">
+              {grid.map((t) => (
+                <VendorTile key={t.slug} name={t.vendor} hue={t.hue} size={compact ? 34 : 46} />
+              ))}
+            </div>
+            <p className="mt-3 text-center font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">+26 more</p>
+          </div>
         </div>
       </motion.div>
 
-      {/* front layer: pass card */}
-      <motion.div style={{ x: frontX, y: frontY }} className="absolute inset-0 grid place-items-center">
-        <div className="anim-float w-[68%] rounded-[28px] bg-[linear-gradient(140deg,var(--brand-primary),var(--brand-primary-600)_60%,#001a4d)] p-6 text-white shadow-[0_30px_80px_rgba(0,87,255,0.35)]">
-          <div className="flex items-center justify-between">
-            <Logo size={36} className="rounded-xl ring-2 ring-white/30" />
-            <span className="rounded-full bg-accent px-3 py-1 text-[11px] font-black uppercase tracking-wider text-ink">
-              Pro Pass
-            </span>
-          </div>
-          <p className="mt-8 font-mono text-[13px] tracking-[0.2em] text-white/70">SHP-P-••••-••••-••••</p>
-          <div className="mt-6 flex items-end justify-between">
-            <div>
-              <p className="text-[11px] uppercase tracking-wider text-white/60">Tools</p>
-              <p className="font-display text-3xl font-black leading-none">35</p>
+      {/* front pass: brand card */}
+      <motion.div style={{ x: frontX, y: frontY }} className="absolute left-[8%] top-[31%] w-[44%]">
+        <div className="anim-swing">
+          <div className="relative -rotate-[8deg] rounded-[22px] border-2 border-line-strong bg-[linear-gradient(170deg,#fff7e0,#fde9c0)] p-5 text-center shadow-[0_28px_60px_rgba(146,64,14,0.22)]">
+            <span className="absolute left-1/2 top-2 h-3.5 w-3.5 -translate-x-1/2 rounded-full border-2 border-line-strong bg-bg" />
+            <div className="mt-3 flex justify-center">
+              <Logo size={compact ? 38 : 48} />
             </div>
-            <div className="text-right">
-              <p className="text-[11px] uppercase tracking-wider text-white/60">Valid</p>
-              <p className="font-display text-xl font-extrabold leading-none">1 year</p>
-            </div>
+            <p className="mt-3 font-display text-[11px] font-semibold uppercase tracking-[0.22em] text-ink-muted">Software Hub</p>
+            <p className={`font-display font-bold uppercase leading-[0.95] text-primary ${compact ? "text-[26px]" : "text-[34px]"}`}>
+              Pool
+              <br />
+              Pass
+            </p>
+            <div className="mx-auto mt-3 w-4/5 border-t-2 border-dashed border-line-strong" />
+            <p className="mt-2 font-display text-[11px] font-semibold uppercase tracking-[0.16em] text-ink-faint">35 tools · 1 year</p>
           </div>
         </div>
       </motion.div>

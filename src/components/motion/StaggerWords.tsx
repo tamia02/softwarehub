@@ -20,7 +20,7 @@ export function StaggerWords({
   return (
     <Tag className={className} aria-label={text}>
       {words.map((w, i) => {
-        const hl = highlight?.includes(w.replace(/[^\w$+%]/g, ""));
+        const hl = highlight?.includes(w.replace(/[^\w$+%,.]/g, ""));
         return (
           <span key={i} aria-hidden className={hl ? "anim-word text-primary" : "anim-word"} style={{ animationDelay: `${delay + i * 0.04}s` }}>
             {w}

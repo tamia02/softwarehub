@@ -22,7 +22,7 @@ const steps = [
 
 export function PoolExplainer({ pools }: { pools: PoolSummary[] }) {
   return (
-    <Section id="pool" className="bg-white">
+    <Section id="pool" className="bg-bg-soft/60">
       <SectionHeading
         eyebrow="Pools"
         title={
@@ -39,7 +39,7 @@ export function PoolExplainer({ pools }: { pools: PoolSummary[] }) {
 
       <div className="mt-16 flex items-end justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-extrabold">Open pools</h3>
+          <h3 className="text-2xl font-semibold">Open pools</h3>
           <p className="mt-1 text-sm text-ink-muted">Join one that is about to fill, or start your own.</p>
         </div>
         <Button href="/checkout/pool" variant="secondary" className="hidden sm:inline-flex">
@@ -66,9 +66,9 @@ function Stepper() {
   return (
     <ol ref={ref} className="relative mt-12 grid gap-8 md:grid-cols-3 md:gap-6">
       {/* connecting line (desktop) */}
-      <div className="pointer-events-none absolute left-[16.6%] right-[16.6%] top-7 hidden h-[3px] rounded-full bg-line md:block" aria-hidden>
+      <div className="pointer-events-none absolute left-[16.6%] right-[16.6%] top-7 hidden h-[3px] rounded-full bg-line-strong md:block" aria-hidden>
         <motion.div
-          className="h-full origin-left rounded-full bg-primary"
+          className="h-full origin-left rounded-full bg-accent"
           initial={reduce ? { scaleX: 1 } : { scaleX: 0 }}
           animate={inView ? { scaleX: 1 } : undefined}
           transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
@@ -77,15 +77,15 @@ function Stepper() {
       {steps.map((s, i) => (
         <FadeUp key={s.title} index={i} className="relative flex flex-col items-center text-center md:px-4">
           <motion.span
-            className="relative z-10 grid h-14 w-14 place-items-center rounded-full border-4 border-white bg-primary text-white shadow-[0_8px_24px_rgba(0,87,255,0.3)]"
+            className="relative z-10 grid h-14 w-14 place-items-center rounded-full border-4 border-bg bg-primary text-[#fff8e8] shadow-[var(--shadow-button)]"
             initial={reduce ? false : { scale: 0.6 }}
             animate={inView ? { scale: 1 } : undefined}
             transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.3 + i * 0.35 }}
           >
             {s.icon}
           </motion.span>
-          <span className="mt-4 text-xs font-bold uppercase tracking-wider text-ink-faint">Step {i + 1}</span>
-          <h3 className="mt-1 text-lg font-extrabold">{s.title}</h3>
+          <span className="mt-4 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Step {i + 1}</span>
+          <h3 className="mt-1 text-lg font-semibold">{s.title}</h3>
           <p className="mt-2 max-w-xs text-sm text-ink-muted">{s.desc}</p>
         </FadeUp>
       ))}
@@ -105,10 +105,10 @@ function PoolCarousel({ pools }: { pools: PoolSummary[] }) {
         ))}
       </div>
       <div className="mt-2 hidden justify-end gap-2 md:flex">
-        <button onClick={() => scrollBy(-1)} aria-label="Previous pools" className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white hover:bg-bg-soft">
+        <button onClick={() => scrollBy(-1)} aria-label="Previous pools" className="grid h-10 w-10 place-items-center rounded-full border-2 border-line-strong bg-white hover:bg-bg-soft">
           <ChevronLeft size={18} />
         </button>
-        <button onClick={() => scrollBy(1)} aria-label="Next pools" className="grid h-10 w-10 place-items-center rounded-full border border-line bg-white hover:bg-bg-soft">
+        <button onClick={() => scrollBy(1)} aria-label="Next pools" className="grid h-10 w-10 place-items-center rounded-full border-2 border-line-strong bg-white hover:bg-bg-soft">
           <ChevronRight size={18} />
         </button>
       </div>
@@ -123,17 +123,17 @@ function PoolCard({ pool, index }: { pool: PoolSummary; index: number }) {
     <FadeUp index={index} className="card flex w-[280px] shrink-0 snap-start flex-col gap-4 p-5">
       <div className="flex items-start justify-between">
         <div>
-          <p className={cn("text-[11px] font-black uppercase tracking-wider", pool.tier === "pro" ? "text-amber-700" : "text-primary")}>{t.name}</p>
+          <p className={cn("font-display text-[11px] font-bold uppercase tracking-[0.16em]", pool.tier === "pro" ? "text-accent-2" : "text-primary")}>{t.name}</p>
           <p className="mt-0.5 text-sm text-ink-muted">{pool.city ?? "India"}</p>
         </div>
         <ProgressRing value={pool.filled} max={pool.seats} size={56} stroke={5}>
-          <span className="text-xs font-extrabold tabular-nums">
+          <span className="font-display text-xs font-bold tabular-nums">
             {pool.filled}/{pool.seats}
           </span>
         </ProgressRing>
       </div>
       <div className="flex items-center justify-between text-sm">
-        <span className="font-semibold">{left === 1 ? "1 seat left" : `${left} seats left`}</span>
+        <span className="font-display font-semibold">{left === 1 ? "1 seat left" : `${left} seats left`}</span>
         <span className="inline-flex items-center gap-1 text-ink-muted">
           <Clock size={14} /> <Countdown to={pool.expiresAt} />
         </span>

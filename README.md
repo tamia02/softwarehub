@@ -36,7 +36,7 @@ Gate codes: `CUST-DEMO-2026` / `RSL-DEMO-2026` (replace before launch).
 | Path | What |
 |---|---|
 | `src/config/site.ts` | Brand strings, default settings, cookie names |
-| `src/app/globals.css` | Design tokens — change `--brand-primary` / `--brand-accent` here |
+| `src/app/globals.css` | Design tokens — "Warm Cream" palette (#92400E · #D97706 · #F59E0B · #FEF3C7 · #FFFBEB); change `--brand-*` here |
 | `src/db/schema.ts` | All tables (§7). Money in paise, enums as validated text |
 | `src/db/seed.ts` | Demo data (tiers, 35 tools, vendors, users, pools, code inventory) |
 | `src/lib/codes*.ts` | Code formats, check digit, CSPRNG generation, salted hashing, allocation |

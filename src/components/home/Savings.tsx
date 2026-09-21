@@ -27,13 +27,13 @@ export function Savings({
   const rows = tier === "pro" ? tools : tools.filter((t) => t.tierMin === "starter");
 
   return (
-    <Section id="savings" className="relative overflow-hidden bg-bg-dark text-white" innerClassName="relative">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_0%,rgba(0,87,255,0.30),transparent_70%)]" />
+    <Section id="savings" className="relative overflow-hidden bg-bg-dark text-[#fff8e8]" innerClassName="relative">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_45%_at_50%_0%,rgba(245,158,11,0.28),transparent_70%)]" />
 
       <FadeUp className="mx-auto max-w-2xl text-center">
-        <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-accent">The math</p>
-        <h2 className="text-balance text-[32px] font-extrabold leading-[1.1] md:text-[40px]">
-          Pay a fraction. <span className="text-white/60">Keep everything.</span>
+        <p className="mb-3 font-display text-[12px] font-semibold uppercase tracking-[0.22em] text-accent">The math</p>
+        <h2 className="text-balance text-[34px] font-bold leading-[1.08] md:text-[44px]">
+          Pay a fraction. <span className="text-accent">Keep everything.</span>
         </h2>
         <p className="mt-4 text-lg text-white/70">
           Retail is what these plans cost if you bought each one directly, converted at ₹{settings.usdInrRate}/USD.
@@ -50,12 +50,12 @@ export function Savings({
               aria-selected={tier === t}
               onClick={() => setTier(t)}
               className={cn(
-                "relative rounded-full px-5 py-2 text-sm font-bold transition-colors",
+                "relative rounded-full px-5 py-2 font-display text-sm font-semibold transition-colors",
                 tier === t ? "text-ink" : "text-white/70 hover:text-white",
               )}
             >
               {tier === t && (
-                <motion.span layoutId="savings-toggle" className="absolute inset-0 rounded-full bg-white" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+                <motion.span layoutId="savings-toggle" className="absolute inset-0 rounded-full bg-accent" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
               )}
               <span className="relative">{pricing[t].name}</span>
             </button>
@@ -75,7 +75,7 @@ export function Savings({
         <button
           onClick={() => setExpanded((v) => !v)}
           aria-expanded={expanded}
-          className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 text-sm font-bold text-white hover:bg-white/10"
+          className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-2.5 font-display text-sm font-semibold text-white hover:bg-white/10"
         >
           {expanded ? "Hide" : "Show"} per-tool comparison
           <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.25 }}>
@@ -96,7 +96,7 @@ export function Savings({
           >
             <div className="mt-6 max-h-[520px] overflow-auto rounded-2xl border border-white/10">
               <table className="w-full min-w-[560px] text-left text-sm">
-                <thead className="sticky top-0 bg-[#141a2a] text-xs uppercase tracking-wider text-white/60">
+                <thead className="sticky top-0 bg-[#3b1d0c] text-xs uppercase tracking-wider text-white/60">
                   <tr>
                     <th className="px-4 py-3 font-bold">Tool</th>
                     <th className="px-4 py-3 font-bold">Offer</th>
@@ -112,11 +112,11 @@ export function Savings({
                       <td className="px-4 py-2.5 text-white/70">{t.offerTitle}</td>
                       <td className="px-4 py-2.5 text-right tabular-nums text-white/70">{formatUSD(t.valueUsd)}</td>
                       <td className="px-4 py-2.5 text-right tabular-nums text-white/70">{formatINR(t.retailPaise)}</td>
-                      <td className="px-4 py-2.5 text-right font-bold text-emerald-400">Included</td>
+                      <td className="px-4 py-2.5 text-right font-bold text-accent">Included</td>
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="sticky bottom-0 bg-[#141a2a] font-bold">
+                <tfoot className="sticky bottom-0 bg-[#3b1d0c] font-bold">
                   <tr>
                     <td className="px-4 py-3" colSpan={2}>
                       Total ({rows.length} tools)
@@ -138,13 +138,13 @@ export function Savings({
           <ShieldCheck size={28} />
         </span>
         <div className="flex-1">
-          <h3 className="text-xl font-extrabold">Code Works Guarantee</h3>
+          <h3 className="text-xl font-semibold">Code Works Guarantee</h3>
           <p className="mt-1 text-white/70">
             If a code doesn’t activate, we replace it or refund you within {settings.guaranteeDays} days. No forms, no
             arguing.
           </p>
         </div>
-        <Link href="/refund-policy" className="shrink-0 text-sm font-bold text-accent hover:underline">
+        <Link href="/refund-policy" className="shrink-0 font-display text-sm font-semibold text-accent hover:underline">
           Read the policy →
         </Link>
       </FadeUp>
@@ -154,12 +154,12 @@ export function Savings({
 
 function Stat({ label, sub, value, accent }: { label: string; sub: string; value: number; accent?: boolean }) {
   return (
-    <FadeUp className={cn("rounded-[24px] border border-white/10 p-6 md:p-8", accent ? "bg-primary" : "bg-white/5")}>
-      <p className={cn("text-sm font-bold uppercase tracking-wider", accent ? "text-white/80" : "text-white/60")}>{label}</p>
-      <p className="mt-3 font-display text-[36px] font-black leading-none tabular-nums md:text-[44px]">
+    <FadeUp className={cn("rounded-[24px] border border-white/10 p-6 md:p-8", accent ? "bg-accent text-ink" : "bg-white/5")}>
+      <p className={cn("font-display text-[12px] font-semibold uppercase tracking-[0.18em]", accent ? "text-ink/70" : "text-white/60")}>{label}</p>
+      <p className="mt-3 font-display text-[36px] font-bold leading-none tabular-nums md:text-[44px]">
         ₹<CountUp value={value} format={(n) => formatINRNumber(n)} />
       </p>
-      <p className={cn("mt-2 text-sm", accent ? "text-white/80" : "text-white/60")}>{sub}</p>
+      <p className={cn("mt-2 text-sm", accent ? "text-ink/70" : "text-white/60")}>{sub}</p>
     </FadeUp>
   );
 }

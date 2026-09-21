@@ -10,10 +10,10 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-line bg-bg-soft">
+    <footer className="border-t border-line bg-bg-soft/70">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <LogoLockup />
+          <LogoLockup stacked />
           <p className="mt-4 max-w-sm text-sm text-ink-muted">
             One activation code, 35 premium tools, a whole year. Buy the bundle outright or split it ten ways in a pool.
           </p>
@@ -24,7 +24,7 @@ export function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="text-sm font-bold uppercase tracking-wider text-ink-faint">Explore</h4>
+          <h4 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink-faint">Explore</h4>
           <ul className="mt-4 space-y-2.5 text-[15px]">
             {nav.map((n) => (
               <li key={n.href}>
@@ -41,7 +41,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="text-sm font-bold uppercase tracking-wider text-ink-faint">Legal</h4>
+          <h4 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink-faint">Legal</h4>
           <ul className="mt-4 space-y-2.5 text-[15px]">
             {legal.map((n) => (
               <li key={n.href}>

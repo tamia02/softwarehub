@@ -39,7 +39,7 @@ export function ProgressRing({
           cx={size / 2}
           cy={size / 2}
           r={r}
-          stroke="var(--brand-primary)"
+          stroke="var(--brand-accent)"
           strokeWidth={stroke}
           strokeLinecap="round"
           fill="none"

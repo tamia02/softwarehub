@@ -12,9 +12,9 @@ export function FAQ({ items }: { items: FaqItem[] }) {
   const [open, setOpen] = useState<number>(0);
 
   return (
-    <Section id="faq" className="bg-bg-soft">
+    <Section id="faq">
       <SectionHeading eyebrow="FAQ" title="Questions, answered." sub="Still unsure? Email us and a human will reply." />
-      <div className="mx-auto mt-10 max-w-3xl divide-y divide-line rounded-[24px] border border-line bg-white">
+      <div className="mx-auto mt-10 max-w-3xl divide-y divide-line rounded-[28px] border-2 border-line-strong bg-white">
         {items.map((item, i) => {
           const isOpen = open === i;
           return (
@@ -25,13 +25,13 @@ export function FAQ({ items }: { items: FaqItem[] }) {
                   aria-expanded={isOpen}
                   aria-controls={`faq-panel-${i}`}
                   id={`faq-btn-${i}`}
-                  className="flex w-full items-center justify-between gap-4 py-5 text-left text-[17px] font-bold hover:text-primary"
+                  className="flex w-full items-center justify-between gap-4 py-5 text-left font-display text-[18px] font-semibold hover:text-primary"
                 >
                   {item.q}
                   <motion.span
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
-                    className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full", isOpen ? "bg-primary text-white" : "bg-bg-soft text-ink-muted")}
+                    className={cn("grid h-8 w-8 shrink-0 place-items-center rounded-full", isOpen ? "bg-primary text-[#fff8e8]" : "bg-bg-soft text-ink-muted")}
                   >
                     <ChevronDown size={18} />
                   </motion.span>

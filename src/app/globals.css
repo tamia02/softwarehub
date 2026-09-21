@@ -1,29 +1,32 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Brand tokens — swap these values to re-theme the whole site.
+   Brand tokens — "Warm Cream" (Option 5). Swap these to re-theme the site.
    ------------------------------------------------------------------ */
 :root {
-  --brand-primary: #0057ff;
-  --brand-primary-600: #0046cc;
-  --brand-primary-soft: #e8efff;
-  --brand-accent: #ffb800;
-  --brand-accent-soft: #fff4d6;
+  --brand-primary: #92400e;        /* deep amber-brown: buttons, headings accent */
+  --brand-primary-600: #78350f;
+  --brand-primary-soft: #fde8c8;
+  --brand-accent: #f59e0b;         /* bright amber: ribbons, highlights, count-ups */
+  --brand-accent-2: #d97706;
+  --brand-accent-soft: #fef3c7;
 
-  --bg: #ffffff;
-  --bg-soft: #f6f7fb;
-  --bg-dark: #0b0f19;
-  --ink: #0b0f19;
-  --ink-muted: #5b6172;
-  --ink-faint: #9aa0b0;
-  --line: #e6e8ef;
+  --bg: #fffbeb;                   /* cream page background */
+  --bg-soft: #fef3c7;              /* cream 2 — bands, chips */
+  --bg-card: #ffffff;
+  --bg-dark: #2a1408;              /* espresso band */
+  --ink: #2a1408;
+  --ink-muted: #7a5a3b;
+  --ink-faint: #a98a6a;
+  --line: #f1dfb8;
+  --line-strong: #e6c98f;
 
-  --card-radius: 24px;
-  --shadow-card: 0 8px 30px rgba(11, 15, 25, 0.08);
-  --shadow-hover: 0 16px 48px rgba(11, 15, 25, 0.14);
+  --card-radius: 28px;
+  --shadow-card: 0 10px 30px rgba(146, 64, 14, 0.08), 0 1px 0 rgba(146, 64, 14, 0.04);
+  --shadow-hover: 0 22px 56px rgba(146, 64, 14, 0.16);
+  --shadow-button: 0 10px 24px rgba(146, 64, 14, 0.28);
 
   --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-
   --content-max: 1200px;
 }
 
@@ -32,14 +35,17 @@
   --color-primary-600: var(--brand-primary-600);
   --color-primary-soft: var(--brand-primary-soft);
   --color-accent: var(--brand-accent);
+  --color-accent-2: var(--brand-accent-2);
   --color-accent-soft: var(--brand-accent-soft);
   --color-bg: var(--bg);
   --color-bg-soft: var(--bg-soft);
+  --color-bg-card: var(--bg-card);
   --color-bg-dark: var(--bg-dark);
   --color-ink: var(--ink);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
 
   --font-display: var(--font-display), system-ui, sans-serif;
   --font-body: var(--font-body), system-ui, sans-serif;
@@ -66,12 +72,12 @@ body {
 
 h1, h2, h3, h4, .font-display {
   font-family: var(--font-display), system-ui, sans-serif;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.01em;
 }
 
 ::selection {
-  background: var(--brand-primary);
-  color: #fff;
+  background: var(--brand-accent);
+  color: var(--ink);
 }
 
 /* ------------------------------------------------------------------
@@ -94,11 +100,20 @@ h1, h2, h3, h4, .font-display {
   }
 }
 
+/* White card on cream */
 @utility card {
-  background: var(--bg);
+  background: var(--bg-card);
   border-radius: var(--card-radius);
   box-shadow: var(--shadow-card);
   border: 1px solid var(--line);
+}
+
+/* Big cream "panel" that holds a whole section (reference-style framing) */
+@utility panel {
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 36px;
+  box-shadow: var(--shadow-card);
 }
 
 @utility mask-fade-x {
@@ -108,6 +123,14 @@ h1, h2, h3, h4, .font-display {
 
 @utility text-balance {
   text-wrap: balance;
+}
+
+/* Subtle paper grain for the cream background */
+@utility paper {
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(60% 40% at 50% 0%, rgba(245, 158, 11, 0.12), transparent 70%),
+    repeating-linear-gradient(0deg, rgba(146, 64, 14, 0.015) 0 1px, transparent 1px 3px);
 }
 
 /* ------------------------------------------------------------------
@@ -121,6 +144,14 @@ h1, h2, h3, h4, .font-display {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(8px); }
 }
+@keyframes swing {
+  0%, 100% { transform: rotate(-2.2deg); }
+  50% { transform: rotate(2.2deg); }
+}
+@keyframes swing-rev {
+  0%, 100% { transform: rotate(1.8deg); }
+  50% { transform: rotate(-1.8deg); }
+}
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -130,10 +161,9 @@ h1, h2, h3, h4, .font-display {
   to { background-position: 600px 0; }
 }
 @keyframes promo-in {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
+  from { transform: translateY(-16px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(14px); }
   to { opacity: 1; transform: translateY(0); }
@@ -141,6 +171,10 @@ h1, h2, h3, h4, .font-display {
 @keyframes fade-scale {
   from { opacity: 0; transform: translateY(24px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-6deg); }
+  50% { transform: rotate(6deg); }
 }
 
 /* CSS entrance animations: run from the SSR HTML, no hydration needed. */
@@ -154,12 +188,15 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 
 .anim-float { animation: float 6s ease-in-out infinite; }
 .anim-float-rev { animation: float-rev 7s ease-in-out infinite; }
+.anim-swing { animation: swing 5.5s ease-in-out infinite; transform-origin: 50% 0%; }
+.anim-swing-rev { animation: swing-rev 6.5s ease-in-out infinite; transform-origin: 50% 0%; }
+.anim-wiggle { animation: wiggle 3s ease-in-out infinite; }
 .anim-marquee { animation: marquee 40s linear infinite; }
 .anim-marquee:hover { animation-play-state: paused; }
 .anim-promo-in { animation: promo-in 0.5s var(--ease-spring) both; }
 
 .skeleton {
-  background: linear-gradient(90deg, #eef0f5 0%, #f7f8fb 50%, #eef0f5 100%);
+  background: linear-gradient(90deg, #f7ecd2 0%, #fff8e8 50%, #f7ecd2 100%);
   background-size: 1200px 100%;
   animation: shimmer 1.6s linear infinite;
   border-radius: 12px;
@@ -167,23 +204,28 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 
 /* Vendor marks are grayscale until hovered (see ToolCard) */
 .mark-gray {
-  filter: grayscale(1);
-  opacity: 0.75;
+  filter: grayscale(1) sepia(0.25);
+  opacity: 0.8;
   transition: filter 0.25s var(--ease-spring), opacity 0.25s var(--ease-spring);
 }
 .group:hover .mark-gray,
 .mark-gray:hover {
-  filter: grayscale(0);
+  filter: none;
   opacity: 1;
 }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .anim-float, .anim-float-rev, .anim-marquee, .anim-promo-in, .skeleton {
+  .anim-float, .anim-float-rev, .anim-swing, .anim-swing-rev, .anim-wiggle, .anim-marquee, .anim-promo-in, .skeleton {
     animation: none !important;
   }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
+}
+
+@media print {
+  header, footer, nav, .anim-promo-in { display: none !important; }
+  body { background: white; }
 }

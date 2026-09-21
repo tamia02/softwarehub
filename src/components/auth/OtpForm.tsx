@@ -7,10 +7,10 @@ import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/components/analytics/track";
 
-export function OtpForm({ next }: { next?: string }) {
+export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initialIdentifier?: string }) {
   const router = useRouter();
   const [step, setStep] = useState<"identifier" | "code">("identifier");
-  const [identifier, setIdentifier] = useState("");
+  const [identifier, setIdentifier] = useState(initialIdentifier);
   const [channel, setChannel] = useState<"email" | "sms">("email");
   const [code, setCode] = useState("");
   const [devCode, setDevCode] = useState<string | null>(null);

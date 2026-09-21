@@ -1,20 +1,19 @@
 import { cn } from "@/lib/utils";
 
-export function Section({
-  id,
-  className,
-  innerClassName,
-  children,
-}: {
-  id?: string;
-  className?: string;
-  innerClassName?: string;
-  children: React.ReactNode;
-}) {
+export function Section({ id, className, innerClassName, children }: { id?: string; className?: string; innerClassName?: string; children: React.ReactNode }) {
   return (
     <section id={id} className={cn("section-pad scroll-mt-20", className)}>
       <div className={cn("container-page", innerClassName)}>{children}</div>
     </section>
+  );
+}
+
+/** Small amber pill above a heading. */
+export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
+  return (
+    <span className={cn("inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-accent-soft px-3 py-1 font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-primary", className)}>
+      {children}
+    </span>
   );
 }
 
@@ -33,10 +32,8 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-2xl", align === "center" ? "mx-auto text-center" : "", className)}>
-      {eyebrow && (
-        <p className="mb-3 text-sm font-bold uppercase tracking-[0.18em] text-primary">{eyebrow}</p>
-      )}
-      <h2 className="text-balance text-[32px] leading-[1.1] font-extrabold md:text-[40px]">{title}</h2>
+      {eyebrow && <Eyebrow className="mb-4">{eyebrow}</Eyebrow>}
+      <h2 className="text-balance text-[34px] leading-[1.08] font-bold md:text-[44px]">{title}</h2>
       {sub && <p className="mt-4 text-lg text-ink-muted">{sub}</p>}
     </div>
   );

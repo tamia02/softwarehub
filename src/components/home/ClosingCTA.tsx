@@ -5,11 +5,11 @@ import { formatINR } from "@/lib/format";
 
 export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount }: { proPricePaise: number; seatPricePaise: number; toolCount: number }) {
   return (
-    <section className="relative overflow-hidden bg-white">
-      <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(50%_60%_at_50%_100%,rgba(0,87,255,0.12),transparent)]" />
+    <section className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-0 bg-[radial-gradient(50%_60%_at_50%_100%,rgba(245,158,11,0.22),transparent)]" />
       <div className="container-page section-pad relative text-center">
         <FadeUp>
-          <h2 className="mx-auto max-w-3xl text-balance text-[36px] font-black leading-[1.1] md:text-[56px]">
+          <h2 className="mx-auto max-w-3xl text-balance text-[38px] font-bold leading-[1.06] md:text-[56px]">
             {toolCount} tools. One code. <span className="text-primary">Get started today.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-xl text-lg text-ink-muted">

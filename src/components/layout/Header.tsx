@@ -50,13 +50,13 @@ export function Header() {
       className={cn(
         "sticky top-0 z-40 transition-[background-color,box-shadow,border-color] duration-300",
         scrolled
-          ? "border-b border-line/80 bg-white/70 shadow-[0_1px_0_rgba(11,15,25,0.04)] backdrop-blur-[12px]"
+          ? "border-b border-line bg-[rgba(255,251,235,0.78)] shadow-[0_1px_0_rgba(146,64,14,0.05)] backdrop-blur-[12px]"
           : "border-b border-transparent bg-transparent",
       )}
     >
       <div className="container-page flex h-[68px] items-center justify-between gap-6">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
-          <LogoLockup />
+          <LogoLockup stacked />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
@@ -64,7 +64,7 @@ export function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className="rounded-full px-4 py-2 text-[15px] font-semibold text-ink-muted transition-colors hover:bg-bg-soft hover:text-ink"
+              className="rounded-full px-4 py-2 font-display text-[15px] font-medium text-ink-muted transition-colors hover:bg-bg-soft hover:text-ink"
             >
               {n.label}
             </Link>
@@ -90,7 +90,7 @@ export function Header() {
       <AnimatePresence>
         {open && (
           <motion.div
-            className="fixed inset-0 z-50 flex flex-col bg-white md:hidden"
+            className="fixed inset-0 z-50 flex flex-col bg-bg md:hidden"
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
@@ -119,7 +119,7 @@ export function Header() {
                   <Link
                     href={n.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-2xl px-4 py-4 font-display text-2xl font-extrabold hover:bg-bg-soft"
+                    className="block rounded-2xl px-4 py-4 font-display text-2xl font-semibold hover:bg-bg-soft"
                   >
                     {n.label}
                   </Link>

@@ -6,8 +6,8 @@ import { getSessionUser } from "@/lib/auth.server";
 export const metadata = { title: "Sign in" };
 export const dynamic = "force-dynamic";
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string }> }) {
-  const { next } = await searchParams;
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; identifier?: string }> }) {
+  const { next, identifier } = await searchParams;
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : undefined;
   const user = await getSessionUser();
   if (user) redirect(safeNext ?? (user.role === "admin" ? "/admin" : user.role === "reseller" ? "/reseller" : "/account"));
@@ -19,7 +19,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <h1 className="mt-4 text-[26px] font-black leading-tight">Sign in or create an account</h1>
         <p className="mt-1 text-sm text-ink-muted">One-time code by email or SMS. Indian mobile numbers welcome.</p>
         <div className="mt-6">
-          <OtpForm next={safeNext} />
+          <OtpForm next={safeNext} initialIdentifier={identifier?.slice(0, 120) ?? ""} />
         </div>
       </div>
     </div>

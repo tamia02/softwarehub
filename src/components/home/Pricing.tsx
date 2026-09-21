@@ -19,7 +19,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
   const [mode, setMode] = useState<Mode>("bundle");
 
   return (
-    <Section id="pricing" className="bg-bg-soft">
+    <Section id="pricing">
       <SectionHeading
         eyebrow="Pricing"
         title="Two passes. Two ways to pay."
@@ -28,7 +28,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
 
       {/* Segmented toggle */}
       <div className="mt-8 flex justify-center">
-        <div role="tablist" aria-label="Purchase mode" className="relative inline-flex rounded-full border border-line bg-white p-1 shadow-sm">
+        <div role="tablist" aria-label="Purchase mode" className="relative inline-flex rounded-full border-2 border-line-strong bg-white p-1 shadow-sm">
           {(
             [
               { id: "bundle", label: "Buy whole bundle" },
@@ -41,12 +41,12 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
               aria-selected={mode === m.id}
               onClick={() => setMode(m.id)}
               className={cn(
-                "relative rounded-full px-5 py-2.5 text-sm font-bold transition-colors",
-                mode === m.id ? "text-white" : "text-ink-muted hover:text-ink",
+                "relative rounded-full px-5 py-2.5 font-display text-sm font-semibold transition-colors",
+                mode === m.id ? "text-[#fff8e8]" : "text-ink-muted hover:text-ink",
               )}
             >
               {mode === m.id && (
-                <motion.span layoutId="pricing-mode" className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
+                <motion.span layoutId="pricing-mode" className="absolute inset-0 rounded-full bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />
               )}
               <span className="relative">{m.label}</span>
             </button>
@@ -64,22 +64,22 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
               key={tier.slug}
               index={i}
               className={cn(
-                "relative flex flex-col rounded-[28px] border bg-white p-7 md:p-8",
+                "relative flex flex-col rounded-[32px] border-2 bg-white p-7 md:p-8",
                 tier.bestValue
-                  ? "border-primary/30 shadow-[0_24px_64px_rgba(0,87,255,0.18)] md:-translate-y-3"
-                  : "border-line shadow-[var(--shadow-card)]",
+                  ? "border-accent shadow-[0_24px_64px_rgba(245,158,11,0.25)] md:-translate-y-3"
+                  : "border-line-strong shadow-[var(--shadow-card)]",
               )}
             >
               {tier.bestValue && (
-                <span className="absolute -top-3 right-6 rounded-full bg-accent px-3 py-1 text-[11px] font-black uppercase tracking-wider text-ink shadow-md">
+                <span className="absolute -top-3.5 right-6 rounded-full bg-accent px-3.5 py-1.5 font-display text-[11px] font-bold uppercase tracking-wider text-ink shadow-md">
                   Best value
                 </span>
               )}
-              <h3 className="text-xl font-extrabold">{tier.name}</h3>
+              <h3 className="text-2xl font-semibold">{tier.name}</h3>
               <p className="mt-1 text-sm text-ink-muted">{tier.headline}</p>
 
               <div className="mt-6 flex items-end gap-1.5">
-                <span className="font-display text-[44px] font-black leading-none tabular-nums">
+                <span className="font-display text-[48px] font-bold leading-none tabular-nums text-primary">
                   <NumberFlip value={formatINR(price)} />
                 </span>
                 <span className="pb-1 text-sm font-semibold text-ink-muted">{mode === "bundle" ? "/year" : "/seat"}</span>
@@ -100,7 +100,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
               <ul className="mt-6 space-y-3 text-[15px]">
                 {tier.benefits.map((b) => (
                   <li key={b} className="flex items-start gap-2.5">
-                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary-soft text-primary">
+                    <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-accent text-ink">
                       <Check size={12} strokeWidth={3} />
                     </span>
                     {b}
@@ -119,12 +119,12 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
       </div>
 
       {/* Teams strip */}
-      <FadeUp className="mx-auto mt-10 flex max-w-4xl flex-col items-center justify-between gap-4 rounded-[24px] border border-line bg-white px-6 py-5 sm:flex-row">
+      <FadeUp className="mx-auto mt-10 flex max-w-4xl flex-col items-center justify-between gap-4 rounded-[24px] border border-line-strong bg-accent-soft px-6 py-5 sm:flex-row">
         <div className="flex items-center gap-4">
-          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-primary-soft text-primary">
+          <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-white text-primary">
             <Users size={22} />
           </span>
-          <p className="font-semibold">
+          <p className="font-display font-semibold">
             Buying for {settings.teamMinSeats}+? <span className="text-ink-muted">Save {settings.teamDiscountPct}% per seat.</span>
           </p>
         </div>

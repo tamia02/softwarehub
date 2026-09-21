@@ -29,12 +29,12 @@ export function Catalog({
   const coreVisible = useMemo(() => visible(core), [core, filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <Section id="tools" className="bg-white">
+    <Section id="tools">
       <SectionHeading
         eyebrow="The catalog"
         title={
           <>
-            {core.length + pro.length} tools. One code. <span className="text-primary">A whole year.</span>
+            {core.length + pro.length} tools. One pass. <span className="text-primary">A whole year.</span>
           </>
         }
         sub="Every tool below is a full paid plan, not a trial. Filter by what you build."
@@ -52,14 +52,14 @@ export function Catalog({
                 aria-selected={active}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "relative rounded-full px-4 py-2 text-sm font-semibold transition-colors",
-                  active ? "text-white" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
+                  "relative rounded-full px-4 py-2 font-display text-sm font-semibold transition-colors",
+                  active ? "text-[#fff8e8]" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
                 )}
               >
                 {active && (
                   <motion.span
                     layoutId="chip-bg"
-                    className="absolute inset-0 rounded-full bg-ink"
+                    className="absolute inset-0 rounded-full bg-primary"
                     transition={{ type: "spring", stiffness: 400, damping: 34 }}
                   />
                 )}
@@ -81,11 +81,11 @@ export function Catalog({
       />
 
       {/* Upgrade banner */}
-      <div className="my-10 flex flex-col items-center justify-between gap-4 rounded-[20px] border border-amber-200 bg-accent-soft px-6 py-5 sm:flex-row">
-        <p className="font-display text-lg font-extrabold">
-          Want every tool? <span className="text-amber-800">Upgrade to Pro Pass</span>
+      <div className="my-10 flex flex-col items-center justify-between gap-4 rounded-[24px] border border-line-strong bg-accent-soft px-6 py-5 sm:flex-row">
+        <p className="font-display text-lg font-semibold">
+          Want every tool? <span className="text-primary">Upgrade to Pro Pass</span>
         </p>
-        <a href="#pricing" className="inline-flex items-center gap-1.5 rounded-full bg-ink px-5 py-2.5 text-sm font-bold text-white hover:bg-black">
+        <a href="#pricing" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 font-display text-sm font-semibold text-[#fff8e8] shadow-[var(--shadow-button)] hover:bg-primary-600">
           See pricing <ArrowRight size={16} />
         </a>
       </div>
@@ -120,20 +120,20 @@ function CatalogGroup({
 }) {
   return (
     <div id={id} className="mt-10">
-      <div className="sticky top-[68px] z-10 -mx-5 mb-5 bg-white/85 px-5 py-3 backdrop-blur md:mx-0 md:px-0">
+      <div className="sticky top-[68px] z-10 -mx-5 mb-5 bg-[rgba(255,251,235,0.85)] px-5 py-3 backdrop-blur md:mx-0 md:px-0">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="inline-flex items-center gap-2 text-lg font-extrabold">
+          <h3 className="inline-flex items-center gap-2 text-lg font-semibold">
             <span
               className={cn(
                 "grid h-7 w-7 place-items-center rounded-lg",
-                tone === "pro" ? "bg-accent text-ink" : "bg-primary-soft text-primary",
+                tone === "pro" ? "bg-accent text-ink" : "bg-primary text-[#fff8e8]",
               )}
             >
               {icon}
             </span>
             {label}
           </h3>
-          <span className="text-sm font-semibold text-ink-muted">{note}</span>
+          <span className="font-display text-sm font-medium text-ink-muted">{note}</span>
         </div>
       </div>
 
