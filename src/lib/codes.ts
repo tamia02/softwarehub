@@ -53,23 +53,42 @@ export function codeKind(normalized: string): CodeKind {
   return "unknown";
 }
 
-/** ISO 7064-style mod-36 check character over `body`. */
-export function computeCheckChar(body: string): string {
-  let sum = 0;
-  for (let i = 0; i < body.length; i++) {
-    const v = CHECK_ALPHABET.indexOf(body[i]);
-    if (v < 0) throw new Error(`Invalid character in code body: ${body[i]}`);
-    // Alternate weights so adjacent transpositions change the sum.
-    const w = i % 2 === 0 ? 3 : 7;
-    sum = (sum + v * w) % 36;
+/**
+ * ISO 7064 MOD 37-2 (pure system, radix 2, prime modulus 37). Detects every
+ * single-character substitution and every adjacent transposition. The check
+ * value 36 maps to "*", which is outside the code alphabet, so generators
+ * retry until the check lands on 0-9/A-Z (see `checkCharIsUsable`).
+ */
+const CHECK_ALPHABET_37 = CHECK_ALPHABET + "*";
+const MODULUS = 37;
+const RADIX = 2;
+
+function iso7064Checksum(s: string): number {
+  let check = 0;
+  for (const ch of s) {
+    const v = CHECK_ALPHABET_37.indexOf(ch);
+    if (v < 0) throw new Error(`Invalid character in code: ${ch}`);
+    check = (check * RADIX + v) % MODULUS;
   }
-  return CHECK_ALPHABET[(36 - sum) % 36];
+  return check;
+}
+
+/** Returns the check character, or "*" when the body is unusable (regenerate it). */
+export function computeCheckChar(body: string): string {
+  return CHECK_ALPHABET_37[(((1 - iso7064Checksum(body) * RADIX) % MODULUS) + MODULUS) % MODULUS];
+}
+
+export function checkCharIsUsable(body: string): boolean {
+  return computeCheckChar(body) !== "*";
 }
 
 export function hasValidCheckChar(normalized: string): boolean {
-  if (normalized.length < 2) return false;
-  const body = normalized.slice(0, -1);
-  return computeCheckChar(body) === normalized[normalized.length - 1];
+  if (normalized.length < 2 || normalized.includes("*")) return false;
+  try {
+    return iso7064Checksum(normalized) === 1;
+  } catch {
+    return false;
+  }
 }
 
 /**

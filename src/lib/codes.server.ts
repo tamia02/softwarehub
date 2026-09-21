@@ -4,7 +4,7 @@ import { and, eq, isNull, sql } from "drizzle-orm";
 import { getDb, schema, type Db } from "@/db";
 import type { Role } from "@/config/site";
 import type { TierSlug } from "@/data/tiers";
-import { GEN_ALPHABET, computeCheckChar, normalizeCode, type CodeKind } from "./codes";
+import { GEN_ALPHABET, checkCharIsUsable, computeCheckChar, normalizeCode, type CodeKind } from "./codes";
 import { encrypt, safeEqualHex, sha256Salted } from "./crypto.server";
 import { audit } from "./audit.server";
 import { uuid } from "./ids";
@@ -39,8 +39,11 @@ function randomChars(n: number): string {
 export function generateCode(kind: Exclude<CodeKind, "unknown">): string {
   const totalLen = kind.startsWith("gate") ? 12 : 16;
   const prefix = PREFIX[kind];
-  const body = prefix + randomChars(totalLen - prefix.length - 1);
-  return body + computeCheckChar(body);
+  // 1 in 37 bodies would need the "*" check symbol; draw again instead.
+  for (;;) {
+    const body = prefix + randomChars(totalLen - prefix.length - 1);
+    if (checkCharIsUsable(body)) return body + computeCheckChar(body);
+  }
 }
 
 export function hashCode(plaintext: string): string {

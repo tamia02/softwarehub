@@ -34,7 +34,9 @@ describe("activation codes (§5)", () => {
   it("preflight rejects bundle codes at the gate and typos, allows demo codes", () => {
     expect(preflightGateCode("CUST-DEMO-2026")).toBeNull();
     expect(preflightGateCode(generateCode("bundle-pro"))).toMatch(/bundle code/);
-    expect(preflightGateCode("SHPC-AAAA-BBBB")).toMatch(/typo/);
+    const good = generateCode("gate-customer");
+    const typo = good.slice(0, 6) + (good[6] === "A" ? "B" : "A") + good.slice(7);
+    expect(preflightGateCode(typo)).toMatch(/typo/);
     expect(preflightGateCode(generateCode("gate-reseller"))).toBeNull();
   });
 
@@ -42,5 +44,27 @@ describe("activation codes (§5)", () => {
     expect(hashCode("cust-demo-2026")).toBe(hashCode("CUSTDEMO2026"));
     expect(hashCode("A")).not.toBe(hashCode("B"));
     expect(hashCode("A")).toMatch(/^[0-9a-f]{64}$/);
+  });
+});
+
+describe("ISO 7064 MOD 37-2 guarantees", () => {
+  it("never emits the * check symbol from the generator", () => {
+    for (let n = 0; n < 500; n++) expect(generateCode("bundle-pro")).not.toContain("*");
+  });
+
+  it("detects every adjacent transposition and single substitution across many random codes", () => {
+    for (let n = 0; n < 300; n++) {
+      const c = generateCode(n % 2 ? "bundle-pro" : "gate-customer");
+      for (let i = 0; i < c.length - 2; i++) {
+        if (c[i] === c[i + 1]) continue;
+        const swapped = c.slice(0, i) + c[i + 1] + c[i] + c.slice(i + 2);
+        expect(hasValidCheckChar(swapped)).toBe(false);
+      }
+      for (let i = 0; i < c.length - 1; i++) {
+        const alt = c[i] === "A" ? "B" : "A";
+        const sub = c.slice(0, i) + alt + c.slice(i + 1);
+        expect(hasValidCheckChar(sub)).toBe(false);
+      }
+    }
   });
 });

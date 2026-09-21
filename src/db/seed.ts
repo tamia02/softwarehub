@@ -6,7 +6,7 @@ import type { Db } from "./index";
 import * as schema from "./schema";
 import { tiers as tierData } from "@/data/tiers";
 import { tools as toolData } from "@/data/tools";
-import { computeCheckChar } from "@/lib/codes";
+import { checkCharIsUsable, computeCheckChar } from "@/lib/codes";
 import { hashCode, generateCode } from "@/lib/codes.server";
 import { encrypt } from "@/lib/crypto.server";
 import { uuid, shortId } from "@/lib/ids";
@@ -22,8 +22,11 @@ export async function seedIfEmpty(db: Db) {
   await seed(db);
 }
 
+/** Fixed demo bodies: bump the last letter until the check character is usable. */
 function demoCode(body: string) {
-  return body + computeCheckChar(body);
+  let b = body;
+  while (!checkCharIsUsable(b)) b = b.slice(0, -1) + String.fromCharCode(b.charCodeAt(b.length - 1) + 1);
+  return b + computeCheckChar(b);
 }
 
 export async function seed(db: Db) {
