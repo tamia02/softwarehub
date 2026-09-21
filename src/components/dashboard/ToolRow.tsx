@@ -1,0 +1,28 @@
+"use client";
+
+import { useState, useTransition } from "react";
+import { Loader2 } from "lucide-react";
+import { updateToolAction } from "@/app/(dashboard)/admin/actions";
+
+export function ToolRow({ tool }: { tool: { id: string; name: string; vendorName: string; category: string; valueUsd: number; tierMin: string; badge: string | null; active: boolean } }) {
+  const [t, setT] = useState(tool);
+  const [pending, start] = useTransition();
+  const save = (data: Partial<typeof t>) => {
+    const next = { ...t, ...data };
+    setT(next);
+    start(async () => {
+      await updateToolAction(t.id, { active: next.active, valueUsd: next.valueUsd, badge: (next.badge as "NEW" | "LIMITED" | "PRO" | null) ?? null, tierMin: next.tierMin as "starter" | "pro" });
+    });
+  };
+  const sel = "h-8 rounded-lg border border-line bg-white px-2 text-xs";
+  return (
+    <tr className={t.active ? "" : "opacity-50"}>
+      <td className="px-4 py-2"><input type="checkbox" checked={t.active} onChange={(e) => save({ active: e.target.checked })} className="h-4 w-4 accent-[var(--brand-primary)]" title="Active — untick tools without a vendor agreement" /></td>
+      <td className="px-4 py-2 font-semibold">{t.name}<span className="block text-[11px] text-ink-faint">{t.vendorName} · {t.category}</span></td>
+      <td className="px-4 py-2"><select className={sel} value={t.tierMin} onChange={(e) => save({ tierMin: e.target.value })}><option value="starter">Starter (core)</option><option value="pro">Pro only</option></select></td>
+      <td className="px-4 py-2"><input type="number" className={`${sel} w-24`} value={t.valueUsd} onChange={(e) => setT({ ...t, valueUsd: Number(e.target.value) })} onBlur={() => save({})} /></td>
+      <td className="px-4 py-2"><select className={sel} value={t.badge ?? ""} onChange={(e) => save({ badge: e.target.value || null })}><option value="">—</option><option>NEW</option><option>LIMITED</option><option>PRO</option></select></td>
+      <td className="px-4 py-2 text-xs text-ink-faint">{pending ? <Loader2 size={12} className="animate-spin" /> : "saved"}</td>
+    </tr>
+  );
+}

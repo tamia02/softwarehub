@@ -9,9 +9,23 @@ import { LogoLockup } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/utils";
 
-export function Header({ role }: { role?: string | null }) {
+export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [me, setMe] = useState<{ signedIn: boolean; role: string | null }>({ signedIn: false, role: null });
+  const role = me.role;
+  const signedIn = me.signedIn;
+
+  useEffect(() => {
+    let alive = true;
+    fetch("/api/auth/me", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .then((d) => alive && d && setMe({ signedIn: !!d.signedIn, role: d.role ?? null }))
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -27,9 +41,9 @@ export function Header({ role }: { role?: string | null }) {
     };
   }, [open]);
 
-  const resellerHref = role === "reseller" ? "/reseller" : "/?switch=1&role=reseller";
-  const resellerLabel = role === "reseller" ? "Dashboard" : "Reseller login";
-  const links = [...nav, { label: resellerLabel, href: resellerHref }];
+  const resellerHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
+  const resellerLabel = role === "reseller" ? "Dashboard" : role === "admin" ? "Admin" : "Reseller login";
+  const links = [...nav, { label: resellerLabel, href: resellerHref }, ...(signedIn ? [{ label: "My Pass", href: "/account" }] : [{ label: "Sign in", href: "/login" }])];
 
   return (
     <header

@@ -1,12 +1,12 @@
 import { VendorMark } from "@/components/brand/VendorMark";
-import { tools } from "@/data/tools";
+import type { Tool } from "@/data/tools";
 
 /**
  * Infinite horizontal marquee of vendor marks. The list is duplicated so the
  * -50% translate loops seamlessly; hover pauses via CSS; edges fade with a
  * mask. Pure CSS — nothing to hydrate.
  */
-export function LogoMarquee() {
+export function LogoMarquee({ tools }: { tools: Pick<Tool, "slug" | "vendor" | "hue">[] }) {
   const list = [...tools, ...tools];
   return (
     <section aria-label="Included tools" className="border-y border-line bg-bg-soft/60 py-6">

@@ -10,7 +10,7 @@ import { ProgressRing } from "@/components/motion/ProgressRing";
 import { Section, SectionHeading } from "@/components/ui/Section";
 import { settings } from "@/config/site";
 import { tiers } from "@/data/tiers";
-import type { PoolSummary } from "@/data/mockPools";
+import type { PoolSummary } from "@/data/pools";
 import { formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 

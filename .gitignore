@@ -43,3 +43,6 @@ next-env.d.ts
 
 # local env
 .env.local
+
+# embedded dev database + demo credentials
+.data/

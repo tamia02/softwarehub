@@ -1,14 +1,13 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { settings } from "@/config/site";
-import { tools, toolsForTier } from "@/data/tools";
-import { toolRetailPaise } from "@/lib/pricing";
+import { getCatalog } from "@/lib/catalog.server";
 
-/** GET /api/tools?tier=starter|pro */
-export function GET(req: NextRequest) {
+export const runtime = "nodejs";
+export const dynamic = "force-dynamic";
+
+/** GET /api/tools?tier=starter|pro — active catalog with INR retail */
+export async function GET(req: NextRequest) {
   const tier = req.nextUrl.searchParams.get("tier");
-  const list = tier === "starter" || tier === "pro" ? toolsForTier(tier) : tools;
-  return NextResponse.json({
-    usdInrRate: settings.usdInrRate,
-    tools: list.map((t) => ({ ...t, retailPaise: toolRetailPaise(t) })),
-  });
+  const c = await getCatalog();
+  const list = tier === "starter" ? c.core : c.tools;
+  return NextResponse.json({ usdInrRate: c.usdInrRate, tools: list });
 }

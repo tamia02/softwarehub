@@ -1,0 +1,6 @@
+{
+  "crons": [
+    { "path": "/api/cron/pools-expire", "schedule": "*/15 * * * *" },
+    { "path": "/api/cron/pass-reminders", "schedule": "0 9 * * *" }
+  ]
+}
