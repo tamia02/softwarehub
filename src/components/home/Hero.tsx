@@ -23,8 +23,8 @@ export function Hero({ retailPaise, toolCount, guaranteeDays }: { retailPaise: n
           <StaggerWords
             as="h1"
             delay={0.08}
-            text="The tools serious builders pay for. One pass, one year, one price."
-            className="text-balance text-[40px] leading-[1.04] md:text-[62px]"
+            text="Every tool you’d pay for, on one annual pass."
+            className="text-balance text-[42px] leading-[1.02] md:text-[66px]"
           />
 
           <p className="anim-fade-up mt-6 max-w-[34rem] text-[17px] leading-relaxed text-ink-muted md:text-lg" style={at(0.45)}>

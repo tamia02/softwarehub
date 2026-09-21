@@ -23,9 +23,9 @@ export function PromoBar() {
   return (
     <div className="container-page anim-promo-in pt-3">
       <div className="relative mx-auto flex max-w-2xl items-center justify-center gap-2 rounded-full border border-line-strong bg-white px-10 py-2 text-center text-[13px] text-ink sm:text-sm">
-        <span className="truncate"><span className="hidden sm:inline">Launch allocation open: </span>Pool seats from ₹2,500.</span>
+        <span className="truncate"><span className="hidden sm:inline">Launch allocation open: </span>Pool seats from ₹2,500</span>
         <Link href="/home#pool" className="inline-flex shrink-0 items-center gap-1 font-semibold text-primary hover:underline">
-          See open pools <ArrowRight size={14} />
+          <span className="hidden sm:inline">See open pools</span> <ArrowRight size={14} />
         </Link>
         <button
           aria-label="Dismiss announcement"

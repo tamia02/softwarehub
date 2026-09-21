@@ -56,7 +56,7 @@ export function Header() {
     >
       <div className="container-page flex h-[68px] items-center justify-between gap-6">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
-          <LogoLockup stacked />
+          <LogoLockup />
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">

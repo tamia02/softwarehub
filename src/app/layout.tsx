@@ -1,18 +1,16 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
 import { Hydrated } from "@/components/motion/Hydrated";
 import { site } from "@/config/site";
 import "./globals.css";
 
 /**
- * Fonts — Fraunces (editorial display) + Inter (UI/body) + JetBrains Mono (labels, codes).
+ * Fonts — Plus Jakarta Sans (display, buttons) + Inter (body) + JetBrains Mono (codes only).
  * Both are exposed as CSS variables consumed by globals.css.
  */
-const display = Fraunces({
+const display = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  axes: ["opsz", "SOFT", "WONK"],
-  weight: "variable",
-  style: ["normal", "italic"],
+  weight: ["500", "600", "700", "800"],
   variable: "--font-display",
   display: "swap",
 });

@@ -1,27 +1,37 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { Logo } from "@/components/brand/Logo";
 import { ToolLogo } from "@/components/brand/ToolLogo";
 import { tools } from "@/data/tools";
 
 /**
- * Hero object: an annual pass hanging from a lanyard. One strap, a metal
- * eyelet, an ivory card with the brand, a 3×3 grid of real vendor logos and a
- * mono footer; a second, quieter card sits behind for depth. Gentle swing
- * (CSS) and ±8 px parallax (spring) — no cartoon elements.
+ * Hero object: a membership-style Pro Pass card in light perspective, with
+ * real product tiles floating around it at different depths. Everything is
+ * HTML/CSS so it stays crisp, themeable and cheap to render.
  */
+const FLOATING: Array<{ slug: string; x: string; y: string; size: number; depth: number; delay: number; mobile?: boolean }> = [
+  { slug: "cursor", x: "2%", y: "6%", size: 64, depth: 1.4, delay: 0, mobile: true },
+  { slug: "notion", x: "72%", y: "0%", size: 56, depth: 1.1, delay: 0.6, mobile: true },
+  { slug: "linear", x: "84%", y: "32%", size: 60, depth: 1.6, delay: 1.1 },
+  { slug: "supabase", x: "-2%", y: "54%", size: 58, depth: 1.2, delay: 0.3 },
+  { slug: "framer", x: "80%", y: "78%", size: 52, depth: 0.9, delay: 0.9, mobile: true },
+  { slug: "posthog", x: "12%", y: "84%", size: 54, depth: 1.3, delay: 1.5, mobile: true },
+  { slug: "elevenlabs", x: "48%", y: "90%", size: 48, depth: 0.8, delay: 0.2 },
+  { slug: "replit", x: "36%", y: "-4%", size: 50, depth: 1.0, delay: 1.3, mobile: true },
+];
+
 export function HeroIllustration({ interactive = true, compact = false }: { interactive?: boolean; compact?: boolean }) {
   const reduce = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
-  const sx = useSpring(mx, { stiffness: 50, damping: 20 });
-  const sy = useSpring(my, { stiffness: 50, damping: 20 });
-  const backX = useTransform(sx, (v) => v * -6);
-  const backY = useTransform(sy, (v) => v * -4);
-  const frontX = useTransform(sx, (v) => v * 8);
-  const frontY = useTransform(sy, (v) => v * 6);
+  const sx = useSpring(mx, { stiffness: 45, damping: 18 });
+  const sy = useSpring(my, { stiffness: 45, damping: 18 });
+  const rotY = useTransform(sx, (v) => -14 + v * 5);
+  const rotX = useTransform(sy, (v) => 8 - v * 4);
+  const tileX = useTransform(sx, (v) => v * 10);
+  const tileY = useTransform(sy, (v) => v * 8);
 
   useEffect(() => {
     if (!interactive || reduce) return;
@@ -33,75 +43,74 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
     return () => window.removeEventListener("mousemove", onMove);
   }, [interactive, reduce, mx, my]);
 
-  const grid = ["cursor", "notion", "linear", "framer", "supabase", "posthog", "replit", "elevenlabs", "n8n"]
-    .map((s) => tools.find((t) => t.slug === s))
-    .filter((t): t is (typeof tools)[number] => !!t);
-  const logo = compact ? 30 : 42;
+  const scale = compact ? 0.8 : 1;
 
   return (
-    <div className={`relative mx-auto w-full select-none ${compact ? "max-w-[360px]" : "max-w-[440px] md:max-w-[520px]"} aspect-[4/5.3] md:aspect-[5/5.9]`} aria-hidden>
-      {/* warm halo + ground shadow */}
-      <div className="absolute inset-x-[12%] top-[26%] h-[62%] rounded-full bg-[radial-gradient(closest-side,rgba(232,163,23,0.22),transparent)] blur-2xl" />
-      <div className="absolute inset-x-[22%] bottom-[2%] h-6 rounded-[100%] bg-[radial-gradient(closest-side,rgba(27,20,16,0.18),transparent)] blur-md" />
+    <div className={`relative mx-auto w-full select-none ${compact ? "max-w-[360px]" : "max-w-[400px] md:max-w-[560px]"} aspect-[1/1]`} aria-hidden>
+      {/* glow */}
+      <div className="absolute inset-[10%] rounded-full bg-[radial-gradient(closest-side,rgba(232,163,23,0.24),transparent)] blur-3xl" />
 
-      {/* strap */}
-      <svg viewBox="0 0 520 614" className="absolute inset-0 h-full w-full overflow-visible">
-        <defs>
-          <linearGradient id="strap-v3" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0" stopColor="#5a2606" />
-            <stop offset="0.5" stopColor="#8a3b0a" />
-            <stop offset="1" stopColor="#4a1f05" />
-          </linearGradient>
-          <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0" stopColor="#f3e7cf" />
-            <stop offset="0.5" stopColor="#c9b48e" />
-            <stop offset="1" stopColor="#8f7754" />
-          </linearGradient>
-        </defs>
-        <path d="M262 -60 C 262 30, 258 80, 260 118" stroke="url(#strap-v3)" strokeWidth="26" strokeLinecap="round" fill="none" />
-        <path d="M252 -60 C 252 30, 249 80, 251 110" stroke="rgba(255,244,220,0.22)" strokeWidth="1.5" strokeDasharray="3 6" fill="none" />
-        <path d="M272 -60 C 272 30, 268 80, 270 110" stroke="rgba(255,244,220,0.22)" strokeWidth="1.5" strokeDasharray="3 6" fill="none" />
-        {/* clip + ring */}
-        <rect x="244" y="112" width="34" height="22" rx="7" fill="url(#metal)" stroke="#5a4326" strokeWidth="1.2" />
-        <circle cx="261" cy="144" r="9" fill="none" stroke="url(#metal)" strokeWidth="4" />
-      </svg>
+      {/* floating product tiles */}
+      {FLOATING.map((f) => (
+        <FloatingTile key={f.slug} f={f} tileX={tileX} tileY={tileY} scale={scale} />
+      ))}
 
-      {/* back card (depth) */}
-      <motion.div style={{ x: backX, y: backY }} className="absolute left-[19%] top-[27.5%] w-[62%]">
-        <div className="anim-swing-rev">
-          <div className="aspect-[3/3.9] rotate-[6deg] rounded-[18px] border border-line-strong bg-[linear-gradient(160deg,#f6ecd8,#ecdcbd)] shadow-[0_18px_40px_rgba(27,20,16,0.12)]" />
-        </div>
-      </motion.div>
+      {/* card */}
+      <div className="absolute inset-x-[7%] top-[18%] z-10" style={{ perspective: 1400 }}>
+        <motion.div style={{ rotateY: rotY, rotateX: rotX, transformStyle: "preserve-3d" }} className="anim-float will-change-transform">
+          <div className="relative w-full overflow-hidden rounded-[22px] md:aspect-[1.586/1] bg-[linear-gradient(135deg,#a2470f_0%,#7a3308_45%,#3a1a09_100%)] p-6 text-[#fbf6ec] shadow-[0_40px_80px_rgba(27,20,16,0.35),0_0_0_1px_rgba(255,255,255,0.08)_inset] md:p-7">
+            {/* sheen */}
+            <div className="pointer-events-none absolute -inset-y-10 -left-1/3 w-2/3 rotate-[20deg] bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.14),transparent)]" />
+            <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_80%_at_100%_0%,rgba(232,163,23,0.25),transparent_55%)]" />
 
-      {/* front pass */}
-      <motion.div style={{ x: frontX, y: frontY }} className="absolute left-[19%] top-[26%] w-[62%]">
-        <div className="anim-swing">
-          <div className="relative -rotate-[3deg] rounded-[18px] border border-line-strong bg-[linear-gradient(165deg,#fffdf7,#f7efe0)] p-5 shadow-[0_30px_70px_rgba(27,20,16,0.22),inset_0_1px_0_rgba(255,255,255,0.9)] md:p-6">
-            {/* eyelet */}
-            <span className="absolute left-1/2 top-3 h-4 w-4 -translate-x-1/2 rounded-full border-[3px] border-[#c9b48e] bg-bg shadow-[inset_0_1px_2px_rgba(0,0,0,0.25)]" />
-
-            <div className="mt-4 flex items-center justify-between">
-              <Logo size={compact ? 26 : 32} />
-              <span className="font-mono-label text-ink-faint">No. 0001</span>
-            </div>
-            <p className="mt-4 font-mono-label text-ink-faint">Software Hub Pool</p>
-            <p className={`font-display leading-none text-ink ${compact ? "text-[30px]" : "text-[40px]"}`} style={{ fontVariationSettings: '"opsz" 96, "SOFT" 60' }}>
-              Pro Pass
-            </p>
-
-            <div className="mt-4 grid grid-cols-3 gap-2 rounded-xl border border-line bg-white/70 p-2">
-              {grid.map((t) => (
-                <ToolLogo key={t.slug} slug={t.slug} name={t.vendor} logoUrl={t.logoUrl} size={logo} className="border-0 bg-transparent" />
-              ))}
+            <div className="relative flex items-start justify-between">
+              <div className="flex items-center gap-2.5">
+                <Logo size={28} tone="light" />
+                <span className="font-display text-[13px] font-bold tracking-[-0.01em]">Software Hub Pool</span>
+              </div>
+              <span className="font-mono-label rounded-full border border-white/25 px-2.5 py-1 text-[10.5px] text-[#fbf6ec]/90">Annual</span>
             </div>
 
-            <div className="mt-4 flex items-center justify-between border-t border-dashed border-line-strong pt-3">
-              <span className="font-mono-label text-ink-faint">35 tools</span>
-              <span className="font-mono-label text-ink-faint">12 months</span>
+            {/* chip */}
+            <div className="relative mt-6 h-8 w-11 rounded-md bg-[linear-gradient(135deg,#f2c14e,#c9820c)] shadow-[inset_0_0_0_1px_rgba(0,0,0,0.15)] md:mt-8">
+              <div className="absolute inset-x-0 top-1/2 h-px bg-black/20" />
+              <div className="absolute inset-y-0 left-1/2 w-px bg-black/20" />
+            </div>
+
+            <div className="relative mt-5 md:mt-7">
+              <p className="font-code text-[13px] tracking-[0.22em] text-[#fbf6ec]/70 md:text-[15px]">SHP-P  ••••  ••••  ••••</p>
+              <div className="mt-4 flex items-end justify-between">
+                <div>
+                  <p className="font-mono-label text-[10.5px] text-[#fbf6ec]/60">Pass</p>
+                  <p className="font-display text-[26px] font-extrabold leading-none tracking-[-0.03em] md:text-[32px]">Pro Pass</p>
+                </div>
+                <div className="text-right">
+                  <p className="font-mono-label text-[10.5px] text-[#fbf6ec]/60">Includes</p>
+                  <p className="font-display text-[20px] font-bold leading-none md:text-[24px]">35 tools</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </motion.div>
+        </motion.div>
+      </div>
     </div>
+  );
+}
+
+/** Tiles further "in front" (higher depth) move more with the pointer. */
+function FloatingTile({ f, tileX, tileY, scale }: { f: (typeof FLOATING)[number]; tileX: MotionValue<number>; tileY: MotionValue<number>; scale: number }) {
+  const x = useTransform(tileX, (n) => n * f.depth);
+  const y = useTransform(tileY, (n) => n * f.depth);
+  return (
+    <motion.div style={{ left: f.x, top: f.y, x, y }} className={`absolute z-20 ${f.mobile ? "" : "hidden md:block"}`}>
+      <div className="anim-float" style={{ animationDelay: `${f.delay}s`, animationDuration: `${6 + f.depth}s` }}>
+        <ToolLogo
+          slug={f.slug}
+          name={tools.find((t) => t.slug === f.slug)?.vendor ?? f.slug}
+          size={Math.round(f.size * scale)}
+          className="rounded-[24%] border-line shadow-[0_18px_40px_rgba(27,20,16,0.14)]"
+        />
+      </div>
+    </motion.div>
   );
 }

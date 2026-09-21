@@ -13,7 +13,7 @@ export function Footer() {
     <footer className="border-t border-line bg-bg-soft/70">
       <div className="container-page grid gap-10 py-14 md:grid-cols-[1.4fr_1fr_1fr]">
         <div>
-          <LogoLockup stacked />
+          <LogoLockup />
           <p className="mt-4 max-w-sm text-sm text-ink-muted">
             Annual plans on 35 premium tools, issued as one activation code. Buy a pass outright or share one through a pool.
           </p>

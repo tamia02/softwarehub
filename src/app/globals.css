@@ -22,8 +22,8 @@
   --line: #eadfcb;
   --line-strong: #d8c6a4;
 
-  --card-radius: 20px;
-  --panel-radius: 28px;
+  --card-radius: 22px;
+  --panel-radius: 32px;
   --shadow-card: 0 1px 2px rgba(27, 20, 16, 0.04), 0 8px 24px rgba(138, 59, 10, 0.06);
   --shadow-hover: 0 2px 4px rgba(27, 20, 16, 0.05), 0 18px 40px rgba(138, 59, 10, 0.12);
   --shadow-button: 0 1px 2px rgba(27, 20, 16, 0.12), 0 8px 20px rgba(138, 59, 10, 0.22);
@@ -49,7 +49,7 @@
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
-  --font-display: var(--font-display), Georgia, serif;
+  --font-display: var(--font-display), system-ui, sans-serif;
   --font-body: var(--font-body), system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 
@@ -74,25 +74,34 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* Display type: Fraunces with its optical-size and softness axes tuned for headlines. */
+/* Display type: Plus Jakarta Sans, heavy and tight for headlines. */
 h1, h2, .font-display {
-  font-family: var(--font-display), Georgia, serif;
-  font-weight: 500;
-  font-variation-settings: "opsz" 144, "SOFT" 40, "WONK" 0;
-  letter-spacing: -0.022em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 h3, h4 {
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+/* Accent phrases inside headings: colour, not italics. */
+h1 em, h2 em {
+  font-style: normal;
+  color: var(--brand-primary);
 }
 
+/* Small caps label (eyebrows, table heads) */
 .font-mono-label {
-  font-family: var(--font-mono), ui-monospace, monospace;
-  font-size: 11.5px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+/* Real monospace — activation codes, ids */
+.font-code {
+  font-family: var(--font-mono), ui-monospace, monospace;
 }
 
 ::selection {
