@@ -1,5 +1,21 @@
 import type { NextConfig } from "next";
 
+const dev = process.env.NODE_ENV !== "production";
+
+// Dev bundles use eval() for source maps and a websocket for HMR; production stays strict.
+const csp = [
+  "default-src 'self'",
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""} https://checkout.razorpay.com https://*.posthog.com`,
+  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "font-src 'self' data: https://fonts.gstatic.com",
+  "img-src 'self' data: blob: https:",
+  `connect-src 'self'${dev ? " ws: wss:" : ""} https://*.posthog.com https://api.razorpay.com https://lumberjack.razorpay.com https://lumberjack-cx.razorpay.com`,
+  "frame-src https://api.razorpay.com https://checkout.razorpay.com",
+  "frame-ancestors 'none'",
+  "base-uri 'self'",
+  "form-action 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   outputFileTracingRoot: __dirname,
   reactStrictMode: true,
@@ -15,21 +31,7 @@ const nextConfig: NextConfig = {
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
           { key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" },
-          {
-            key: "Content-Security-Policy",
-            value: [
-              "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' https://checkout.razorpay.com https://*.posthog.com",
-              "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-              "font-src 'self' data: https://fonts.gstatic.com",
-              "img-src 'self' data: blob: https:",
-              "connect-src 'self' https://*.posthog.com https://api.razorpay.com https://lumberjack.razorpay.com https://lumberjack-cx.razorpay.com",
-              "frame-src https://api.razorpay.com https://checkout.razorpay.com",
-              "frame-ancestors 'none'",
-              "base-uri 'self'",
-              "form-action 'self'",
-            ].join("; "),
-          },
+          { key: "Content-Security-Policy", value: csp },
         ],
       },
     ];
