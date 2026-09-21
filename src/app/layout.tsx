@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Nunito } from "next/font/google";
+import { Hydrated } from "@/components/motion/Hydrated";
 import { site } from "@/config/site";
 import "./globals.css";
 
@@ -39,7 +40,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en-IN" className={`${display.variable} ${body.variable}`}>
-      <body className="flex min-h-dvh flex-col">{children}</body>
+      <body className="flex min-h-dvh flex-col">
+        <Hydrated />
+        {children}
+      </body>
     </html>
   );
 }

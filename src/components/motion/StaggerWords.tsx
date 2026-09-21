@@ -1,8 +1,7 @@
-"use client";
-
-import { motion, useReducedMotion } from "framer-motion";
-
-/** Splits text into words and staggers them in (opacity + 12 px rise, 40 ms/word). */
+/**
+ * Splits text into words and staggers them in (opacity + 12 px rise, 40 ms/word).
+ * Pure CSS so the headline is visible in the SSR HTML before hydration.
+ */
 export function StaggerWords({
   text,
   className,
@@ -17,24 +16,16 @@ export function StaggerWords({
   /** Words (exact match) rendered in the primary colour. */
   highlight?: string[];
 }) {
-  const reduce = useReducedMotion();
   const words = text.split(" ");
   return (
     <Tag className={className} aria-label={text}>
       {words.map((w, i) => {
         const hl = highlight?.includes(w.replace(/[^\w$+%]/g, ""));
         return (
-          <motion.span
-            key={i}
-            aria-hidden
-            className={hl ? "inline-block text-primary" : "inline-block"}
-            initial={reduce ? false : { opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: delay + i * 0.04 }}
-          >
+          <span key={i} aria-hidden className={hl ? "anim-word text-primary" : "anim-word"} style={{ animationDelay: `${delay + i * 0.04}s` }}>
             {w}
-            {i < words.length - 1 ? "\u00A0" : ""}
-          </motion.span>
+            {i < words.length - 1 ? " " : ""}
+          </span>
         );
       })}
     </Tag>

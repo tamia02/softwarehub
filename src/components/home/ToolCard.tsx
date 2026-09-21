@@ -18,6 +18,7 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
 
   return (
     <motion.article
+      data-motion=""
       layout
       initial={reduce ? false : { opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}

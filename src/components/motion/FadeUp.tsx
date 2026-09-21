@@ -21,6 +21,7 @@ export function FadeUp({ index = 0, delay = 0, y = 24, once = true, className, c
       viewport={{ once, margin: "-80px" }}
       transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: delay + index * 0.06 }}
       className={cn(className)}
+      data-motion=""
       {...rest}
     >
       {children}

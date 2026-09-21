@@ -78,13 +78,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
   }
 
   return (
-    <motion.div
-      layout
-      className="card relative w-full max-w-[640px] overflow-hidden p-6 sm:p-10"
-      transition={spring}
-      initial={reduce ? false : { opacity: 0, y: 24, scale: 0.98 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-    >
+    <motion.div layout className="card anim-fade-scale relative w-full max-w-[640px] overflow-hidden p-6 sm:p-10" transition={spring}>
       <motion.div layout="position" className="flex flex-col items-center text-center">
         <Logo size={48} />
         <h1 className="mt-5 text-balance text-[26px] font-extrabold leading-tight sm:text-[32px]">
