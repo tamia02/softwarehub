@@ -49,7 +49,7 @@ export default async function AccountPage() {
             </div>
             <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {p.claims.map((c) => (
-                <ClaimCard key={c.id} expired={expired} claim={{ id: c.id, status: c.status, toolName: c.toolName, vendorName: c.vendorName, offerTitle: c.offerTitle, hue: c.hue, vendorRef: c.vendorRef, issueNote: c.issueNote }} />
+                <ClaimCard key={c.id} expired={expired} claim={{ id: c.id, status: c.status, toolId: c.toolId, toolName: c.toolName, vendorName: c.vendorName, offerTitle: c.offerTitle, vendorRef: c.vendorRef, issueNote: c.issueNote }} />
               ))}
             </div>
           </section>

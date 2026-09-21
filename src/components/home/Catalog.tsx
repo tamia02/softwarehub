@@ -31,13 +31,13 @@ export function Catalog({
   return (
     <Section id="tools">
       <SectionHeading
-        eyebrow="The catalog"
+        eyebrow="The catalogue"
         title={
           <>
-            {core.length + pro.length} tools. One pass. <span className="text-primary">A whole year.</span>
+            {core.length + pro.length} paid plans, <em className="font-normal italic text-primary">not trials.</em>
           </>
         }
-        sub="Every tool below is a full paid plan, not a trial. Filter by what you build."
+        sub="Each entry is the vendor's real annual plan, claimed from your pass whenever you like during the year. Filter by the work you do."
       />
 
       {/* Filter chips */}
@@ -52,8 +52,8 @@ export function Catalog({
                 aria-selected={active}
                 onClick={() => setFilter(f)}
                 className={cn(
-                  "relative rounded-full px-4 py-2 font-display text-sm font-semibold transition-colors",
-                  active ? "text-[#fff8e8]" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
+                  "relative cursor-pointer rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors",
+                  active ? "text-[#fbf6ec]" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
                 )}
               >
                 {active && (
@@ -74,18 +74,19 @@ export function Catalog({
       <CatalogGroup
         id="pro-tools"
         icon={<Crown size={16} />}
-        label={`Pro-exclusive (${pro.length})`}
+        label={`Pro Pass only · ${pro.length} tools`}
         note={`Adds ${formatINRCompact(proRetailPaise - starterRetailPaise)} of value`}
         tone="pro"
         items={proVisible}
       />
 
       {/* Upgrade banner */}
-      <div className="my-10 flex flex-col items-center justify-between gap-4 rounded-[24px] border border-line-strong bg-accent-soft px-6 py-5 sm:flex-row">
-        <p className="font-display text-lg font-semibold">
-          Want every tool? <span className="text-primary">Upgrade to Pro Pass</span>
+      <div className="my-10 flex flex-col items-center justify-between gap-4 rounded-[20px] border border-line-strong bg-white px-6 py-5 sm:flex-row">
+        <p className="text-[17px]">
+          <span className="font-semibold">Want the Pro-only tools as well?</span>{" "}
+          <span className="text-ink-muted">Pro Pass includes all {core.length + pro.length}.</span>
         </p>
-        <a href="#pricing" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 font-display text-sm font-semibold text-[#fff8e8] shadow-[var(--shadow-button)] hover:bg-primary-600">
+        <a href="#pricing" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-[#fbf6ec] shadow-[var(--shadow-button)] hover:bg-primary-600">
           See pricing <ArrowRight size={16} />
         </a>
       </div>
@@ -94,7 +95,7 @@ export function Catalog({
       <CatalogGroup
         id="core-tools"
         icon={<Layers size={16} />}
-        label={`Included in every pass (${core.length})`}
+        label={`In both passes · ${core.length} tools`}
         note={`${formatINRCompact(starterRetailPaise)} of value`}
         tone="core"
         items={coreVisible}
@@ -120,20 +121,20 @@ function CatalogGroup({
 }) {
   return (
     <div id={id} className="mt-10">
-      <div className="sticky top-[68px] z-10 -mx-5 mb-5 bg-[rgba(255,251,235,0.85)] px-5 py-3 backdrop-blur md:mx-0 md:px-0">
+      <div className="sticky top-[68px] z-10 -mx-5 mb-5 bg-[rgba(251,246,236,0.86)] px-5 py-3 backdrop-blur md:mx-0 md:px-0">
         <div className="flex items-center justify-between gap-3">
-          <h3 className="inline-flex items-center gap-2 text-lg font-semibold">
+          <h3 className="inline-flex items-center gap-2.5 text-[17px]">
             <span
               className={cn(
                 "grid h-7 w-7 place-items-center rounded-lg",
-                tone === "pro" ? "bg-accent text-ink" : "bg-primary text-[#fff8e8]",
+                tone === "pro" ? "bg-accent-soft text-primary" : "bg-primary text-[#fbf6ec]",
               )}
             >
               {icon}
             </span>
             {label}
           </h3>
-          <span className="font-display text-sm font-medium text-ink-muted">{note}</span>
+          <span className="font-mono-label text-ink-faint">{note}</span>
         </div>
       </div>
 

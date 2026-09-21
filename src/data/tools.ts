@@ -15,8 +15,10 @@ export interface Tool {
   /** Lowest tier that includes this tool. */
   tierMin: TierSlug;
   badge?: ToolBadge;
-  /** Brand hue used by the generated vendor mark (until real wordmarks are uploaded). */
+  /** Fallback tint for the lettered tile. */
   hue: number;
+  /** Official logo asset, if uploaded via admin. */
+  logoUrl?: string | null;
   sort: number;
 }
 

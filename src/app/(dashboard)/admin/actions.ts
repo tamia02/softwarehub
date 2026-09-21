@@ -34,7 +34,7 @@ export async function gateCodeStatusAction(id: string, status: "active" | "void"
   return { ok: true, message: status === "active" ? "Reactivated." : "Voided." };
 }
 
-export async function updateToolAction(id: string, data: { active?: boolean; valueUsd?: number; badge?: "NEW" | "LIMITED" | "PRO" | null; tierMin?: "starter" | "pro" }): Promise<ActionResult> {
+export async function updateToolAction(id: string, data: { active?: boolean; valueUsd?: number; badge?: "NEW" | "LIMITED" | "PRO" | null; tierMin?: "starter" | "pro"; logoUrl?: string | null }): Promise<ActionResult> {
   const user = await requireUser("admin");
   await updateTool(user, id, data);
   revalidatePath("/admin/tools");

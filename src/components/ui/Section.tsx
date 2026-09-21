@@ -8,10 +8,11 @@ export function Section({ id, className, innerClassName, children }: { id?: stri
   );
 }
 
-/** Small amber pill above a heading. */
-export function Eyebrow({ children, className }: { children: React.ReactNode; className?: string }) {
+/** Mono, uppercase label used above headings. */
+export function Eyebrow({ children, className, tone = "primary" }: { children: React.ReactNode; className?: string; tone?: "primary" | "light" }) {
   return (
-    <span className={cn("inline-flex items-center gap-1.5 rounded-full border border-line-strong bg-accent-soft px-3 py-1 font-display text-[12px] font-semibold uppercase tracking-[0.16em] text-primary", className)}>
+    <span className={cn("font-mono-label inline-flex items-center gap-2", tone === "light" ? "text-accent" : "text-primary", className)}>
+      <span className={cn("h-px w-5", tone === "light" ? "bg-accent" : "bg-primary")} aria-hidden />
       {children}
     </span>
   );
@@ -32,9 +33,9 @@ export function SectionHeading({
 }) {
   return (
     <div className={cn("max-w-2xl", align === "center" ? "mx-auto text-center" : "", className)}>
-      {eyebrow && <Eyebrow className="mb-4">{eyebrow}</Eyebrow>}
-      <h2 className="text-balance text-[34px] leading-[1.08] font-bold md:text-[44px]">{title}</h2>
-      {sub && <p className="mt-4 text-lg text-ink-muted">{sub}</p>}
+      {eyebrow && <Eyebrow className={cn("mb-5", align === "center" && "justify-center")}>{eyebrow}</Eyebrow>}
+      <h2 className="text-balance text-[36px] leading-[1.05] md:text-[48px]">{title}</h2>
+      {sub && <p className="mt-5 text-[17px] leading-relaxed text-ink-muted md:text-lg">{sub}</p>}
     </div>
   );
 }

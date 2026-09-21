@@ -12,7 +12,8 @@
     "db:seed": "tsx --tsconfig scripts/tsconfig.json scripts/db-seed.ts",
     "db:reset": "tsx --tsconfig scripts/tsconfig.json scripts/db-reset.ts",
     "test": "vitest run",
-    "loadtest": "node scripts/loadtest.mjs"
+    "loadtest": "node scripts/loadtest.mjs",
+    "gen:logos": "node scripts/gen-logos.cjs"
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",
@@ -31,6 +32,7 @@
     "recharts": "^3.10.1",
     "resend": "^6.28.1",
     "server-only": "^0.0.1",
+    "simple-icons": "^16.32.0",
     "tailwind-merge": "^3.7.0",
     "zod": "^4.6.5"
   },

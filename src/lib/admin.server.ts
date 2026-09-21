@@ -79,7 +79,7 @@ export async function listTools() {
   return db.select().from(schema.tools).orderBy(schema.tools.sort);
 }
 
-export async function updateTool(actor: User, id: string, data: Partial<{ active: boolean; valueUsd: number; badge: string | null; offerTitle: string; blurb: string; tierMin: string }>) {
+export async function updateTool(actor: User, id: string, data: Partial<{ active: boolean; valueUsd: number; badge: string | null; offerTitle: string; blurb: string; tierMin: string; logoUrl: string | null }>) {
   const db = await getDb();
   await db.update(schema.tools).set(data).where(eq(schema.tools.id, id));
   await audit({ actorId: actor.id, entity: "tool", entityId: id, to: "updated", meta: data }, db);

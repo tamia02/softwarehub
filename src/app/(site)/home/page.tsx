@@ -10,13 +10,14 @@ import { faq } from "@/data/faq";
 import type { PoolSummary } from "@/data/pools";
 import { getCatalog } from "@/lib/catalog.server";
 import { listOpenPools } from "@/lib/pools.server";
+import { getSettings } from "@/lib/settings.server";
 
 export const metadata = { title: "Home" };
 /** ISR: re-rendered at most every 30 s; admin edits and pool events also revalidate it. */
 export const revalidate = 30;
 
 export default async function HomePage() {
-  const [{ tools, core, pro, pricing }, openPools] = await Promise.all([getCatalog(), listOpenPools(8)]);
+  const [{ tools, core, pro, pricing }, openPools, settings] = await Promise.all([getCatalog(), listOpenPools(8), getSettings()]);
   const pools: PoolSummary[] = openPools.map((p) => ({
     id: p.id,
     tier: p.tierId as PoolSummary["tier"],
@@ -30,7 +31,7 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero retailUsd={pricing.pro.retailUsd} toolCount={tools.length} />
+      <Hero retailPaise={pricing.pro.retailPaise} toolCount={tools.length} guaranteeDays={settings.guaranteeDays} />
       <LogoMarquee tools={tools} />
       <Catalog core={core} pro={pro} starterRetailPaise={pricing.starter.retailPaise} proRetailPaise={pricing.pro.retailPaise} />
       <Savings pricing={pricing} tools={tools} />

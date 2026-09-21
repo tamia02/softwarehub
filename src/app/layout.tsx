@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
-import { Fredoka, Inter } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import { Hydrated } from "@/components/motion/Hydrated";
 import { site } from "@/config/site";
 import "./globals.css";
 
 /**
- * Fonts — Fredoka (rounded, friendly display) + Inter (body). Swap here.
+ * Fonts — Fraunces (editorial display) + Inter (UI/body) + JetBrains Mono (labels, codes).
  * Both are exposed as CSS variables consumed by globals.css.
  */
-const display = Fredoka({
+const display = Fraunces({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  axes: ["opsz", "SOFT", "WONK"],
+  weight: "variable",
+  style: ["normal", "italic"],
   variable: "--font-display",
+  display: "swap",
+});
+
+const mono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -28,7 +37,7 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description:
-    "One activation code unlocks 35 premium AI and product tools for a year. Buy the full bundle or split it 10 ways in a pool. Prices in INR.",
+    "Software Hub Pool negotiates annual plans on 35 premium tools and issues them as a single activation code. Buy a pass outright, or share one through a pool. Prices in INR.",
   openGraph: {
     title: site.name,
     description: site.tagline,
@@ -39,7 +48,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${display.variable} ${body.variable}`}>
+    <html lang="en-IN" className={`${display.variable} ${body.variable} ${mono.variable}`}>
       <body className="paper flex min-h-dvh flex-col">
         <Hydrated />
         {children}

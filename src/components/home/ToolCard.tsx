@@ -3,7 +3,7 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { Check, Lock } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
-import { VendorTile } from "@/components/brand/VendorMark";
+import { ToolLogo } from "@/components/brand/ToolLogo";
 import type { Tool } from "@/data/tools";
 import { formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -20,41 +20,36 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
     <motion.article
       data-motion=""
       layout
-      initial={reduce ? false : { opacity: 0, y: 24 }}
+      initial={reduce ? false : { opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-80px" }}
-      whileHover={reduce ? undefined : { y: -4, boxShadow: "var(--shadow-hover)" }}
-      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: (index % 8) * 0.06 }}
-      className={cn(
-        "group card relative flex h-full flex-col gap-4 p-5 transition-colors",
-        proOnly && "border-line-strong bg-[linear-gradient(180deg,#fff7e3,white_45%)]",
-      )}
+      viewport={{ once: true, margin: "-60px" }}
+      whileHover={reduce ? undefined : { y: -3, boxShadow: "var(--shadow-hover)" }}
+      transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: (index % 8) * 0.05 }}
+      className={cn("group card relative flex h-full flex-col gap-4 p-5", proOnly && "bg-[linear-gradient(180deg,#fdf8ee,white_40%)]")}
     >
       <div className="flex items-start justify-between gap-3">
-        <div className="mark-gray">
-          <VendorTile name={tool.vendor} hue={tool.hue} size={52} />
-        </div>
+        <ToolLogo slug={tool.slug} name={tool.vendor} logoUrl={tool.logoUrl} size={48} />
         {tool.badge && <Badge tone={badgeTone[tool.badge]}>{tool.badge}</Badge>}
       </div>
 
       <div className="flex-1">
-        <p className="font-display text-[12px] font-semibold uppercase tracking-[0.14em] text-ink-faint">{tool.vendor}</p>
-        <h3 className="mt-0.5 text-[19px] font-semibold leading-snug">{tool.name}</h3>
-        <p className="mt-1 font-display text-sm font-medium text-primary">{tool.offerTitle}</p>
-        <p className="mt-2 text-sm text-ink-muted">{tool.blurb}</p>
+        <p className="font-mono-label text-ink-faint">{tool.vendor}</p>
+        <h3 className="mt-1 text-[17px] leading-snug">{tool.name}</h3>
+        <p className="mt-1 text-sm font-medium text-primary">{tool.offerTitle}</p>
+        <p className="mt-2 text-[14px] leading-relaxed text-ink-muted">{tool.blurb}</p>
       </div>
 
-      <div className="flex items-center justify-between gap-2 border-t border-dashed border-line-strong pt-4">
-        <span className="rounded-full bg-accent-soft px-2.5 py-1 font-display text-xs font-semibold text-primary" title="Listed annual retail value">
-          {formatINR(tool.retailPaise)} value
+      <div className="flex items-center justify-between gap-2 border-t border-line pt-4">
+        <span className="text-[13px] font-medium tabular-nums text-ink-muted" title="Listed annual retail value">
+          {formatINR(tool.retailPaise)} <span className="text-ink-faint">retail</span>
         </span>
         {proOnly ? (
-          <span className="inline-flex items-center gap-1 font-display text-xs font-semibold text-accent-2">
-            <Lock size={13} /> Pro only
+          <span className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-accent-2">
+            <Lock size={12} /> Pro only
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1 font-display text-xs font-semibold text-emerald-700">
-            <Check size={14} /> Included
+          <span className="inline-flex items-center gap-1 text-[12.5px] font-semibold text-emerald-700">
+            <Check size={13} strokeWidth={2.5} /> Included
           </span>
         )}
       </div>

@@ -15,13 +15,13 @@ const tiles: Array<{ role: RoleChoice; title: string; desc: string; icon: React.
   {
     role: "customer",
     title: "I’m a customer",
-    desc: "Browse the catalog, buy a pass or join a pool.",
+    desc: "Browse the catalogue, buy a pass or take a seat in a pool.",
     icon: <ShoppingBag size={26} />,
   },
   {
     role: "reseller",
     title: "I’m a reseller",
-    desc: "Run pools, manage members and track payouts.",
+    desc: "Run pools, manage members, buy codes and track payouts.",
     icon: <Store size={26} />,
   },
 ];
@@ -78,13 +78,13 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
   }
 
   return (
-    <motion.div layout className="card anim-fade-scale relative w-full max-w-[640px] overflow-hidden border-2 border-line-strong p-6 sm:p-10" transition={spring}>
+    <motion.div layout className="card anim-fade-scale relative w-full max-w-[640px] overflow-hidden border-line-strong p-6 sm:p-10" transition={spring}>
       <motion.div layout="position" className="flex flex-col items-center text-center">
         <Logo size={48} />
-        <h1 className="mt-5 text-balance text-[28px] font-bold leading-tight sm:text-[34px]">
-          How will you be using Software Hub Pool?
+        <h1 className="mt-5 text-balance text-[30px] leading-[1.1] sm:text-[36px]">
+          How will you use Software Hub Pool?
         </h1>
-        <p className="mt-2 text-[15px] text-ink-muted">Pick a path — you can switch later from the footer.</p>
+        <p className="mt-3 text-[15px] text-ink-muted">Choose a path. You can switch any time from the footer.</p>
       </motion.div>
 
       <LayoutGroup>
@@ -111,19 +111,19 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                     whileTap={{ scale: 0.98 }}
                     transition={spring}
                     className={cn(
-                      "group flex flex-col items-start gap-4 rounded-[22px] border-2 border-line-strong bg-bg p-5 text-left",
-                      "transition-[box-shadow,border-color] duration-200 hover:border-accent",
-                      "hover:shadow-[0_16px_48px_rgba(245,158,11,0.25)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/40",
+                      "group flex cursor-pointer flex-col items-start gap-4 rounded-[18px] border border-line-strong bg-bg p-5 text-left",
+                      "transition-[box-shadow,border-color] duration-200 hover:border-primary/60",
+                      "hover:shadow-[var(--shadow-hover)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/35",
                     )}
                   >
-                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-soft text-primary transition-colors group-hover:bg-primary group-hover:text-[#fff8e8]">
+                    <span className="grid h-12 w-12 place-items-center rounded-2xl bg-accent-soft text-primary transition-colors group-hover:bg-primary group-hover:text-[#fbf6ec]">
                       {t.icon}
                     </span>
                     <span>
-                      <span className="block font-display text-lg font-semibold">{t.title}</span>
+                      <span className="block text-[17px] font-semibold">{t.title}</span>
                       <span className="mt-1 block text-sm text-ink-muted">{t.desc}</span>
                     </span>
-                    <span className="mt-auto inline-flex items-center gap-1 font-display text-sm font-semibold text-primary">
+                    <span className="mt-auto inline-flex items-center gap-1 text-sm font-semibold text-primary">
                       Continue <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
                     </span>
                   </motion.button>
@@ -135,14 +135,14 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                 layoutId={`tile-${selected}`}
                 onSubmit={onSubmit}
                 transition={spring}
-                className="rounded-[22px] border-2 border-accent bg-white p-5 shadow-[0_16px_48px_rgba(245,158,11,0.18)] sm:p-6"
+                className="rounded-[18px] border border-primary/50 bg-white p-5 shadow-[var(--shadow-hover)] sm:p-6"
               >
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-[#fff8e8]">
+                  <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-[#fbf6ec]">
                     {tiles.find((t) => t.role === selected)?.icon}
                   </span>
                   <div>
-                    <p className="font-display text-base font-semibold">{tiles.find((t) => t.role === selected)?.title}</p>
+                    <p className="text-base font-semibold">{tiles.find((t) => t.role === selected)?.title}</p>
                     <p className="text-xs text-ink-muted">
                       {selected === "reseller" ? "Enter your reseller activation code" : "Enter your customer activation code"}
                     </p>
@@ -210,7 +210,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                     type="button"
                     disabled={busy}
                     onClick={() => void submit({ role: "customer" })}
-                    className="mt-4 block w-full text-center font-display text-sm font-semibold text-primary hover:underline"
+                    className="mt-4 block w-full cursor-pointer text-center text-sm font-semibold text-primary hover:underline"
                   >
                     No code? Browse as a customer →
                   </button>

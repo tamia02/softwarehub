@@ -25,6 +25,7 @@ export async function PATCH(req: Request) {
       offerTitle: z.string().max(60).optional(),
       blurb: z.string().max(160).optional(),
       tierMin: z.enum(["starter", "pro"]).optional(),
+      logoUrl: z.string().url().max(500).nullable().optional(),
     }),
   );
   if ("error" in parsed) return parsed.error;

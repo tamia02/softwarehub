@@ -3,17 +3,17 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, Check, ExternalLink, Loader2, Ticket } from "lucide-react";
-import { VendorMark } from "@/components/brand/VendorMark";
+import { ToolLogo } from "@/components/brand/ToolLogo";
 import { Badge } from "@/components/ui/Badge";
 import { track } from "@/components/analytics/track";
 
 export interface ClaimView {
   id: string;
   status: string;
+  toolId: string;
   toolName: string;
   vendorName: string;
   offerTitle: string;
-  hue: number;
   vendorRef: string | null;
   issueNote: string | null;
 }
@@ -60,7 +60,7 @@ export function ClaimCard({ claim, expired }: { claim: ClaimView; expired: boole
   return (
     <div className={`card flex flex-col gap-3 p-4 ${status === "issue" ? "border-amber-300" : ""}`}>
       <div className="flex items-start justify-between gap-2">
-        <VendorMark name={claim.vendorName} hue={claim.hue} size="sm" />
+        <ToolLogo slug={claim.toolId} name={claim.vendorName} size={40} />
         {status === "claimed" && <Badge tone="new">Claimed</Badge>}
         {status === "issue" && <Badge tone="limited">Issue raised</Badge>}
       </div>

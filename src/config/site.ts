@@ -5,7 +5,7 @@
 export const site = {
   name: "Software Hub Pool",
   shortName: "SHP",
-  tagline: "35 premium AI and product tools for a year — worth $40,000+",
+  tagline: "Annual plans on 35 premium AI and product tools, issued as one activation code.",
   supportEmail: "support@softwarehubpool.example",
   currency: "INR" as const,
   locale: "en-IN" as const,

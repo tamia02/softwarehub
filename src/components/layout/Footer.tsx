@@ -15,7 +15,7 @@ export function Footer() {
         <div>
           <LogoLockup stacked />
           <p className="mt-4 max-w-sm text-sm text-ink-muted">
-            One activation code, 35 premium tools, a whole year. Buy the bundle outright or split it ten ways in a pool.
+            Annual plans on 35 premium tools, issued as one activation code. Buy a pass outright or share one through a pool.
           </p>
           <p className="mt-4 text-sm">
             <a className="font-semibold text-ink hover:text-primary" href={`mailto:${site.supportEmail}`}>
@@ -24,7 +24,7 @@ export function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink-faint">Explore</h4>
+          <h4 className="font-mono-label text-ink-faint">Explore</h4>
           <ul className="mt-4 space-y-2.5 text-[15px]">
             {nav.map((n) => (
               <li key={n.href}>
@@ -41,7 +41,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="font-display text-xs font-semibold uppercase tracking-[0.18em] text-ink-faint">Legal</h4>
+          <h4 className="font-mono-label text-ink-faint">Legal</h4>
           <ul className="mt-4 space-y-2.5 text-[15px]">
             {legal.map((n) => (
               <li key={n.href}>

@@ -54,6 +54,7 @@ async function loadCatalog(): Promise<CatalogData> {
     tierMin: t.tierMin as TierSlug,
     badge: (t.badge as ToolBadge | null) ?? undefined,
     hue: t.hue,
+    logoUrl: t.logoUrl,
     sort: t.sort,
     retailPaise: usdToPaise(t.valueUsd, s.usdInrRate),
   }));

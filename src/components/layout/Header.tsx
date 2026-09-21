@@ -50,7 +50,7 @@ export function Header() {
       className={cn(
         "sticky top-0 z-40 transition-[background-color,box-shadow,border-color] duration-300",
         scrolled
-          ? "border-b border-line bg-[rgba(255,251,235,0.78)] shadow-[0_1px_0_rgba(146,64,14,0.05)] backdrop-blur-[12px]"
+          ? "border-b border-line bg-[rgba(251,246,236,0.8)] shadow-[0_1px_0_rgba(138,59,10,0.04)] backdrop-blur-[12px]"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -64,7 +64,7 @@ export function Header() {
             <Link
               key={n.href}
               href={n.href}
-              className="rounded-full px-4 py-2 font-display text-[15px] font-medium text-ink-muted transition-colors hover:bg-bg-soft hover:text-ink"
+              className="rounded-full px-4 py-2 text-[14.5px] font-medium text-ink-muted transition-colors hover:bg-bg-soft hover:text-ink"
             >
               {n.label}
             </Link>
@@ -73,7 +73,7 @@ export function Header() {
 
         <div className="hidden md:block">
           <Button href="/checkout/direct?tier=pro" size="md">
-            Get Pro Pass
+            Get the Pro Pass
           </Button>
         </div>
 
@@ -119,7 +119,7 @@ export function Header() {
                   <Link
                     href={n.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-2xl px-4 py-4 font-display text-2xl font-semibold hover:bg-bg-soft"
+                    className="block rounded-2xl px-4 py-4 font-display text-[28px] hover:bg-bg-soft"
                   >
                     {n.label}
                   </Link>
@@ -127,7 +127,7 @@ export function Header() {
               ))}
               <div className="mt-auto pb-10">
                 <Button href="/checkout/direct?tier=pro" size="lg" className="w-full">
-                  Get Pro Pass
+                  Get the Pro Pass
                 </Button>
               </div>
             </nav>

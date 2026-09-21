@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { track } from "@/components/analytics/track";
 
-/** Pill email/phone capture → OTP sign-in → Pro Pass checkout. */
+/** Email/mobile capture → OTP sign-in → Pro Pass checkout. */
 export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: string }) {
   const router = useRouter();
   const [value, setValue] = useState("");
@@ -18,17 +18,26 @@ export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: s
   }
 
   return (
-    <form onSubmit={submit} className="flex h-16 w-full max-w-md items-center rounded-full border-2 border-line-strong bg-white p-1.5 pl-6 shadow-[var(--shadow-card)] focus-within:border-primary/60 focus-within:ring-4 focus-within:ring-accent/30">
+    <form
+      onSubmit={submit}
+      className="flex h-14 w-full max-w-lg items-center rounded-full border border-line-strong bg-white p-1.5 pl-5 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-accent/25"
+    >
+      <label htmlFor="hero-identifier" className="sr-only">
+        Email or mobile number
+      </label>
       <input
+        id="hero-identifier"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="your@email.com or mobile"
+        placeholder="you@company.com"
         autoComplete="email"
-        aria-label="Email or mobile number"
-        className="min-w-0 flex-1 bg-transparent font-display text-[17px] font-medium text-ink placeholder:text-ink-faint focus:outline-none"
+        className="min-w-0 flex-1 bg-transparent text-[16px] text-ink placeholder:text-ink-faint focus:outline-none"
       />
-      <button type="submit" aria-label="Continue" className="grid h-12 w-14 shrink-0 place-items-center rounded-full bg-primary text-[#fff8e8] shadow-[var(--shadow-button)] transition-transform hover:-translate-y-0.5 active:scale-95">
-        <ArrowRight size={22} strokeWidth={2.5} />
+      <button
+        type="submit"
+        className="inline-flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full bg-primary px-5 text-[15px] font-semibold text-[#fbf6ec] shadow-[var(--shadow-button)] transition-transform hover:-translate-y-px active:scale-[0.985]"
+      >
+        Get started <ArrowRight size={16} strokeWidth={2.4} />
       </button>
     </form>
   );

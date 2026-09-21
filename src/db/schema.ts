@@ -103,6 +103,8 @@ export const tools = pgTable("tools", {
   tierMin: text("tier_min").notNull(), // starter | pro
   badge: text("badge"),
   hue: integer("hue").notNull().default(220),
+  /** Official logo asset (admin upload) — overrides the built-in brand icon / favicon fallback. */
+  logoUrl: text("logo_url"),
   sort: integer("sort").notNull().default(0),
   active: boolean("active").notNull().default(true),
 });

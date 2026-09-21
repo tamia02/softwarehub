@@ -15,32 +15,32 @@ import { formatINR } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const steps = [
-  { icon: <UserPlus size={22} />, title: "Join or create a pool", desc: "Pick Starter or Pro, then share the link with friends, teammates or your community." },
-  { icon: <Wallet size={22} />, title: `${settings.poolSeatsDefault} members each pay their share`, desc: "Every seat is paid via UPI or card and held in escrow until the pool fills." },
-  { icon: <Gift size={22} />, title: "Bundle unlocks, everyone gets their tools", desc: "We buy the bundle and each member claims their tools from My Pass. Not filled in time? Everyone is refunded." },
+  { icon: <UserPlus size={22} />, title: "Open a pool, or join one", desc: "Choose a pass and a seat count, then share the link with your team, cohort or community." },
+  { icon: <Wallet size={22} />, title: "Each seat pays its share", desc: `Every member pays a single seat by UPI or card. Funds are held until all ${settings.poolSeatsDefault} seats are in.` },
+  { icon: <Gift size={22} />, title: "The pass is issued to everyone", desc: "The moment the last seat is paid, each member's tools appear in My Pass. If the pool doesn't fill in time, every seat is refunded." },
 ];
 
 export function PoolExplainer({ pools }: { pools: PoolSummary[] }) {
   return (
-    <Section id="pool" className="bg-bg-soft/60">
+    <Section id="pool" className="bg-bg-soft/50">
       <SectionHeading
         eyebrow="Pools"
         title={
           <>
-            Split the bundle <span className="text-primary">ten ways.</span>
+            One pass, <em className="font-normal italic text-primary">ten people.</em>
           </>
         }
         sub={`Pay ${formatINR(Math.ceil(tiers.starter.pricePaise / settings.poolSeatsDefault))} or ${formatINR(
           Math.ceil(tiers.pro.pricePaise / settings.poolSeatsDefault),
-        )} instead of the full price. Same tools, same year.`}
+        )} a seat. The same plans, the same twelve months, a tenth of the outlay.`}
       />
 
       <Stepper />
 
       <div className="mt-16 flex items-end justify-between gap-4">
         <div>
-          <h3 className="text-2xl font-semibold">Open pools</h3>
-          <p className="mt-1 text-sm text-ink-muted">Join one that is about to fill, or start your own.</p>
+          <h3 className="font-display text-[28px] font-medium">Open pools</h3>
+          <p className="mt-1 text-sm text-ink-muted">Take a seat in one that is nearly full, or start your own.</p>
         </div>
         <Button href="/checkout/pool" variant="secondary" className="hidden sm:inline-flex">
           Create a pool <ArrowRight size={16} />
@@ -84,8 +84,8 @@ function Stepper() {
           >
             {s.icon}
           </motion.span>
-          <span className="mt-4 font-display text-[11px] font-semibold uppercase tracking-[0.2em] text-ink-faint">Step {i + 1}</span>
-          <h3 className="mt-1 text-lg font-semibold">{s.title}</h3>
+          <span className="font-mono-label mt-4 text-ink-faint">Step {i + 1}</span>
+          <h3 className="mt-1 text-[17px]">{s.title}</h3>
           <p className="mt-2 max-w-xs text-sm text-ink-muted">{s.desc}</p>
         </FadeUp>
       ))}
@@ -123,17 +123,17 @@ function PoolCard({ pool, index }: { pool: PoolSummary; index: number }) {
     <FadeUp index={index} className="card flex w-[280px] shrink-0 snap-start flex-col gap-4 p-5">
       <div className="flex items-start justify-between">
         <div>
-          <p className={cn("font-display text-[11px] font-bold uppercase tracking-[0.16em]", pool.tier === "pro" ? "text-accent-2" : "text-primary")}>{t.name}</p>
+          <p className={cn("font-mono-label", pool.tier === "pro" ? "text-accent-2" : "text-primary")}>{t.name}</p>
           <p className="mt-0.5 text-sm text-ink-muted">{pool.city ?? "India"}</p>
         </div>
         <ProgressRing value={pool.filled} max={pool.seats} size={56} stroke={5}>
-          <span className="font-display text-xs font-bold tabular-nums">
+          <span className="text-xs font-semibold tabular-nums">
             {pool.filled}/{pool.seats}
           </span>
         </ProgressRing>
       </div>
       <div className="flex items-center justify-between text-sm">
-        <span className="font-display font-semibold">{left === 1 ? "1 seat left" : `${left} seats left`}</span>
+        <span className="font-semibold">{left === 1 ? "1 seat left" : `${left} seats left`}</span>
         <span className="inline-flex items-center gap-1 text-ink-muted">
           <Clock size={14} /> <Countdown to={pool.expiresAt} />
         </span>
