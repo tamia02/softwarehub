@@ -1,34 +1,34 @@
 import type { Metadata } from "next";
-import { Bricolage_Grotesque, Caveat, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Hydrated } from "@/components/motion/Hydrated";
 import { site } from "@/config/site";
 import "./globals.css";
 
 /**
- * Fonts — Bricolage Grotesque for all text (closest open face to the reference's Degular),
- * Caveat for hand-written value tags, JetBrains Mono for codes only.
- * Both are exposed as CSS variables consumed by globals.css.
+ * Fonts — self-hosted so the production build never calls Google Fonts (which
+ * gets rate-limited in CI/Docker). Bricolage Grotesque for all text, Caveat for
+ * hand-written value tags, JetBrains Mono for codes. All variable woff2 files
+ * live in ./fonts and are exposed as CSS variables consumed by globals.css.
  */
-const display = Bricolage_Grotesque({
-  subsets: ["latin"],
-  axes: ["opsz", "wdth"],
-  weight: "variable",
+const display = localFont({
+  src: "./fonts/bricolage-var.woff2",
   variable: "--font-display",
   display: "swap",
+  weight: "200 800",
 });
 
-const hand = Caveat({
-  subsets: ["latin"],
-  weight: ["600", "700"],
+const hand = localFont({
+  src: "./fonts/caveat-var.woff2",
   variable: "--font-hand",
   display: "swap",
+  weight: "400 700",
 });
 
-const mono = JetBrains_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
+const mono = localFont({
+  src: "./fonts/jetbrains-var.woff2",
   variable: "--font-mono",
   display: "swap",
+  weight: "100 800",
 });
 
 export const metadata: Metadata = {
