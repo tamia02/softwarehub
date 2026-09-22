@@ -66,8 +66,13 @@ ENVFILE
 chmod 600 "$ENV"
 
 echo "==> Building and starting (this does not touch n8n)"
-# Clear any earlier/broken definition of THIS project only (keeps the db volume).
-docker compose --env-file "$ENV" down --remove-orphans 2>/dev/null || true
+if [ "${RESET:-0}" = "1" ]; then
+  echo "   RESET=1 → wiping this app's database volume for a clean reseed"
+  docker compose --env-file "$ENV" down -v --remove-orphans 2>/dev/null || true
+else
+  # Clear any earlier/broken definition of THIS project only (keeps the db volume).
+  docker compose --env-file "$ENV" down --remove-orphans 2>/dev/null || true
+fi
 docker compose --env-file "$ENV" up -d --build
 
 echo
