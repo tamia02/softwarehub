@@ -85,6 +85,16 @@ away. The SMM panel becomes the customer landing page as requested.
 | Child panels (later) | Whitelabel sub-panel request (domain, branding) |
 | Settings | Name, email, phone, password/OTP, 2-step, notifications |
 
+### 1.3a Verified details from the live site (added after full crawl)
+- Hero counters on the live site read **50K+ happy customers · 5M+ orders · 99.9% satisfaction**; services page header reads **5 categories · 150+ services · 99.9% uptime**; other pages claim 539+ / 1,400+ / 2,500+ services. Ours are computed from the DB, never hard-coded.
+- Login is **username + password** (not email), "Remember me", "Forgot password", Google sign-in. Register fields: **username, full name, e-mail, WhatsApp number, password, confirm, accept terms**; Google sign-up. We keep OTP as an option but add username/password to match.
+- Reseller tiers are named two ways on the site (Bronze/Silver/Gold on the homepage, Starter/Pro Reseller/Elite Master on the plans page). We use one set: **Bronze ₹49 / 7 days · Silver ₹249 / 30 days · Gold ₹499 / 90 days**, each "single account / 1 device", with the feature ladder (API rate limit → dedicated nodes → unlimited throughput; ticket support → 1-on-1 WhatsApp → admin hotline). "Buy via WhatsApp" and "Redeem licence key" buttons; membership status card ("Standard customer — upgrade to unlock").
+- Services page: platform chips (All, Instagram, YouTube, TikTok, Telegram, Facebook, Twitter/X, Spotify, Discord, OTT & Canva, AI & Tools, Web Traffic), category accordion with counts, currency selector, table with service ID `#0034` style, tag pills (Instant start, High quality, Refill guarantee, Non-drop), min–max, avg time shown as **"Members only"** when logged out, Details + Order buttons.
+- FAQ page items: what is an SMM panel, service kinds, account safety, **mass order**, **drip-feed**, processing speed, plus the 7 homepage FAQs.
+- Footer status pill "All systems operational", WhatsApp 24/7 badge, "256-bit SSL", "Instant API dispatch" trust row.
+- Terms page structure (10 numbered sections, effective date, governing law India / DPDP, anti-chargeback clause, wallet funds non-withdrawable, auto-refund of cancelled remains to wallet).
+- Not accessible without an account (reconstructed from the public pages, the API doc and the standard SMM-panel layout the site is built on): dashboard → New order · Mass order · Orders · Services · Add funds · Refill · Tickets · API · Affiliates · Child panel · Updates · Account (timezone, 2FA, API key). All are in §1.3.
+
 ### 1.4 Public API v2 (`/api-docs` + `/api/v2`)
 Standard SMM panel API so resellers' own panels can plug in:
 - `POST key, action=services` → list (service, name, type, category, rate, min, max, refill, cancel)
@@ -152,6 +162,39 @@ Cart/checkout per offer, order page with delivery + inspection countdown, confir
 ### 2.6 Admin additions
 KYC queue with document viewer & decision, listings moderation (prohibited-item rules), disputes desk, commission table by category, hold/inspection durations, withdrawals approval, seller levels config, fraud flags (velocity, chargebacks), category & brand management.
 
+### 2.6a Verified mechanics (from G2G's help centre — 25 articles read)
+
+**Seller ranking** (recomputed monthly, GMT+8): Normal < $300 · Common ≥ $300 · Uncommon ≥ $1k · Rare ≥ $5k · Epic ≥ $10k · Legendary ≥ $20k monthly sales. Upgrade needs > 90 % positive rating; downgrade only after **two consecutive** missed months. Separate **user level** ("Lvl 142") from completed orders. Ours: same ladder in INR (₹25k / ₹80k / ₹4L / ₹8L / ₹16L), admin-editable.
+
+**Commission by rank × product type** (no listing fees):
+
+| Product | Normal | Common | Uncommon | Rare | Epic | Legendary |
+|---|---|---|---|---|---|---|
+| Other services | 9.99 | 8.99 | 7.99 | 6.99 | 5.99 | 4.99 |
+| Account services | 12.99 | 11.99 | 10.99 | 9.99 | 8.99 | 7.99 |
+| Software / AI-tool accounts | 19.99 | 18.99 | 17.99 | 16.99 | 15.99 | 14.99 |
+
+Flat 9.99 % for coaching/GamePal; promotional flat 4.99 % for top-ups, gift cards, software, video games. Ours: same matrix, admin-editable, shown on the seller page and in the finance ledger per order.
+
+**Order state machine** (buyer view / seller view):
+`Order placed → To pay → Verifying payment → Paid (buyer EKYC if required) → Preparing (seller viewed general details) → Prepared (seller viewed recipient details) → Delivering (partial allowed) → Delivered → Completed` plus `Cancelled` and `Resolution` (dispute). Rules: seller must not deliver before "Paid"; if not moved to Preparing within **48 h** → auto-cancel + refund; buyer cancel request → instant if not yet viewed, else seller has **6 h** (Preparing) / **48 h** (Delivering) to accept or reject with written reason or image proof, no response → auto-cancel; after a rejected/withdrawn request the buyer waits **1 h** before another; once the seller confirms delivery the buyer can no longer cancel, only report. Auto-complete **3 days** after full delivery if the buyer doesn't confirm. Gift-card/code orders deliver instantly and auto-cancel on payment failure.
+
+**Seller credit release**: other products 15 min – 24 h after Completed; **account/device products 14 days** (the insured period) — matches the 14-day hold you asked for. Credit → *Available balance* → withdrawal (auto-remittance opt-in or manual request with a payment-request ID). Beneficiary name must match profile name; withdrawal may trigger a fresh ID check; per-method min/max and fee tables by rank (e.g. bank 2.99 % + fixed for Normal, 0.99 % for Legendary); crypto network fee borne by seller; available balance cannot be spent on the platform.
+
+**Buyer wallets**: *Store credit* (refunds land here, spendable at checkout, no top-up, one-time currency change, refund-to-source on request) and *Points* (earned per purchase, redeem up to 25 % of order total in multiples of 100, not on boosting). Ours: one wallet + points, same rules.
+
+**Dispute flow**: order page **Report** (pick reason) → seller has 48 h → **Escalate** → specialist review; no buyer action within 48 h → auto-close; **Resolve escalate** to resume delivery or confirm-then-cancel remainder; completed orders → support ticket only. Services use **Not received** while Processing. Seller can also issue a refund on a completed order.
+
+**Delivery proof**: uploaded on the sold-order page only (jpg/png/gif/mp4/mov…, 100 MB/file, 150 files/order), per-category requirements (accounts: credentials screenshot, unbinding proof, login alerts, remaining duration; codes: redemption proof; services: before/after). Missing proof = seller loses the dispute.
+
+**Listings**: verified sellers up to 2,000 offers; **bulk listing** via downloadable XLS template → upload → preview (expires in 1 h) → "Invalid listing" tab → confirm; manage = deactivate / delete / extend / edit (description, delivery method, price, stock). Offer-group page = one product with **"Other sellers (n)"** ranked, "Other denominations", seller card (level, rank badge, 90-day %, completed count, online dot, Chat), product info (region restriction, delivery speed, delivery method), rich description, reviews % + count, sold count.
+
+**Rules encoded as validation**: subscriptions max 1 month per listing; software/app accounts only for level ≥ 30; warranty text can't exceed platform standard (14 days accounts / 1 month subs); no external links/QR in store name or images; no duplicates; no keyword stuffing; original descriptions; secure code/password delivery via the order page (never chat); replacement accounts only via order page; high-risk seller flag after complaint volume → protection withdrawn, payouts held; 72-h self-resolution exempts from penalty; appeal process.
+
+**Accounts & KYC**: sign-up via mobile number OTP (no VoIP), or Google/Facebook; ID verification = country + document type → front/back capture (glare checks, OCR review) → selfie liveness with countdown → email confirmation; **Business account** = company name, registration no., tax no., addresses, representative (director or authorised with letter), business certificate, director list, proof of address, 48-h review. Phone/payment-country mismatch triggers verification.
+
+**Also on G2G**: Affiliate program (20 % revenue share, lifetime on referred users, reflinks per product, dashboard, withdrawal, leaderboard, FAQ); Rent-time services (coaching / companion sessions booked by date & time, flat commission) — ours becomes **Expert sessions** (tool onboarding/consulting by resellers); Help centre with ticket submit/my tickets and 6 categories; Legal hub (privacy, advertising policy, terms, affiliate agreement, listing policy, protection, payment schedule, refund policy, seller rules); country/currency selector; day/night toggle; cookie notice; search with top searches; "Trending brands" strips with offer counts on every category page.
+
 ### 2.7 Deliberately excluded from Community Market
 - Bulk **third-party account** sales (e.g. "phone-verified Gmail", "smurf accounts"). These are TOS violations on the platforms concerned and a chargeback/fraud magnet; listings policy will prohibit them. Everything else G2G lists (subscriptions, keys, gift cards, top-ups, digital goods, coaching/services) is in scope.
 
@@ -186,6 +229,11 @@ graphite + acid green + amber), separate from the cream site, switchable by rout
 
 ### 3.3 Not being built (from the reference)
 CC generator / live CC checker · BIN "intel" for card testing · "leaks" · fraud "methods" · Netflix/streaming cookie & session sharing · shared VPN credentials · documents generator (fake invoices, bank statements, pay stubs, marksheets). These are fraud or forgery tools. The section keeps the same structure with legitimate content.
+
+### 3.3a What the crawl of madleets.me confirmed (20 pages)
+- Structure kept: sidebar nav (Dashboard, All tools, tool shortcuts, Forum, Public threads, Pro zone, VIP zone), top search with ⌘K, "NEW" announcement strip, home hero with stats (tools, page views, members, premium, playbooks, VIP threads), "What's new" feed, streak + top contributors, latest threads, tool tiers Free 52 / Pro 17 / VIP 12 with a "20+ new tools" explainer grid, forum directory with **sections and tags**, thread counters (replies, views, date), upgrade page with **6-month / 1-year / lifetime** cards, strike-through pricing and "-70 %" badges, redeem code, donate, contact form + Telegram, advertise-with-us card, terminal-style 404 with trace ID.
+- Legit tools verified on the site and included in §3.2 (BIN lookup stays **only** as the public 6/8-digit issuer lookup for merchants/devs — never a "live checker").
+- Confirmed and **excluded** with the site's own wording: "Full VIP Zone access (Leaks, Cracked Software, Courses, License Keys, VIP Methods, VIP BINs)", "Private Auto Hitter", "Private BINs Database — exclusive working BINs", "Untested Methods vault", "password cracking tools", "Exclusive VIP courses (FB Monetization, **Carding**, OPSEC)", forum sections **Bins / Cookies / Hitters**, the Netflix cookie section, shared "VPN credentials", **temp phone numbers** for SMS-verification bypass, and the fake-documents generator. Temp **mail** on our own domain is kept (ordinary dev/QA tool).
 
 ### 3.4 Admin additions
 Tools registry (tier, category, active), playbooks editor with tier gating, forum moderation, Pro/VIP plan pricing, licence code generator, contributors/reputation settings.
@@ -224,3 +272,16 @@ Tools registry (tier, category, active), playbooks editor with tier gating, foru
 | F | Polish pass on every page (desktop + mobile), tests + UAT, docs, deploy |
 
 Each phase ships to `main` and the VPS/Vercel as it lands.
+
+---
+
+## 7. Verification log (22 Sep 2026)
+
+| Site | Pages read | Notes |
+|---|---|---|
+| g2g.com | 30 pages: home, login, seller, GamerProtect, affiliate, legal hub, terms, privacy, 14 trending/category pages, 2 category listings, offer-group page, seller profile, coaching, GamePal, search | `/about-us`, `/help`, `/business` return 404 or blank (About links to hydron.holdings; help is support.g2g.com) |
+| support.g2g.com | 25 articles: category indexes (Account, General, Buying, Selling, GamerProtect, Affiliate) + commission, payout schedule, withdrawal, KYC steps, KYC why, business account, seller rules, listing policy, software-account rules, bulk listing, offers, sell-order states, buy-order states, store credit, points, disputes, delivery-proof (accounts), trust, sign-up, not-confirmed, ranking | Everything behind "My G2G" (dashboard, checkout, chat) is reconstructed from these articles |
+| socialbazarsmm.com | 9 pages: home, services, reseller, API, terms, FAQ, signup, login card, footer | Dashboard requires an account with a WhatsApp number; not created — reconstructed from API doc + standard SMM-panel layout |
+| madleets.me | 20 pages: home, all tools, threads, temp numbers, BIN checker, upgrade, contact, donate, auth, Netflix, and 404s for vip / pro / cc-generator / forum / vpn / temp-mail / documents / redeem (behind login or renamed) | Pro/VIP content is described on the upgrade page; not purchased |
+
+Method: headless Chromium, full-page text + link extraction per page, three retries per URL. Raw dumps kept in the session scratchpad (`crawl/`).
