@@ -87,9 +87,9 @@ export async function seed(db: Db) {
   // Gate codes — demo (§1.3) + one generated batch each
   await db.insert(schema.gateCodes).values([
     { id: uuid(), codeHash: hashCode("CUST-DEMO-2026"), type: "customer", label: "Demo customer code", resellerId: reseller.id, maxUses: 1_000_000 },
-    { id: uuid(), codeHash: hashCode("RSL-DEMO-2026"), type: "reseller", label: "Demo reseller code", maxUses: 1_000_000 },
+    { id: uuid(), codeHash: hashCode("RESL-DEMO-2026"), type: "reseller", label: "Demo reseller code", maxUses: 1_000_000 },
   ]);
-  lines.push("Gate codes:", "  customer  CUST-DEMO-2026", "  reseller  RSL-DEMO-2026", "");
+  lines.push("Gate codes:", "  customer  CUST-DEMO-2026", "  reseller  RESL-DEMO-2026", "");
 
   // Bundle code inventory: 2 known demo codes + random stock
   const demoStarter = demoCode("SHPSDEMO2026AAA");

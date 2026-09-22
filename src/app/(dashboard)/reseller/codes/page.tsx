@@ -35,7 +35,7 @@ export default async function ResellerCodesPage() {
               <p className="text-sm text-ink-muted">
                 Reseller price <strong className="text-ink">{formatINR(t.resellerPricePaise)}</strong> · sells for {formatINR(t.pricePaise)} · margin {formatINR(t.pricePaise - t.resellerPricePaise)}
               </p>
-              <PayButton createUrl="/api/reseller/codes/buy" body={{ tier: t.id }} label={`Buy 1 ${t.name} code`} successHref={(orderId) => `/checkout/success?order=${orderId}`} size="md" variant="dark" className="mt-3" event="reseller_code_purchase" />
+              <PayButton createUrl="/api/reseller/codes/buy" body={{ tier: t.id }} label={`Buy 1 ${t.name} code`} successHref="/checkout/success?order={orderId}" size="md" variant="dark" className="mt-3" event="reseller_code_purchase" />
             </div>
           ))}
         </div>

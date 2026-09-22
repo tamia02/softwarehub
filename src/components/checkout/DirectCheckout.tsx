@@ -34,7 +34,7 @@ export function DirectCheckout({ tier, signedIn, defaultName, defaultGstin }: { 
         createUrl="/api/orders/direct"
         body={{ tier, idempotencyKey, name: name || undefined, gstin }}
         label="Pay with Razorpay"
-        successHref={(orderId) => `/checkout/success?order=${orderId}`}
+        successHref="/checkout/success?order={orderId}"
         event="checkout_started_direct"
       />
       {!gstinOk && <p className="text-xs text-rose-600">That GSTIN doesn’t look right.</p>}

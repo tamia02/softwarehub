@@ -29,7 +29,7 @@ For a first demo deploy, set the four secrets plus `ALLOW_MOCK_GATEWAY=true` and
 ## 3. Deploy
 Click **Deploy**. First build takes ~2–3 minutes. The site is at `https://<project>.vercel.app`.
 
-Demo sign-ins on the demo database: `admin@softwarehubpool.example`, `reseller@softwarehubpool.example`, `customer@softwarehubpool.example`. Gate codes `CUST-DEMO-2026` / `RSL-DEMO-2026`.
+Demo sign-ins on the demo database: `admin@softwarehubpool.example`, `reseller@softwarehubpool.example`, `customer@softwarehubpool.example`. Gate codes `CUST-DEMO-2026` / `RESL-DEMO-2026`.
 
 ## 4. Going real
 1. Create a Postgres on Neon or Supabase, set `DATABASE_URL`, redeploy. Migrations apply automatically on first request (`DB_AUTO_MIGRATE` defaults to on); the demo seed only runs on an empty database.

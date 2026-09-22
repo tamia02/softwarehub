@@ -18,7 +18,7 @@ With no `DATABASE_URL` the app boots an embedded Postgres (PGlite) at `.data/pgl
 | Reseller | `reseller@softwarehubpool.example` | `/reseller` dashboard |
 | Admin | `admin@softwarehubpool.example` | `/admin` panel |
 
-Gate codes: `CUST-DEMO-2026` / `RSL-DEMO-2026` (replace before launch).
+Gate codes: `CUST-DEMO-2026` / `RESL-DEMO-2026` (replace before launch).
 
 ## Scripts
 

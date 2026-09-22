@@ -106,7 +106,7 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
           <Panel title="Actions">
             <div className="space-y-3">
               {needsSinglePayment && (
-                <PayButton createUrl={`/api/pools/${pool.id}/pay`} label={`Pay bundle ${formatINR(pool.seatPricePaise * pool.seats)}`} successHref={() => `/reseller/pools/${pool.id}`} size="md" />
+                <PayButton createUrl={`/api/pools/${pool.id}/pay`} label={`Pay bundle ${formatINR(pool.seatPricePaise * pool.seats)}`} successHref={`/reseller/pools/${pool.id}`} size="md" />
               )}
               <ActionButton
                 action={fulfilPoolAction.bind(null, pool.id)}

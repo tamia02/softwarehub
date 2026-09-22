@@ -35,6 +35,6 @@ Scope: the checklist from §11 of the development guide plus the OWASP items tha
 
 ## Things reviewed and considered acceptable
 
-- Demo codes (`CUST-DEMO-2026`, `RSL-DEMO-2026`) are seeded only by `seedIfEmpty`; void them from `/admin/codes` before launch (see launch checklist).
+- Demo codes (`CUST-DEMO-2026`, `RESL-DEMO-2026`) are seeded only by `seedIfEmpty`; void them from `/admin/codes` before launch (see launch checklist).
 - The one-time code reveal on `/checkout/success` is gated by session + order ownership and wipes the ciphertext; email/SMS delivery is the redundant channel.
 - Reseller gate codes bind to the first account that signs in with them (`gate_codes.bound_user_id`), so a leaked code cannot be reused by a second account.

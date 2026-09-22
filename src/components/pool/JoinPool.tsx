@@ -29,7 +29,8 @@ export function JoinPool({ poolId, seatPricePaise, open, alreadyIn, signedIn, si
       className="flex-1"
       createUrl={`/api/pools/${poolId}/join`}
       label={single ? "Reserve my seat" : `Join for ${formatINR(seatPricePaise)}`}
-      successHref={(orderId) => (orderId ? `/checkout/success?order=${orderId}` : `/pool/${poolId}`)}
+      successHref="/checkout/success?order={orderId}"
+      reservedHref={`/pool/${poolId}`}
       event="pool_join_started"
     />
   );

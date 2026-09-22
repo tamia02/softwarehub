@@ -51,7 +51,7 @@ issues the HTTPS certificate.
 
 Open `https://yourdomain.in` — the site is live with the demo switches on
 (`ALLOW_MOCK_GATEWAY`, `ALLOW_DEV_OTP`), so you can walk the whole flow:
-gate codes `CUST-DEMO-2026` / `RSL-DEMO-2026`, sign-ins
+gate codes `CUST-DEMO-2026` / `RESL-DEMO-2026`, sign-ins
 `admin@softwarehubpool.example`, `reseller@…`, `customer@…` (OTP is shown on
 screen), "Simulate payment" at checkout.
 

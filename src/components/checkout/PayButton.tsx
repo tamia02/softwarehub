@@ -37,13 +37,14 @@ function loadRazorpay(): Promise<boolean> {
 /**
  * Creates an order via `createUrl`, then runs Razorpay Checkout (or the dev
  * mock capture when no gateway keys are configured). On success navigates to
- * `successHref(orderId)`.
+ * the `successHref` template (with `{orderId}` substituted).
  */
 export function PayButton({
   createUrl,
   body,
   label,
   successHref,
+  reservedHref,
   className,
   variant = "primary",
   size = "lg",
@@ -52,12 +53,17 @@ export function PayButton({
   createUrl: string;
   body?: Record<string, unknown>;
   label: string;
-  successHref: (orderId: string, resp: Record<string, unknown>) => string;
+  /** Destination after a paid order. Use `{orderId}` as a placeholder, e.g. "/checkout/success?order={orderId}". */
+  successHref: string;
+  /** Destination when a pool seat is reserved with no order (single-payer join). Defaults to `successHref`. */
+  reservedHref?: string;
   className?: string;
   variant?: "primary" | "dark" | "secondary";
   size?: "md" | "lg";
   event?: string;
 }) {
+  const hrefFor = (orderId: string) =>
+    (orderId ? successHref : reservedHref ?? successHref).replace("{orderId}", encodeURIComponent(orderId));
   const router = useRouter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -78,7 +84,7 @@ export function PayButton({
 
       // Single-payer pool joins return no order — the seat is simply reserved.
       if (!data.gatewayOrderId) {
-        router.push(successHref("", data as unknown as Record<string, unknown>));
+        router.push(hrefFor(""));
         router.refresh();
         return;
       }
@@ -108,7 +114,7 @@ export function PayButton({
             return;
           }
           track("payment_success", { orderId: vd.orderId });
-          router.push(successHref(vd.orderId, vd));
+          router.push(hrefFor(vd.orderId));
         },
         modal: { ondismiss: () => setBusy(false) },
       });
@@ -131,7 +137,7 @@ export function PayButton({
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error ?? "Capture failed.");
       track("payment_success", { orderId: data.orderId, mock: true });
-      router.push(successHref(data.orderId, data));
+      router.push(hrefFor(data.orderId));
       router.refresh();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong.");

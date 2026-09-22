@@ -20,7 +20,7 @@ login() { # $1 jar, $2 identifier
 
 echo "1. Gate"
 r=$(curl -s -c "$TMP/g" -H "$J" -X POST "$H/api/gate/verify" -d '{"code":"CUST-DEMO-2026","role":"customer"}' | json "d['redirect']"); [ "$r" = "/home" ] && ok "customer gate code -> /home" || bad "customer gate code ($r)"
-r=$(curl -s -c "$TMP/gr" -H "$J" -X POST "$H/api/gate/verify" -d '{"code":"RSL-DEMO-2026","role":"reseller"}' | json "d['redirect']"); [ "$r" = "/login?next=/reseller" ] && ok "reseller gate code -> login" || bad "reseller gate code ($r)"
+r=$(curl -s -c "$TMP/gr" -H "$J" -X POST "$H/api/gate/verify" -d '{"code":"RESL-DEMO-2026","role":"reseller"}' | json "d['redirect']"); [ "$r" = "/login?next=/reseller" ] && ok "reseller gate code -> login" || bad "reseller gate code ($r)"
 r=$(curl -s -H "$J" -X POST "$H/api/gate/verify" -d '{"code":"SHPC-AAAA-BBBB","role":"customer"}' | json "d['error']"); [[ "$r" == *typo* ]] && ok "check-digit rejects typo" || bad "typo check ($r)"
 
 echo "2. OTP sign-in"
