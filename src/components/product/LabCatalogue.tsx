@@ -19,7 +19,7 @@ export function LabCatalogue() {
         <div className="mt-8 space-y-8">
           {labCatalog.map((g) => (
             <div key={g.group}>
-              <h3 className="font-code text-[13px] uppercase tracking-[0.15em] text-[#34d399]">// {g.group}</h3>
+              <h3 className="font-code text-[13px] uppercase tracking-[0.15em] text-[#34d399]">{"//"} {g.group}</h3>
               <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 {g.tools.map((tool) => (
                   <div key={tool.name} className="flex items-start justify-between gap-3 rounded-[14px] border border-[#1f2a25] bg-[#111815] p-3.5">
