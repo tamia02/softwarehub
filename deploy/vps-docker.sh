@@ -19,39 +19,35 @@ docker compose version >/dev/null 2>&1 || { echo "!! 'docker compose' plugin not
 echo "==> Detecting your Traefik setup"
 # Detection must never abort the script — guard everything and keep going.
 set +e
-TRAEFIK_CID=$(docker ps --format '{{.ID}} {{.Image}}' | awk 'tolower($2) ~ /traefik/ {print $1; exit}')
-N8N_CID=$(docker ps --format '{{.ID}} {{.Image}} {{.Names}}' | awk 'tolower($0) ~ /n8n/ {print $1; exit}')
-if [ -z "$TRAEFIK_CID" ]; then set -e; echo "!! No Traefik container found"; exit 1; fi
-
 netsOf() { docker inspect "$1" --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}' 2>/dev/null; }
-TRAEFIK_NETWORK=""
-if [ -n "$N8N_CID" ]; then
-  TRAEFIK_NETWORK=$(comm -12 <(netsOf "$TRAEFIK_CID" | sort -u) <(netsOf "$N8N_CID" | sort -u) 2>/dev/null | grep -v '^bridge$' | head -1)
-fi
-[ -z "$TRAEFIK_NETWORK" ] && TRAEFIK_NETWORK=$(netsOf "$TRAEFIK_CID" | grep -v '^bridge$' | head -1)
-
-# Entrypoint + cert-resolver copied from n8n's own Traefik labels.
 labels() { docker inspect "$1" --format '{{json .Config.Labels}}' 2>/dev/null | tr ',' '\n'; }
 pick() { labels "$1" | grep -iE "$2" | head -1 | sed -E 's/.*: *"?([^"]+)"?.*/\1/'; }
-SRC=${N8N_CID:-$TRAEFIK_CID}
-TRAEFIK_ENTRYPOINT=$(pick "$SRC" 'routers\..*\.entrypoints')
-CERT_RESOLVER=$(pick "$SRC" 'routers\..*\.(tls\.)?certresolver')
-# Fall back to Traefik's own static config / command flags if labels are bare.
-[ -z "$CERT_RESOLVER" ] && CERT_RESOLVER=$(docker inspect "$TRAEFIK_CID" --format '{{json .Args}}' 2>/dev/null | tr ',' '\n' | grep -ioE 'certificatesresolvers\.[a-z0-9_-]+' | head -1 | sed -E 's/.*\.//')
+realnet() { grep -vE '^(bridge|host|none)$'; }
+
+# Copy the wiring from a container that ALREADY works behind Traefik
+# (has traefik.http.routers.* labels) — e.g. seekhbo. That's the ground truth.
+EXAMPLE=""
+for c in $(docker ps -q); do
+  if labels "$c" | grep -qi 'traefik\.http\.routers'; then EXAMPLE="$c"; break; fi
+done
+
+if [ -n "$EXAMPLE" ]; then
+  TRAEFIK_NETWORK=$(netsOf "$EXAMPLE" | realnet | head -1)
+  TRAEFIK_ENTRYPOINT=$(pick "$EXAMPLE" 'routers\..*\.entrypoints')
+  CERT_RESOLVER=$(pick "$EXAMPLE" 'routers\..*\.(tls\.)?certresolver')
+fi
+# Fallbacks from the known Hostinger n8n template
 [ -z "$TRAEFIK_ENTRYPOINT" ] && TRAEFIK_ENTRYPOINT=websecure
+[ -z "$CERT_RESOLVER" ] && CERT_RESOLVER=letsencrypt
 set -e
 
-echo "    traefik container : $TRAEFIK_CID"
-echo "    n8n container     : ${N8N_CID:-<none>}"
+echo "    example app       : ${EXAMPLE:-<none>}"
 echo "    network           : ${TRAEFIK_NETWORK:-<none>}"
 echo "    entrypoint        : $TRAEFIK_ENTRYPOINT"
-echo "    certresolver      : ${CERT_RESOLVER:-<none>}"
-echo "    --- n8n Traefik labels (for reference) ---"
-labels "$SRC" | grep -iE 'traefik' | sed 's/^/      /' || true
-echo "    ------------------------------------------"
+echo "    certresolver      : $CERT_RESOLVER"
 if [ -z "$TRAEFIK_NETWORK" ]; then
-  echo "!! Could not find Traefik's Docker network. Networks on Traefik:"
-  netsOf "$TRAEFIK_CID" | sed 's/^/      /'
+  echo "!! Could not find the Traefik network from an existing app."
+  echo "   Docker networks available:"; docker network ls | sed 's/^/      /'
   echo "   Set TRAEFIK_NETWORK in deploy/.env and re-run."
   exit 1
 fi
