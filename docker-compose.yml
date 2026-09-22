@@ -1,0 +1,62 @@
+# Software Hub Pool — runs alongside n8n behind your existing Traefik.
+# n8n is never touched: this only ADDS two containers (the app + its own
+# Postgres) and attaches the app to Traefik's network so Traefik routes your
+# domain to it and issues HTTPS automatically.
+#
+# Fill deploy/.env (copy from deploy/env.template) then:  docker compose up -d --build
+# Values in ${...} come from deploy/.env.
+
+services:
+  shp-db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: shp
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: shp
+    volumes:
+      - shp-db-data:/var/lib/postgresql/data
+    networks:
+      - shp-internal
+
+  shp-app:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: "https://${DOMAIN}"
+        NEXT_PUBLIC_SUPPORT_EMAIL: "${SUPPORT_EMAIL}"
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://shp:${DB_PASSWORD}@shp-db:5432/shp"
+      NEXT_PUBLIC_SITE_URL: "https://${DOMAIN}"
+      NEXT_PUBLIC_SUPPORT_EMAIL: "${SUPPORT_EMAIL}"
+      CODE_HASH_SALT: "${CODE_HASH_SALT}"
+      CODE_ENCRYPTION_KEY: "${CODE_ENCRYPTION_KEY}"
+      AUTH_SECRET: "${AUTH_SECRET}"
+      CRON_SECRET: "${CRON_SECRET}"
+      # Demo mode — remove both when you add Razorpay + email/SMS keys.
+      ALLOW_MOCK_GATEWAY: "true"
+      ALLOW_DEV_OTP: "true"
+    depends_on:
+      - shp-db
+    networks:
+      - shp-internal
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=${TRAEFIK_NETWORK}"
+      - "traefik.http.routers.shp.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.shp.entrypoints=${TRAEFIK_ENTRYPOINT}"
+      - "traefik.http.routers.shp.tls=true"
+      - "traefik.http.routers.shp.tls.certresolver=${CERT_RESOLVER}"
+      - "traefik.http.services.shp.loadbalancer.server.port=3000"
+
+networks:
+  shp-internal:
+  traefik:
+    external: true
+    name: ${TRAEFIK_NETWORK}
+
+volumes:
+  shp-db-data:

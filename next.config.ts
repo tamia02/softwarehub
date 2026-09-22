@@ -17,6 +17,8 @@ const csp = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // Self-contained server bundle for Docker (.next/standalone).
+  output: "standalone",
   outputFileTracingRoot: __dirname,
   reactStrictMode: true,
   poweredByHeader: false,
