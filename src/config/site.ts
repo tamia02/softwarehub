@@ -45,8 +45,8 @@ export const cookieNames = {
 export type Role = "customer" | "reseller" | "admin";
 
 export const nav = [
-  { label: "Tools", href: "/home#tools" },
-  { label: "Pricing", href: "/home#pricing" },
-  { label: "Pool", href: "/home#pool" },
-  { label: "FAQ", href: "/home#faq" },
+  { label: "Passes", href: "/home" },
+  { label: "Growth", href: "/growth" },
+  { label: "Community", href: "/community" },
+  { label: "Lab", href: "/lab" },
 ];

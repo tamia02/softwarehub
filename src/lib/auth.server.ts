@@ -174,3 +174,35 @@ export async function requireApiUser(role?: Role | Role[]): Promise<User | null>
   }
   return user;
 }
+
+/* ------------------------------------------------------------------
+   Demo sign-in — one click, no OTP. Guarded to demo/dev only.
+   ------------------------------------------------------------------ */
+
+/** True when password-free demo sign-in is allowed (never in a real prod build). */
+export function demoLoginAllowed(): boolean {
+  return process.env.NODE_ENV !== "production" || process.env.ALLOW_DEV_OTP === "true";
+}
+
+/**
+ * Signs in as one of the seeded demo users (customer / reseller / admin)
+ * without an OTP. Creates the row if the demo DB was reset without a seed.
+ * Only callable when `demoLoginAllowed()`.
+ */
+export async function establishDemoSession(role: Role): Promise<User> {
+  const db = await getDb();
+  const email = `${role}@softwarehubpool.example`;
+  let [user] = await db.select().from(schema.users).where(eq(schema.users.email, email));
+  if (!user) {
+    [user] = await db
+      .insert(schema.users)
+      .values({ id: uuid(), name: `Demo ${role[0].toUpperCase()}${role.slice(1)}`, email, role })
+      .returning();
+    await audit({ actorId: user.id, entity: "user", entityId: user.id, to: `demo-${role}` }, db);
+  }
+  const token = await signSession({ sub: user.id, role: user.role as Role, name: user.name });
+  const jar = await cookies();
+  jar.set(SESSION_COOKIE, token, cookieOpts());
+  jar.set(cookieNames.role, user.role, cookieOpts());
+  return user;
+}
