@@ -50,11 +50,20 @@ export async function getSettings(): Promise<RuntimeSettings> {
   const db = await getDb();
   const rows = await db.select().from(schema.settings);
   const value: RuntimeSettings = { ...SETTING_DEFAULTS };
+  // Rates/counts that must never be zero — a blank/0 stored value would zero
+  // every price, so we ignore it and keep the default.
+  const mustBePositive = new Set<keyof RuntimeSettings>(["usdInrRate", "poolSeatsMin", "poolSeatsMax", "poolSeatsDefault", "poolExpiryDays", "guaranteeDays"]);
   for (const r of rows) {
     const k = r.key as keyof RuntimeSettings;
     if (!(k in value)) continue;
     const def = SETTING_DEFAULTS[k];
-    (value as unknown as Record<string, unknown>)[k] = typeof def === "number" ? Number(r.value) : r.value;
+    if (typeof def === "number") {
+      const num = Number(r.value);
+      const bad = !Number.isFinite(num) || (mustBePositive.has(k) && num <= 0);
+      (value as unknown as Record<string, unknown>)[k] = bad ? def : num;
+    } else {
+      (value as unknown as Record<string, unknown>)[k] = r.value;
+    }
   }
   cache = { at: Date.now(), value };
   return value;

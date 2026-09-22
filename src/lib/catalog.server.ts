@@ -43,21 +43,26 @@ async function loadCatalog(): Promise<CatalogData> {
     db.select().from(schema.tiers),
   ]);
 
-  const tools: CatalogTool[] = rows.map((t) => ({
-    slug: t.id,
-    name: t.name,
-    vendor: t.vendorName,
-    category: t.category as ToolCategory,
-    offerTitle: t.offerTitle,
-    blurb: t.blurb,
-    valueUsd: t.valueUsd,
-    tierMin: t.tierMin as TierSlug,
-    badge: (t.badge as ToolBadge | null) ?? undefined,
-    hue: t.hue,
-    logoUrl: t.logoUrl,
-    sort: t.sort,
-    retailPaise: usdToPaise(t.valueUsd, s.usdInrRate),
-  }));
+  const staticBySlug = new Map(staticTools.map((t) => [t.slug, t]));
+  const tools: CatalogTool[] = rows.map((t) => {
+    // Guard against a bad/zero value_usd in the DB — fall back to the code value.
+    const value = Number(t.valueUsd) > 0 ? Number(t.valueUsd) : staticBySlug.get(t.id)?.valueUsd ?? 0;
+    return {
+      slug: t.id,
+      name: t.name,
+      vendor: t.vendorName,
+      category: t.category as ToolCategory,
+      offerTitle: t.offerTitle,
+      blurb: t.blurb,
+      valueUsd: value,
+      tierMin: t.tierMin as TierSlug,
+      badge: (t.badge as ToolBadge | null) ?? undefined,
+      hue: t.hue,
+      logoUrl: t.logoUrl,
+      sort: t.sort,
+      retailPaise: usdToPaise(value, s.usdInrRate),
+    };
+  });
   const core = tools.filter((t) => t.tierMin === "starter");
   const pro = tools.filter((t) => t.tierMin === "pro");
 
