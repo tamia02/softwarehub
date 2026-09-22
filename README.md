@@ -55,7 +55,10 @@ Gate codes: `CUST-DEMO-2026` / `RSL-DEMO-2026` (replace before launch).
 
 ## Deploy
 
-Vercel + Neon/Supabase. Set the variables from `.env.example`, run `npm run db:migrate` in the build step (or leave `DB_AUTO_MIGRATE` on for the first deploy), subscribe the Razorpay webhook, and enable the crons in `vercel.json`. Full list: `docs/LAUNCH-CHECKLIST.md`.
+- **Hostinger / any Ubuntu VPS with your own domain** — `docs/DEPLOY-HOSTINGER.md` (one script: Node, Postgres, Nginx, SSL, PM2, crons; redeploy with `deploy/deploy.sh`).
+- **Vercel** — `docs/DEPLOY-VERCEL.md` (Neon/Supabase for the database, crons from `vercel.json`).
+
+Set `NEXT_PUBLIC_SITE_URL` to your domain either way. Full pre-launch list: `docs/LAUNCH-CHECKLIST.md`.
 
 ## Deliberate deviations from the build guide
 

@@ -6,10 +6,11 @@ export const site = {
   name: "Software Hub Pool",
   shortName: "SHP",
   tagline: "Annual plans on 35 premium AI and product tools, issued as one activation code.",
-  supportEmail: "support@softwarehubpool.example",
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@softwarehubpool.example",
   currency: "INR" as const,
   locale: "en-IN" as const,
-  url: "https://softwarehubpool.example",
+  /** Public origin, no trailing slash - set NEXT_PUBLIC_SITE_URL in production. */
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://softwarehubpool.example").replace(/\/$/, ""),
 };
 
 /**
