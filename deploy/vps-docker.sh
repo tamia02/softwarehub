@@ -17,28 +17,44 @@ need docker
 docker compose version >/dev/null 2>&1 || { echo "!! 'docker compose' plugin not found"; exit 1; }
 
 echo "==> Detecting your Traefik setup"
+# Detection must never abort the script — guard everything and keep going.
+set +e
 TRAEFIK_CID=$(docker ps --format '{{.ID}} {{.Image}}' | awk 'tolower($2) ~ /traefik/ {print $1; exit}')
 N8N_CID=$(docker ps --format '{{.ID}} {{.Image}} {{.Names}}' | awk 'tolower($0) ~ /n8n/ {print $1; exit}')
-[ -z "$TRAEFIK_CID" ] && { echo "!! No Traefik container found"; exit 1; }
+if [ -z "$TRAEFIK_CID" ]; then set -e; echo "!! No Traefik container found"; exit 1; fi
 
-netsOf() { docker inspect "$1" --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}'; }
-# Network shared by Traefik and n8n (fallback: Traefik's first non-bridge net)
+netsOf() { docker inspect "$1" --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}' 2>/dev/null; }
 TRAEFIK_NETWORK=""
-if [ -n "${N8N_CID:-}" ]; then
-  TRAEFIK_NETWORK=$(comm -12 <(netsOf "$TRAEFIK_CID" | sort -u) <(netsOf "$N8N_CID" | sort -u) | grep -v '^bridge$' | head -1)
+if [ -n "$N8N_CID" ]; then
+  TRAEFIK_NETWORK=$(comm -12 <(netsOf "$TRAEFIK_CID" | sort -u) <(netsOf "$N8N_CID" | sort -u) 2>/dev/null | grep -v '^bridge$' | head -1)
 fi
 [ -z "$TRAEFIK_NETWORK" ] && TRAEFIK_NETWORK=$(netsOf "$TRAEFIK_CID" | grep -v '^bridge$' | head -1)
 
-# Entrypoint + cert-resolver copied from n8n's own Traefik labels
-labels() { docker inspect "$1" --format '{{json .Config.Labels}}' | tr ',' '\n'; }
-pick() { labels "$1" | grep -iE "$2" | head -1 | sed -E 's/.*"([^"]+)" *$/\1/;s/.*: *"?([^"]+)"?.*/\1/'; }
+# Entrypoint + cert-resolver copied from n8n's own Traefik labels.
+labels() { docker inspect "$1" --format '{{json .Config.Labels}}' 2>/dev/null | tr ',' '\n'; }
+pick() { labels "$1" | grep -iE "$2" | head -1 | sed -E 's/.*: *"?([^"]+)"?.*/\1/'; }
 SRC=${N8N_CID:-$TRAEFIK_CID}
-TRAEFIK_ENTRYPOINT=$(pick "$SRC" 'routers\..*\.entrypoints'); TRAEFIK_ENTRYPOINT=${TRAEFIK_ENTRYPOINT:-websecure}
-CERT_RESOLVER=$(pick "$SRC" 'routers\..*\.tls\.certresolver'); CERT_RESOLVER=${CERT_RESOLVER:-}
+TRAEFIK_ENTRYPOINT=$(pick "$SRC" 'routers\..*\.entrypoints')
+CERT_RESOLVER=$(pick "$SRC" 'routers\..*\.(tls\.)?certresolver')
+# Fall back to Traefik's own static config / command flags if labels are bare.
+[ -z "$CERT_RESOLVER" ] && CERT_RESOLVER=$(docker inspect "$TRAEFIK_CID" --format '{{json .Args}}' 2>/dev/null | tr ',' '\n' | grep -ioE 'certificatesresolvers\.[a-z0-9_-]+' | head -1 | sed -E 's/.*\.//')
+[ -z "$TRAEFIK_ENTRYPOINT" ] && TRAEFIK_ENTRYPOINT=websecure
+set -e
 
-echo "    network    : $TRAEFIK_NETWORK"
-echo "    entrypoint : $TRAEFIK_ENTRYPOINT"
-echo "    certresolver: ${CERT_RESOLVER:-<none found — check .env>}"
+echo "    traefik container : $TRAEFIK_CID"
+echo "    n8n container     : ${N8N_CID:-<none>}"
+echo "    network           : ${TRAEFIK_NETWORK:-<none>}"
+echo "    entrypoint        : $TRAEFIK_ENTRYPOINT"
+echo "    certresolver      : ${CERT_RESOLVER:-<none>}"
+echo "    --- n8n Traefik labels (for reference) ---"
+labels "$SRC" | grep -iE 'traefik' | sed 's/^/      /' || true
+echo "    ------------------------------------------"
+if [ -z "$TRAEFIK_NETWORK" ]; then
+  echo "!! Could not find Traefik's Docker network. Networks on Traefik:"
+  netsOf "$TRAEFIK_CID" | sed 's/^/      /'
+  echo "   Set TRAEFIK_NETWORK in deploy/.env and re-run."
+  exit 1
+fi
 
 echo "==> Writing $ENV"
 gen() { openssl rand -hex 32; }
