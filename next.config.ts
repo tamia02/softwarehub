@@ -22,6 +22,8 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Native/WASM database drivers must not be bundled by webpack.
   serverExternalPackages: ["@electric-sql/pglite", "postgres", "razorpay"],
+  // The Drizzle migrator reads ./drizzle at runtime; make sure it ships in the serverless bundle.
+  outputFileTracingIncludes: { "/**/*": ["./drizzle/**/*"] },
   async headers() {
     return [
       {

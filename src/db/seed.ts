@@ -183,13 +183,15 @@ export async function seed(db: Db) {
   );
 
   try {
+    // Skip on serverless hosts (read-only filesystem, and nobody can read the file there).
+    if (process.env.VERCEL) throw new Error("serverless");
     const dir = path.join(process.cwd(), ".data");
     fs.mkdirSync(dir, { recursive: true });
     fs.writeFileSync(path.join(dir, "demo-codes.txt"), lines.join("\n"));
   } catch {
     /* read-only FS (serverless) — fine */
   }
-  if (process.env.NODE_ENV !== "test") console.info("[seed] database seeded — demo credentials in .data/demo-codes.txt");
+  if (process.env.NODE_ENV !== "test") console.info(process.env.VERCEL ? "[seed] in-memory demo database seeded" : "[seed] database seeded — demo credentials in .data/demo-codes.txt");
 }
 
 export async function resetAndSeed(db: Db) {

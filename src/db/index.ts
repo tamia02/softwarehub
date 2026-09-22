@@ -33,7 +33,12 @@ async function connect(): Promise<Db> {
   }
 
   const { PGlite } = await import("@electric-sql/pglite");
-  const dataDir = process.env.PGLITE_DATA_DIR ?? path.join(process.cwd(), ".data", "pglite");
+  // Serverless hosts (Vercel/Lambda) have a read-only filesystem: run PGlite in
+  // memory there so a demo deploy works without a database. Data does not
+  // persist between cold starts — set DATABASE_URL for anything real.
+  const serverless = !!(process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME);
+  const dataDir = process.env.PGLITE_DATA_DIR ?? (serverless ? "memory://shp" : path.join(process.cwd(), ".data", "pglite"));
+  if (serverless && !process.env.DATABASE_URL) console.warn("[db] DATABASE_URL is not set — using an in-memory demo database (resets on every cold start).");
   if (!dataDir.startsWith("memory://")) fs.mkdirSync(dataDir, { recursive: true });
   const client = new PGlite(dataDir);
   const db = drizzlePglite(client, { schema });
