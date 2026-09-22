@@ -25,8 +25,8 @@ export default async function GatePage({
       <div className="pointer-events-none absolute inset-0 -z-10 select-none" aria-hidden>
         <div className="container-page grid h-full items-center gap-12 blur-[10px] md:grid-cols-2">
           <div className="max-w-xl">
-            <p className="font-mono-label text-primary">{site.name}</p>
-            <h2 className="mt-4 text-[44px] leading-[1.05] md:text-[64px]">{site.tagline}</h2>
+            <p className="text-[15px] font-bold uppercase tracking-wider text-accent-2">{site.name}</p>
+            <h2 className="t-h1 mt-4 text-ink-line">{site.tagline}</h2>
             <p className="mt-6 text-lg text-ink-muted">One activation code. Every tool a builder needs. Buy outright or split it ten ways.</p>
           </div>
           <div className="hidden md:block">

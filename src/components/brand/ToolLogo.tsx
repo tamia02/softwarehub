@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
  * Real vendor logo. Resolution order:
  *  1. `logoUrl` — official asset uploaded by admin (see launch checklist)
  *  2. simple-icons brand glyph (CC0) in the brand colour
- *  3. the vendor's favicon by domain
+ *  3. the vendor's favicon, self-hosted in /public/logos (scripts/fetch-logos.cjs)
  *  4. a lettered tile (never blank)
  */
 export function ToolLogo({
@@ -55,9 +55,10 @@ export function ToolLogo({
   if (src?.domain && !failed) {
     return (
       <span className={box} style={{ width: size, height: size }}>
+        {/* Self-hosted favicon fetched by scripts/fetch-logos.cjs */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`https://www.google.com/s2/favicons?domain=${src.domain}&sz=128`}
+          src={`/logos/${slug}.png`}
           alt={`${name} logo`}
           width={glyph}
           height={glyph}

@@ -5,7 +5,10 @@ import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { track } from "@/components/analytics/track";
 
-/** Email/mobile capture → OTP sign-in → Pro Pass checkout. */
+/**
+ * Email/mobile capture pill (measured: 68px tall, 36px radius, 2px outline,
+ * 20–26px bold input, 60×44 arrow button with offset layer) → OTP → checkout.
+ */
 export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: string }) {
   const router = useRouter();
   const [value, setValue] = useState("");
@@ -20,7 +23,7 @@ export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: s
   return (
     <form
       onSubmit={submit}
-      className="flex h-14 w-full max-w-lg items-center rounded-full border border-line-strong bg-white p-1.5 pl-5 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] focus-within:border-primary/50 focus-within:ring-4 focus-within:ring-accent/25"
+      className="flex h-[60px] w-full max-w-[520px] items-center gap-2 overflow-hidden rounded-[36px] border-2 border-ink-line bg-white py-[6px] pl-[18px] pr-[6px] transition-shadow focus-within:ring-4 focus-within:ring-accent focus-within:ring-offset-2 focus-within:ring-offset-bg md:h-[68px] md:pl-[22px] md:pr-[8px]"
     >
       <label htmlFor="hero-identifier" className="sr-only">
         Email or mobile number
@@ -29,15 +32,15 @@ export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: s
         id="hero-identifier"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        placeholder="you@company.com"
+        placeholder="your@email.com"
         autoComplete="email"
-        className="min-w-0 flex-1 bg-transparent text-[16px] text-ink placeholder:text-ink-faint focus:outline-none"
+        className="block h-full min-w-0 flex-1 bg-transparent text-[20px] font-bold leading-[1.2] text-ink-line caret-ink-line outline-none placeholder:text-ink-faint md:text-[24px]"
       />
-      <button
-        type="submit"
-        className="inline-flex h-11 shrink-0 cursor-pointer items-center gap-2 rounded-full bg-primary px-5 text-[15px] font-semibold text-[#fbf6ec] shadow-[var(--shadow-button)] transition-transform hover:-translate-y-px active:scale-[0.985]"
-      >
-        Get started <ArrowRight size={16} strokeWidth={2.4} />
+      <button type="submit" aria-label="Get started" className="group relative inline-flex h-[44px] w-[60px] shrink-0 rounded-[100px]">
+        <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[100px] border-2 border-ink-line bg-primary opacity-0 transition-opacity duration-150 group-hover:opacity-100" />
+        <span className="relative z-10 inline-flex h-full w-full items-center justify-center rounded-[100px] border-2 border-ink-line bg-accent text-ink-line transition-transform duration-150 ease-out group-hover:-translate-y-[5px]">
+          <ArrowRight size={22} strokeWidth={2.5} />
+        </span>
       </button>
     </form>
   );

@@ -54,7 +54,7 @@ export function PayButton({
   label: string;
   successHref: (orderId: string, resp: Record<string, unknown>) => string;
   className?: string;
-  variant?: "primary" | "dark" | "secondary" | "accent";
+  variant?: "primary" | "dark" | "secondary";
   size?: "md" | "lg";
   event?: string;
 }) {
@@ -98,7 +98,7 @@ export function PayButton({
         name: "Software Hub Pool",
         order_id: data.gatewayOrderId,
         prefill: data.prefill ?? {},
-        theme: { color: "#0057ff" },
+        theme: { color: "#92400e" },
         handler: async (r: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           const v = await fetch("/api/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(r) });
           const vd = await v.json();
@@ -147,7 +147,7 @@ export function PayButton({
           <p className="mt-1 text-amber-800">
             Order {mock.gatewayOrderId} for ₹{((mock.amountPaise ?? 0) / 100).toLocaleString("en-IN")}. This button runs the same capture path a real webhook would.
           </p>
-          <Button onClick={simulate} disabled={busy} variant="accent" className="mt-3 w-full">
+          <Button onClick={simulate} disabled={busy} variant="primary" className="mt-3 w-full">
             {busy ? <Loader2 className="animate-spin" size={16} /> : <ShieldCheck size={16} />} Simulate successful payment
           </Button>
         </div>

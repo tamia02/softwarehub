@@ -1,35 +1,38 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Brand tokens — "Warm Cream" (Option 5), editorial treatment.
-   Swap these to re-theme the whole site.
+   Brand tokens — Warm Cream palette (Option 5) applied to a measured
+   outlined-pill design system: 2px ink outlines, offset "3D" layers,
+   22/24/30px radii, cream section panels.
    ------------------------------------------------------------------ */
 :root {
-  --brand-primary: #8a3b0a;        /* deep amber-brown: CTAs, links, emphasis */
-  --brand-primary-600: #6f2f07;
-  --brand-primary-soft: #f6e3cc;
-  --brand-accent: #e8a317;         /* amber: badges, highlights, count-ups */
-  --brand-accent-2: #c9820c;
-  --brand-accent-soft: #fbefd6;
+  --brand-primary: #92400e;        /* deep brown: dark fills, offsets behind CTAs */
+  --brand-primary-600: #78350f;
+  --brand-primary-soft: #fde8c8;
+  --brand-accent: #f59e0b;         /* amber: primary CTA fill */
+  --brand-accent-2: #d97706;       /* amber-600: links, emphasis text */
+  --brand-accent-soft: #fef3c7;    /* cream 2: section panels */
+  --offset-card: #f3d08a;          /* offset layer behind cards */
+  --offset-card-hover: #f5c76a;
 
-  --bg: #fbf6ec;                   /* cream page */
-  --bg-soft: #f4ecdc;              /* cream 2: bands, chips */
+  --bg: #fffbeb;                   /* page cream */
+  --bg-soft: #fef3c7;
   --bg-card: #ffffff;
-  --bg-dark: #1f1410;              /* espresso band */
-  --ink: #1b1410;
-  --ink-muted: #6b5744;
-  --ink-faint: #9a8770;
-  --line: #eadfcb;
-  --line-strong: #d8c6a4;
+  --bg-dark: #2a1508;
+  --ink: #2f2f2f;                  /* soft black for text */
+  --ink-line: #1c1917;             /* outline black */
+  --ink-muted: #565656;
+  --ink-faint: #817c77;
+  --line: #eadfc4;
+  --line-strong: #d9c79b;
 
-  --card-radius: 22px;
-  --panel-radius: 32px;
-  --shadow-card: 0 1px 2px rgba(27, 20, 16, 0.04), 0 8px 24px rgba(138, 59, 10, 0.06);
-  --shadow-hover: 0 2px 4px rgba(27, 20, 16, 0.05), 0 18px 40px rgba(138, 59, 10, 0.12);
-  --shadow-button: 0 1px 2px rgba(27, 20, 16, 0.12), 0 8px 20px rgba(138, 59, 10, 0.22);
-
-  --ease-spring: cubic-bezier(0.22, 1, 0.36, 1);
-  --content-max: 1200px;
+  --r-card: 22px;
+  --r-card-lg: 30px;
+  --r-pill: 100px;
+  --shadow-card: 0 1px 2px rgba(47, 47, 47, 0.04);
+  --shadow-hover: 0 10px 24px rgba(146, 64, 14, 0.12);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --panel-w: calc(100% - clamp(24px, 7.5vw, 144px));
 }
 
 @theme inline {
@@ -44,19 +47,18 @@
   --color-bg-card: var(--bg-card);
   --color-bg-dark: var(--bg-dark);
   --color-ink: var(--ink);
+  --color-ink-line: var(--ink-line);
   --color-ink-muted: var(--ink-muted);
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
 
   --font-display: var(--font-display), system-ui, sans-serif;
-  --font-body: var(--font-body), system-ui, sans-serif;
+  --font-body: var(--font-display), system-ui, sans-serif;
+  --font-hand: var(--font-hand), cursive;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 
-  --radius-card: var(--card-radius);
-  --shadow-card: var(--shadow-card);
-  --shadow-hover: var(--shadow-hover);
-  --ease-spring: var(--ease-spring);
+  --ease-spring: var(--ease-out);
 }
 
 html {
@@ -64,44 +66,48 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
+/* One family for everything, like the reference (Degular ⇒ Bricolage Grotesque). */
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-body), system-ui, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.4;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-variation-settings: "opsz" 14, "wdth" 100;
 }
 
-/* Display type: Plus Jakarta Sans, heavy and tight for headlines. */
-h1, h2, .font-display {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.03em;
-}
-h3, h4 {
+h1, h2, h3, h4, .font-display {
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.015em;
-}
-/* Accent phrases inside headings: colour, not italics. */
-h1 em, h2 em {
-  font-style: normal;
-  color: var(--brand-primary);
+  letter-spacing: -0.01em;
+  font-variation-settings: "opsz" 96, "wdth" 100;
 }
 
-/* Small caps label (eyebrows, table heads) */
-.font-mono-label {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 12px;
+/* Hand-script accent (value tags, badges) */
+.font-hand {
+  font-family: var(--font-hand), cursive;
   font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  letter-spacing: 0;
 }
-/* Real monospace — activation codes, ids */
 .font-code {
   font-family: var(--font-mono), ui-monospace, monospace;
+}
+
+/* Measured type scale */
+.t-h1 { font-size: 29px; line-height: 1.08; font-weight: 700; }
+.t-h2 { font-size: 26px; line-height: 1; font-weight: 700; }
+.t-lead { font-size: 16px; line-height: 1.4; }
+.t-body { font-size: 16px; line-height: 1.4; }
+.t-card-title { font-size: 16px; line-height: 1.12; font-weight: 700; }
+.t-price { font-size: 44px; line-height: 1.1; font-weight: 400; }
+@media (min-width: 768px) {
+  .t-h1 { font-size: clamp(42px, 3.06vw, 50px); line-height: 1.05; }
+  .t-h2 { font-size: clamp(28px, 6.25vw, 64px); }
+  .t-lead { font-size: 20px; }
+  .t-card-title { font-size: 20px; line-height: 1.2; }
+  .t-price { font-size: 52px; }
 }
 
 ::selection {
@@ -114,62 +120,83 @@ h1 em, h2 em {
    ------------------------------------------------------------------ */
 @utility container-page {
   width: 100%;
-  max-width: var(--content-max);
+  max-width: 1520px;
   margin-inline: auto;
   padding-inline: 20px;
   @media (min-width: 768px) {
-    padding-inline: 32px;
+    padding-inline: 40px;
   }
 }
 
-@utility section-pad {
-  padding-block: 64px;
-  @media (min-width: 768px) {
-    padding-block: 112px;
-  }
-}
-
-@utility card {
-  background: var(--bg-card);
-  border-radius: var(--card-radius);
-  box-shadow: var(--shadow-card);
-  border: 1px solid var(--line);
-}
-
+/* Full-width cream section panel (reference: 22px → 30px radius, 24/36/48 padding) */
 @utility panel {
-  background: var(--bg-card);
-  border: 1px solid var(--line);
-  border-radius: var(--panel-radius);
-  box-shadow: var(--shadow-card);
+  width: var(--panel-w);
+  max-width: 1776px;
+  margin-inline: auto;
+  border-radius: var(--r-card);
+  background: var(--brand-accent-soft);
+  padding-block: 24px;
+  @media (min-width: 768px) {
+    padding-block: 36px;
+  }
+  @media (min-width: 1024px) {
+    border-radius: var(--r-card-lg);
+    padding-block: 48px;
+  }
+}
+
+@utility panel-inner {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 12px;
+  @media (min-width: 480px) { padding-inline: 20px; }
+  @media (min-width: 768px) { padding-inline: 40px; }
+  @media (min-width: 1024px) { padding-inline: 60px; }
+}
+
+/* Offset layer behind an outlined card; the face lifts on hover (reference: top 8px → 10px). */
+@utility card-3d {
+  position: relative;
+  border-radius: var(--r-card);
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 8px;
+    bottom: -8px;
+    border-radius: inherit;
+    border: 2px solid var(--ink-line);
+    background: var(--offset-card);
+  }
+  & > .card-3d-body {
+    position: relative;
+    border-radius: inherit;
+    border: 2px solid var(--ink-line);
+    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+  }
+  &:hover > .card-3d-body {
+    transform: translateY(-4px);
+  }
+}
+@utility card-3d-lg {
+  @media (min-width: 1024px) {
+    border-radius: var(--r-card-lg);
+    &::before { top: 10px; bottom: -10px; }
+  }
 }
 
 @utility mask-fade-x {
-  mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-  -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
 }
 
 @utility text-balance {
   text-wrap: balance;
 }
 
-/* Warm top glow on the cream page. */
 @utility paper {
   background-color: var(--bg);
-  background-image: radial-gradient(70% 45% at 50% -10%, rgba(232, 163, 23, 0.14), transparent 70%);
-  background-repeat: no-repeat;
-}
-
-/* Hairline rule with a centred label */
-@utility rule-label {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  &::before, &::after {
-    content: "";
-    flex: 1;
-    height: 1px;
-    background: var(--line-strong);
-  }
 }
 
 /* ------------------------------------------------------------------
@@ -178,14 +205,6 @@ h1 em, h2 em {
 @keyframes float {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
-}
-@keyframes swing {
-  0%, 100% { transform: rotate(-1.4deg); }
-  50% { transform: rotate(1.4deg); }
-}
-@keyframes swing-rev {
-  0%, 100% { transform: rotate(1deg); }
-  50% { transform: rotate(-1deg); }
 }
 @keyframes marquee {
   from { transform: translateX(0); }
@@ -196,46 +215,39 @@ h1 em, h2 em {
   to { background-position: 600px 0; }
 }
 @keyframes promo-in {
-  from { transform: translateY(-12px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from { transform: translateY(-100%); }
+  to { transform: translateY(0); }
 }
 @keyframes fade-up {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
 @keyframes fade-scale {
-  from { opacity: 0; transform: translateY(18px) scale(0.985); }
+  from { opacity: 0; transform: translateY(16px) scale(0.985); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-/* CSS entrance animations: run from the SSR HTML, no hydration needed. */
-.anim-fade-up { animation: fade-up 0.6s var(--ease-spring) both; }
-.anim-fade-scale { animation: fade-scale 0.7s var(--ease-spring) both; }
-.anim-word { display: inline-block; animation: fade-up 0.55s var(--ease-spring) both; }
-
-/* Framer-motion elements are SSR'd at their hidden `initial` state. Until the
-   app hydrates, force them visible so slow networks never see a blank page. */
+.anim-fade-up { animation: fade-up 0.55s var(--ease-out) both; }
+.anim-fade-scale { animation: fade-scale 0.65s var(--ease-out) both; }
+.anim-word { display: inline-block; animation: fade-up 0.5s var(--ease-out) both; }
 html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !important; }
 
-.anim-float { animation: float 7s ease-in-out infinite; }
-.anim-swing { animation: swing 6s ease-in-out infinite; transform-origin: 50% 0%; }
-.anim-swing-rev { animation: swing-rev 7s ease-in-out infinite; transform-origin: 50% 0%; }
-.anim-marquee { animation: marquee 48s linear infinite; }
+.anim-float { animation: float 6s ease-in-out infinite; }
+.anim-marquee { animation: marquee 44s linear infinite; }
 .anim-marquee:hover { animation-play-state: paused; }
-.anim-promo-in { animation: promo-in 0.5s var(--ease-spring) both; }
+.anim-promo-in { animation: promo-in 0.45s var(--ease-out) both; }
 
 .skeleton {
-  background: linear-gradient(90deg, #f1e8d6 0%, #faf4e8 50%, #f1e8d6 100%);
+  background: linear-gradient(90deg, #f3e9d0 0%, #fbf5e6 50%, #f3e9d0 100%);
   background-size: 1200px 100%;
   animation: shimmer 1.6s linear infinite;
   border-radius: 12px;
 }
 
-/* Logos rest in monochrome and take colour on hover. */
 .mark-gray {
   filter: grayscale(1);
-  opacity: 0.72;
-  transition: filter 0.3s var(--ease-spring), opacity 0.3s var(--ease-spring);
+  opacity: 0.75;
+  transition: filter 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
 }
 .group:hover .mark-gray,
 .mark-gray:hover {
@@ -245,9 +257,7 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .anim-float, .anim-swing, .anim-swing-rev, .anim-marquee, .anim-promo-in, .skeleton {
-    animation: none !important;
-  }
+  .anim-float, .anim-marquee, .anim-promo-in, .skeleton { animation: none !important; }
   *, *::before, *::after {
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;

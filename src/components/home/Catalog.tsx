@@ -2,154 +2,86 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import { ArrowRight, Crown, Layers } from "lucide-react";
-import { Section, SectionHeading } from "@/components/ui/Section";
+import { ArrowRight } from "lucide-react";
+import { Panel } from "@/components/ui/Section";
 import { categories, type ToolCategory } from "@/data/tools";
-import { formatINRCompact } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import { ToolCard, type CatalogTool } from "./ToolCard";
 
 type Filter = "All" | ToolCategory;
 const filters: Filter[] = ["All", ...categories];
 
-export function Catalog({
-  core,
-  pro,
-  starterRetailPaise,
-  proRetailPaise,
-}: {
-  core: CatalogTool[];
-  pro: CatalogTool[];
-  starterRetailPaise: number;
-  proRetailPaise: number;
-}) {
+/**
+ * Two cream panels, measured from the reference: a 26→64px heading, a 4-up
+ * grid of outlined offer cards (24px gap), and an upgrade banner between.
+ */
+export function Catalog({ core, pro }: { core: CatalogTool[]; pro: CatalogTool[]; starterRetailPaise: number; proRetailPaise: number }) {
   const [filter, setFilter] = useState<Filter>("All");
   const visible = (list: CatalogTool[]) => (filter === "All" ? list : list.filter((t) => t.category === filter));
   const proVisible = useMemo(() => visible(pro), [pro, filter]); // eslint-disable-line react-hooks/exhaustive-deps
   const coreVisible = useMemo(() => visible(core), [core, filter]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return (
-    <Section id="tools">
-      <SectionHeading
-        eyebrow="The catalogue"
-        title={
-          <>
-            {core.length + pro.length} paid plans, <em className="font-normal italic text-primary">not trials.</em>
-          </>
-        }
-        sub="Each entry is the vendor's real annual plan, claimed from your pass whenever you like during the year. Filter by the work you do."
-      />
-
-      {/* Filter chips */}
-      <LayoutGroup id="catalog-filters">
-        <div role="tablist" aria-label="Filter tools" className="mt-8 flex flex-wrap justify-center gap-2">
-          {filters.map((f) => {
-            const active = f === filter;
-            return (
-              <button
-                key={f}
-                role="tab"
-                aria-selected={active}
-                onClick={() => setFilter(f)}
-                className={cn(
-                  "relative cursor-pointer rounded-full px-4 py-2 text-[13.5px] font-semibold transition-colors",
-                  active ? "text-[#fbf6ec]" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
-                )}
-              >
-                {active && (
-                  <motion.span
-                    layoutId="chip-bg"
-                    className="absolute inset-0 rounded-full bg-primary"
-                    transition={{ type: "spring", stiffness: 400, damping: 34 }}
-                  />
-                )}
-                <span className="relative">{f}</span>
-              </button>
-            );
-          })}
-        </div>
-      </LayoutGroup>
-
-      {/* Pro-exclusive */}
-      <CatalogGroup
-        id="pro-tools"
-        icon={<Crown size={16} />}
-        label={`Pro Pass only · ${pro.length} tools`}
-        note={`Adds ${formatINRCompact(proRetailPaise - starterRetailPaise)} of value`}
-        tone="pro"
-        items={proVisible}
-      />
-
-      {/* Upgrade banner */}
-      <div className="my-10 flex flex-col items-center justify-between gap-4 rounded-[20px] border border-line-strong bg-white px-6 py-5 sm:flex-row">
-        <p className="text-[17px]">
-          <span className="font-semibold">Want the Pro-only tools as well?</span>{" "}
-          <span className="text-ink-muted">Pro Pass includes all {core.length + pro.length}.</span>
-        </p>
-        <a href="#pricing" className="inline-flex items-center gap-1.5 rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-[#fbf6ec] shadow-[var(--shadow-button)] hover:bg-primary-600">
-          See pricing <ArrowRight size={16} />
-        </a>
+  const chips = (
+    <LayoutGroup id="catalog-filters">
+      <div role="tablist" aria-label="Filter tools" className="mx-auto mt-6 flex flex-wrap justify-center gap-2 md:mt-8">
+        {filters.map((f) => {
+          const active = f === filter;
+          return (
+            <button
+              key={f}
+              role="tab"
+              aria-selected={active}
+              onClick={() => setFilter(f)}
+              className={cn("relative h-10 cursor-pointer rounded-[100px] border-2 border-ink-line px-4 text-[16px] font-medium leading-none transition-colors", active ? "text-[#fffbeb]" : "bg-white text-ink-line hover:bg-accent-soft")}
+            >
+              {active && <motion.span layoutId="chip-bg" className="absolute inset-[-2px] rounded-[100px] bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
+              <span className="relative">{f}</span>
+            </button>
+          );
+        })}
       </div>
+    </LayoutGroup>
+  );
 
-      {/* Core */}
-      <CatalogGroup
-        id="core-tools"
-        icon={<Layers size={16} />}
-        label={`In both passes · ${core.length} tools`}
-        note={`${formatINRCompact(starterRetailPaise)} of value`}
-        tone="core"
-        items={coreVisible}
-      />
-    </Section>
+  return (
+    <>
+      <Panel id="tools">
+        <h2 className="t-h2 mx-auto w-full text-center text-ink-line">Pro-exclusive tools</h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-[16px] leading-[1.4] text-ink-muted md:mt-4 md:text-[20px]">
+          {pro.length} plans only the Pro Pass unlocks. Every one is the vendor&apos;s real paid tier, not a trial.
+        </p>
+        {chips}
+        <Grid items={proVisible} />
+        <div className="mt-12 flex flex-col items-center justify-center gap-6 text-center md:mt-16">
+          <p className="text-[28px] font-bold leading-[1.1] text-ink-line md:text-[36px] xl:text-[40px]">Want every tool?</p>
+          <a href="#pricing" className="group inline-flex items-center gap-1.5 text-[20px] font-medium text-ink-line transition-colors hover:text-accent-2 md:text-[24px]">
+            Upgrade to the Pro Pass <ArrowRight size={22} className="transition-transform group-hover:translate-x-1" />
+          </a>
+        </div>
+      </Panel>
+
+      <Panel id="core-tools">
+        <h2 className="t-h2 mx-auto w-full text-center text-ink-line">In every pass</h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-[16px] leading-[1.4] text-ink-muted md:mt-4 md:text-[20px]">
+          {core.length} plans included with both the Starter and the Pro Pass.
+        </p>
+        <Grid items={coreVisible} />
+      </Panel>
+    </>
   );
 }
 
-function CatalogGroup({
-  id,
-  icon,
-  label,
-  note,
-  tone,
-  items,
-}: {
-  id: string;
-  icon: React.ReactNode;
-  label: string;
-  note: string;
-  tone: "pro" | "core";
-  items: CatalogTool[];
-}) {
+function Grid({ items }: { items: CatalogTool[] }) {
   return (
-    <div id={id} className="mt-10">
-      <div className="sticky top-[68px] z-10 -mx-5 mb-5 bg-[rgba(251,246,236,0.86)] px-5 py-3 backdrop-blur md:mx-0 md:px-0">
-        <div className="flex items-center justify-between gap-3">
-          <h3 className="inline-flex items-center gap-2.5 text-[17px]">
-            <span
-              className={cn(
-                "grid h-7 w-7 place-items-center rounded-lg",
-                tone === "pro" ? "bg-accent-soft text-primary" : "bg-primary text-[#fbf6ec]",
-              )}
-            >
-              {icon}
-            </span>
-            {label}
-          </h3>
-          <span className="font-mono-label text-ink-faint">{note}</span>
-        </div>
-      </div>
-
-      <motion.div layout className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <>
+      <motion.div layout className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 md:mt-10">
         <AnimatePresence mode="popLayout">
           {items.map((t, i) => (
             <ToolCard key={t.slug} tool={t} index={i} />
           ))}
         </AnimatePresence>
       </motion.div>
-      {items.length === 0 && (
-        <p className="rounded-2xl border border-dashed border-line p-8 text-center text-sm text-ink-muted">
-          No tools in this category here.
-        </p>
-      )}
-    </div>
+      {items.length === 0 && <p className="mt-8 rounded-[22px] border-2 border-dashed border-line-strong p-8 text-center text-[16px] text-ink-muted">No tools in this category here.</p>}
+    </>
   );
 }

@@ -1,17 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, JetBrains_Mono, Plus_Jakarta_Sans } from "next/font/google";
+import { Bricolage_Grotesque, Caveat, JetBrains_Mono } from "next/font/google";
 import { Hydrated } from "@/components/motion/Hydrated";
 import { site } from "@/config/site";
 import "./globals.css";
 
 /**
- * Fonts — Plus Jakarta Sans (display, buttons) + Inter (body) + JetBrains Mono (codes only).
+ * Fonts — Bricolage Grotesque for all text (closest open face to the reference's Degular),
+ * Caveat for hand-written value tags, JetBrains Mono for codes only.
  * Both are exposed as CSS variables consumed by globals.css.
  */
-const display = Plus_Jakarta_Sans({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["500", "600", "700", "800"],
+  axes: ["opsz", "wdth"],
+  weight: "variable",
   variable: "--font-display",
+  display: "swap",
+});
+
+const hand = Caveat({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-hand",
   display: "swap",
 });
 
@@ -19,12 +28,6 @@ const mono = JetBrains_Mono({
   subsets: ["latin"],
   weight: ["400", "500"],
   variable: "--font-mono",
-  display: "swap",
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
   display: "swap",
 });
 
@@ -46,7 +49,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-IN" className={`${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en-IN" className={`${display.variable} ${hand.variable} ${mono.variable}`}>
       <body className="paper flex min-h-dvh flex-col">
         <Hydrated />
         {children}

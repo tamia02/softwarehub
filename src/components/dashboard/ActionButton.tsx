@@ -17,7 +17,7 @@ export function ActionButton({
   action: () => Promise<ActionResult>;
   label: string;
   confirm?: string;
-  variant?: "primary" | "secondary" | "dark" | "accent" | "ghost";
+  variant?: "primary" | "secondary" | "dark" | "ghost";
   size?: "sm" | "md" | "lg";
   className?: string;
 }) {

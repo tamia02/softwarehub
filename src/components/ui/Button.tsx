@@ -2,27 +2,30 @@ import Link from "next/link";
 import { forwardRef, type ButtonHTMLAttributes, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-type Variant = "primary" | "secondary" | "ghost" | "dark" | "accent";
+/**
+ * Outlined pill button with a dark offset layer behind it. On hover the face
+ * lifts (−6px on desktop) and the layer stays put — the reference's signature
+ * button. Sizes follow the measured scale: 18–20px bold labels.
+ */
+type Variant = "primary" | "secondary" | "dark" | "ghost";
 type Size = "sm" | "md" | "lg";
 
-const base =
-  "inline-flex cursor-pointer items-center justify-center gap-2 rounded-full font-semibold whitespace-nowrap select-none " +
-  "transition-[transform,box-shadow,background-color,color,border-color] duration-200 ease-[var(--ease-spring)] " +
-  "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/35 " +
-  "active:scale-[0.985] disabled:opacity-50 disabled:pointer-events-none";
-
-const variants: Record<Variant, string> = {
-  primary: "bg-primary text-[#fbf6ec] hover:bg-primary-600 shadow-[var(--shadow-button)] hover:-translate-y-px",
-  secondary: "bg-white text-ink border border-line-strong hover:border-ink/40 hover:-translate-y-px shadow-[var(--shadow-card)]",
-  ghost: "bg-transparent text-ink hover:bg-bg-soft",
-  dark: "bg-ink text-[#fbf6ec] hover:bg-black hover:-translate-y-px shadow-[0_8px_20px_rgba(27,20,16,0.22)]",
-  accent: "bg-accent text-ink hover:brightness-95 hover:-translate-y-px shadow-[0_8px_20px_rgba(232,163,23,0.3)]",
+const face: Record<Variant, string> = {
+  primary: "bg-accent text-ink-line border-ink-line",
+  secondary: "bg-white text-ink-line border-ink-line",
+  dark: "bg-primary text-[#fffbeb] border-ink-line",
+  ghost: "bg-transparent text-ink border-transparent",
 };
-
+const layer: Record<Variant, string> = {
+  primary: "bg-primary border-ink-line",
+  secondary: "bg-[var(--offset-card)] border-ink-line",
+  dark: "bg-ink-line border-ink-line",
+  ghost: "hidden",
+};
 const sizes: Record<Size, string> = {
-  sm: "h-9 px-4 text-[13.5px]",
-  md: "h-11 px-6 text-[15px]",
-  lg: "h-[52px] px-7 text-[16px]",
+  sm: "h-10 px-5 text-[15px]",
+  md: "h-12 px-6 text-[18px]",
+  lg: "h-14 px-8 text-[20px]",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -36,17 +39,36 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
   { variant = "primary", size = "md", href, className, children, ...rest },
   ref,
 ) {
-  const cls = cn(base, variants[variant], sizes[size], className);
+  const wrap = cn(
+    "group relative inline-flex cursor-pointer select-none rounded-[100px] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/40 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+    className,
+  );
+  const inner = (
+    <>
+      {variant !== "ghost" && (
+        <span aria-hidden className={cn("pointer-events-none absolute inset-0 translate-y-[4px] rounded-[100px] border-2 md:translate-y-[6px]", layer[variant])} />
+      )}
+      <span
+        className={cn(
+          "relative z-10 inline-flex w-full items-center justify-center gap-2 whitespace-nowrap rounded-[100px] border-2 font-bold leading-none transition-transform duration-150 ease-out group-hover:-translate-y-[3px] md:group-hover:-translate-y-[5px] group-active:translate-y-0",
+          face[variant],
+          sizes[size],
+        )}
+      >
+        {children}
+      </span>
+    </>
+  );
   if (href) {
     return (
-      <Link href={href} className={cls}>
-        {children}
+      <Link href={href} className={wrap}>
+        {inner}
       </Link>
     );
   }
   return (
-    <button ref={ref} className={cls} {...rest}>
-      {children}
+    <button ref={ref} className={wrap} {...rest}>
+      {inner}
     </button>
   );
 });
