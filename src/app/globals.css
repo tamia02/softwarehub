@@ -12,7 +12,7 @@
   --brand-accent: #f59e0b;         /* amber: primary CTA fill */
   --brand-accent-2: #d97706;       /* amber-600: links, emphasis text */
   --brand-accent-soft: #fef3c7;    /* cream 2: section panels */
-  --offset-card: #f7dfae;          /* offset layer behind cards (soft) */
+  --offset-card: #f3d08a;          /* offset layer behind cards */
   --offset-card-hover: #f5c76a;
 
   --bg: #fffbeb;                   /* page cream */
@@ -96,18 +96,18 @@ h1, h2, h3, h4, .font-display {
 }
 
 /* Measured type scale */
-.t-h1 { font-size: 30px; line-height: 1.08; font-weight: 700; }
-.t-h2 { font-size: 26px; line-height: 1.05; font-weight: 700; }
-.t-lead { font-size: 16px; line-height: 1.45; }
-.t-body { font-size: 16px; line-height: 1.45; }
-.t-card-title { font-size: 16px; line-height: 1.2; font-weight: 700; }
-.t-price { font-size: 40px; line-height: 1.1; font-weight: 500; }
+.t-h1 { font-size: 29px; line-height: 1.08; font-weight: 700; }
+.t-h2 { font-size: 26px; line-height: 1; font-weight: 700; }
+.t-lead { font-size: 16px; line-height: 1.4; }
+.t-body { font-size: 16px; line-height: 1.4; }
+.t-card-title { font-size: 16px; line-height: 1.12; font-weight: 700; }
+.t-price { font-size: 44px; line-height: 1.1; font-weight: 400; }
 @media (min-width: 768px) {
-  .t-h1 { font-size: clamp(38px, 3vw, 46px); line-height: 1.06; }
-  .t-h2 { font-size: clamp(28px, 3.4vw, 44px); }
-  .t-lead { font-size: 18px; }
-  .t-card-title { font-size: 18px; line-height: 1.2; }
-  .t-price { font-size: 48px; }
+  .t-h1 { font-size: clamp(42px, 3.06vw, 50px); line-height: 1.05; }
+  .t-h2 { font-size: clamp(28px, 6.25vw, 64px); }
+  .t-lead { font-size: 20px; }
+  .t-card-title { font-size: 20px; line-height: 1.2; }
+  .t-price { font-size: 52px; }
 }
 
 ::selection {
@@ -135,13 +135,13 @@ h1, h2, h3, h4, .font-display {
   margin-inline: auto;
   border-radius: var(--r-card);
   background: var(--brand-accent-soft);
-  padding-block: 32px;
+  padding-block: 24px;
   @media (min-width: 768px) {
-    padding-block: 48px;
+    padding-block: 36px;
   }
   @media (min-width: 1024px) {
     border-radius: var(--r-card-lg);
-    padding-block: 64px;
+    padding-block: 48px;
   }
 }
 

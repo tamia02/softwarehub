@@ -24,8 +24,8 @@ const layer: Record<Variant, string> = {
 };
 const sizes: Record<Size, string> = {
   sm: "h-10 px-5 text-[15px]",
-  md: "h-[46px] px-6 text-[17px]",
-  lg: "h-[52px] px-7 text-[18px]",
+  md: "h-12 px-6 text-[18px]",
+  lg: "h-14 px-8 text-[20px]",
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {

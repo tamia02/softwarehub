@@ -25,9 +25,9 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
   const [mode, setMode] = useState<Mode>("bundle");
 
   return (
-    <Section id="pricing" className="py-14 md:py-20">
+    <Section id="pricing" className="py-16 md:py-24">
       <div className="mx-auto flex w-full max-w-[1024px] flex-col items-center gap-[18px] text-center md:gap-[24px]">
-        <h2 className="t-h2 max-w-[620px] text-balance text-ink-line">
+        <h2 className="max-w-[296px] text-[32px] font-bold leading-[0.92] tracking-[-0.02em] text-ink-line sm:max-w-[620px] sm:text-[44px] md:max-w-[760px] md:text-[48px] lg:max-w-[940px] lg:text-[56px]">
           Unlock a year of premium tools
         </h2>
         <Hand>One code. Every plan. Twelve months.</Hand>
@@ -58,14 +58,14 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
                 {tier.bestValue && (
                   <span className="font-hand absolute -top-4 right-6 rotate-[-4deg] rounded-[100px] border-2 border-ink-line bg-accent px-3 py-0.5 text-[22px] leading-none text-ink-line">Best value</span>
                 )}
-                <p className="text-[26px] font-bold leading-none text-ink-line md:text-[30px]">{tier.name}</p>
+                <p className="text-[32px] font-bold leading-none text-ink-line md:text-[36px]">{tier.name}</p>
                 <p className="mt-2 text-[16px] leading-[1.4] text-ink-muted">{tier.headline}</p>
 
                 <div className="mt-5 flex items-end gap-1.5">
                   <span className="t-price text-ink-line">
                     <NumberFlip value={formatINR(price)} />
                   </span>
-                  <span className="pb-2 text-[16px] leading-none text-ink-muted">{mode === "bundle" ? "/year" : "/seat"}</span>
+                  <span className="pb-2 text-[17px] leading-none text-ink-muted">{mode === "bundle" ? "/year" : "/seat"}</span>
                 </div>
                 <p className="mt-1 text-[16px] text-ink-muted">
                   {mode === "bundle" ? (
@@ -103,7 +103,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
 
       <FadeUp className="mx-auto mt-12 flex max-w-[900px] flex-col items-center justify-between gap-5 rounded-[22px] border-2 border-ink-line bg-white px-6 py-6 text-center md:mt-16 md:flex-row md:text-left">
         <div>
-          <h3 className="text-[20px] font-bold leading-none text-ink-line md:text-[24px]">Plans for teams</h3>
+          <h3 className="text-[24px] font-bold leading-none text-ink-line md:text-[28px]">Plans for teams</h3>
           <p className="mt-1.5 text-[16px] text-ink-muted">
             Buying for {settings.teamMinSeats} or more people? Save {settings.teamDiscountPct}% on every seat.
           </p>
