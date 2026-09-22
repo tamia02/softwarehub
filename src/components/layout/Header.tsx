@@ -43,24 +43,28 @@ export function Header() {
   const role = me.role;
   const resellerHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
   const resellerLabel = role === "reseller" ? "Dashboard" : role === "admin" ? "Admin" : "Resellers";
-  const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My Pass", href: "/account" } : { label: "Sign in", href: "/login" }];
+  const account = me.signedIn ? { label: "My Pass", href: "/account" } : { label: "Sign in", href: "/login" };
+  const links = [...nav, ...(role === "reseller" || role === "admin" ? [{ label: resellerLabel, href: resellerHref }] : [])];
 
   return (
     <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
-      <div className="container-page flex h-[76px] items-center justify-between gap-6 md:h-[88px]">
+      <div className="container-page flex h-[72px] items-center justify-between gap-6 md:h-[80px]">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
           <LogoLockup />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="Primary">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label="Primary">
           {links.map((n) => (
-            <Link key={n.href} href={n.href} className="text-[20px] font-medium leading-none text-ink-line transition-colors duration-150 hover:text-accent-2 xl:text-[22px]">
+            <Link key={n.href} href={n.href} className="text-[18px] font-medium leading-none text-ink-line transition-colors duration-150 hover:text-accent-2">
               {n.label}
             </Link>
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-6 lg:flex">
+          <Link href={account.href} className="text-[16px] font-medium text-ink-muted hover:text-ink-line">
+            {account.label}
+          </Link>
           <Button href="/checkout/direct?tier=pro" size="md">
             Get the Pro Pass
           </Button>
@@ -81,7 +85,7 @@ export function Header() {
               </button>
             </div>
             <nav className="container-page flex flex-1 flex-col gap-1 pt-4" aria-label="Mobile">
-              {links.map((n, i) => (
+              {[...links, account].map((n, i) => (
                 <motion.div key={n.href} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.06 + i * 0.05 }}>
                   <Link href={n.href} onClick={() => setOpen(false)} className="block border-b-2 border-line px-1 py-4 text-[26px] font-bold text-ink-line">
                     {n.label}

@@ -12,7 +12,7 @@ export function Section({ id, className, innerClassName, children }: { id?: stri
 /** Cream rounded panel section, the reference's main framing device. */
 export function Panel({ id, className, innerClassName, children }: { id?: string; className?: string; innerClassName?: string; children: React.ReactNode }) {
   return (
-    <section id={id} className="scroll-mt-24 py-3 md:py-4">
+    <section id={id} className="scroll-mt-24 py-5 md:py-8">
       <div className={cn("panel", className)}>
         <div className={cn("panel-inner", innerClassName)}>{children}</div>
       </div>
@@ -22,7 +22,7 @@ export function Panel({ id, className, innerClassName, children }: { id?: string
 
 /** Hand-script eyebrow/sub-line. */
 export function Hand({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <p className={cn("font-hand text-[26px] leading-none text-accent-2 md:text-[30px]", className)}>{children}</p>;
+  return <p className={cn("font-hand text-[24px] leading-none text-accent-2 md:text-[28px]", className)}>{children}</p>;
 }
 
 export function SectionHeading({ title, sub, hand, align = "center", className }: { title: React.ReactNode; sub?: React.ReactNode; hand?: React.ReactNode; align?: "center" | "left"; className?: string }) {
