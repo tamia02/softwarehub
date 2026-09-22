@@ -1,10 +1,9 @@
-# Software Hub Pool — runs alongside n8n behind your existing Traefik.
-# n8n is never touched: this only ADDS two containers (the app + its own
-# Postgres) and attaches the app to Traefik's network so Traefik routes your
-# domain to it and issues HTTPS automatically.
+# Software Hub Pool — runs alongside n8n / seekhbo behind your existing Traefik.
+# Nothing else is touched. The app sits on its OWN network (shp_web); Traefik
+# (Docker provider) discovers it by label and routes your domain to it, exactly
+# like seekhbo does with seekhbo_default.
 #
-# Fill deploy/.env (copy from deploy/env.template) then:  docker compose up -d --build
-# Values in ${...} come from deploy/.env.
+# Fill deploy/.env (deploy/vps-docker.sh does this) then:  docker compose up -d --build
 
 services:
   shp-db:
@@ -17,7 +16,7 @@ services:
     volumes:
       - shp-db-data:/var/lib/postgresql/data
     networks:
-      - shp-internal
+      - internal
 
   shp-app:
     build:
@@ -41,11 +40,11 @@ services:
     depends_on:
       - shp-db
     networks:
-      - shp-internal
-      - traefik
+      - internal
+      - web
     labels:
       - "traefik.enable=true"
-      - "traefik.docker.network=${TRAEFIK_NETWORK}"
+      - "traefik.docker.network=shp_web"
       - "traefik.http.routers.shp.rule=Host(`${DOMAIN}`)"
       - "traefik.http.routers.shp.entrypoints=${TRAEFIK_ENTRYPOINT}"
       - "traefik.http.routers.shp.tls=true"
@@ -53,10 +52,9 @@ services:
       - "traefik.http.services.shp.loadbalancer.server.port=3000"
 
 networks:
-  shp-internal:
-  traefik:
-    external: true
-    name: ${TRAEFIK_NETWORK}
+  internal:
+  web:
+    name: shp_web
 
 volumes:
   shp-db-data:

@@ -16,41 +16,30 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "!! '$1' not found"; exit 1; 
 need docker
 docker compose version >/dev/null 2>&1 || { echo "!! 'docker compose' plugin not found"; exit 1; }
 
-echo "==> Detecting your Traefik setup"
-# Detection must never abort the script — guard everything and keep going.
+echo "==> Detecting your Traefik entrypoint / cert-resolver"
+# The app runs on its OWN network (shp_web); Traefik's Docker provider finds it
+# by label. We only need to copy the entrypoint + cert-resolver names from an
+# app that already works behind your Traefik (e.g. seekhbo).
 set +e
-netsOf() { docker inspect "$1" --format '{{range $k,$v := .NetworkSettings.Networks}}{{$k}}{{"\n"}}{{end}}' 2>/dev/null; }
 labels() { docker inspect "$1" --format '{{json .Config.Labels}}' 2>/dev/null | tr ',' '\n'; }
 pick() { labels "$1" | grep -iE "$2" | head -1 | sed -E 's/.*: *"?([^"]+)"?.*/\1/'; }
-realnet() { grep -vE '^(bridge|host|none)$'; }
-
-# Copy the wiring from a container that ALREADY works behind Traefik
-# (has traefik.http.routers.* labels) — e.g. seekhbo. That's the ground truth.
 EXAMPLE=""
 for c in $(docker ps -q); do
   if labels "$c" | grep -qi 'traefik\.http\.routers'; then EXAMPLE="$c"; break; fi
 done
-
 if [ -n "$EXAMPLE" ]; then
-  TRAEFIK_NETWORK=$(netsOf "$EXAMPLE" | realnet | head -1)
   TRAEFIK_ENTRYPOINT=$(pick "$EXAMPLE" 'routers\..*\.entrypoints')
   CERT_RESOLVER=$(pick "$EXAMPLE" 'routers\..*\.(tls\.)?certresolver')
 fi
-# Fallbacks from the known Hostinger n8n template
 [ -z "$TRAEFIK_ENTRYPOINT" ] && TRAEFIK_ENTRYPOINT=websecure
 [ -z "$CERT_RESOLVER" ] && CERT_RESOLVER=letsencrypt
+TRAEFIK_NETWORK=shp_web
 set -e
 
-echo "    example app       : ${EXAMPLE:-<none>}"
-echo "    network           : ${TRAEFIK_NETWORK:-<none>}"
-echo "    entrypoint        : $TRAEFIK_ENTRYPOINT"
-echo "    certresolver      : $CERT_RESOLVER"
-if [ -z "$TRAEFIK_NETWORK" ]; then
-  echo "!! Could not find the Traefik network from an existing app."
-  echo "   Docker networks available:"; docker network ls | sed 's/^/      /'
-  echo "   Set TRAEFIK_NETWORK in deploy/.env and re-run."
-  exit 1
-fi
+echo "    example app  : ${EXAMPLE:-<none, using defaults>}"
+echo "    entrypoint   : $TRAEFIK_ENTRYPOINT"
+echo "    certresolver : $CERT_RESOLVER"
+echo "    app network  : shp_web (created for this app)"
 
 echo "==> Writing $ENV"
 gen() { openssl rand -hex 32; }
@@ -76,14 +65,9 @@ CRON_SECRET=$CRON_SECRET
 ENVFILE
 chmod 600 "$ENV"
 
-if [ -z "$CERT_RESOLVER" ]; then
-  echo "!! Could not auto-detect the Let's Encrypt cert-resolver name."
-  echo "   Open deploy/.env and set CERT_RESOLVER to the same value n8n uses, then re-run."
-  echo "   Find it with:  docker inspect $SRC --format '{{json .Config.Labels}}' | tr ',' '\\n' | grep certresolver"
-  exit 1
-fi
-
 echo "==> Building and starting (this does not touch n8n)"
+# Clear any earlier/broken definition of THIS project only (keeps the db volume).
+docker compose --env-file "$ENV" down --remove-orphans 2>/dev/null || true
 docker compose --env-file "$ENV" up -d --build
 
 echo
