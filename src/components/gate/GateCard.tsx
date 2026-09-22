@@ -78,10 +78,10 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
   }
 
   return (
-    <motion.div layout className="anim-fade-scale relative w-full max-w-[640px] overflow-hidden rounded-[22px] border-2 border-ink-line bg-white p-6 sm:p-10 lg:rounded-[30px]" transition={spring}>
+    <motion.div layout className="anim-fade-scale relative w-full max-w-[640px] overflow-hidden rounded-[22px] border-2 border-ink-line bg-bg-card p-6 sm:p-10 lg:rounded-[30px]" transition={spring}>
       <motion.div layout="position" className="flex flex-col items-center text-center">
         <Logo size={48} />
-        <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.08] text-ink-line sm:text-[40px]">
+        <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.08] text-ink sm:text-[40px]">
           How will you use Software Hub Pool?
         </h1>
         <p className="mt-3 text-[16px] leading-[1.4] text-ink-muted">Choose a path. You can switch any time from the footer.</p>
@@ -112,15 +112,15 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                     transition={spring}
                     className={cn(
                       "group flex cursor-pointer flex-col items-start gap-4 rounded-[22px] border-2 border-ink-line bg-accent-soft p-5 text-left",
-                      "transition-[transform,background-color] duration-150 hover:-translate-y-[4px] hover:bg-white",
+                      "transition-[transform,background-color] duration-150 hover:-translate-y-[4px] hover:bg-bg-card",
                       "focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent",
                     )}
                   >
-                    <span className="grid h-12 w-12 place-items-center rounded-full border-2 border-ink-line bg-accent text-ink-line">
+                    <span className="grid h-12 w-12 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent">
                       {t.icon}
                     </span>
                     <span>
-                      <span className="block text-[20px] font-bold leading-none text-ink-line">{t.title}</span>
+                      <span className="block text-[20px] font-bold leading-none text-ink">{t.title}</span>
                       <span className="mt-2 block text-[16px] leading-[1.4] text-ink-muted">{t.desc}</span>
                     </span>
                     <span className="mt-auto inline-flex items-center gap-1 text-[16px] font-bold text-accent-2">
@@ -138,11 +138,11 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                 className="rounded-[22px] border-2 border-ink-line bg-accent-soft p-5 sm:p-6"
               >
                 <div className="flex items-center gap-3">
-                  <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink-line bg-accent text-ink-line">
+                  <span className="grid h-10 w-10 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent">
                     {tiles.find((t) => t.role === selected)?.icon}
                   </span>
                   <div>
-                    <p className="text-[18px] font-bold leading-none text-ink-line">{tiles.find((t) => t.role === selected)?.title}</p>
+                    <p className="text-[18px] font-bold leading-none text-ink">{tiles.find((t) => t.role === selected)?.title}</p>
                     <p className="text-xs text-ink-muted">
                       {selected === "reseller" ? "Enter your reseller activation code" : "Enter your customer activation code"}
                     </p>
@@ -168,8 +168,8 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                   aria-invalid={!!error}
                   aria-describedby={error ? "gate-error" : undefined}
                   className={cn(
-                    "mt-2 h-14 w-full rounded-[36px] border-2 bg-white px-5 font-code text-lg tracking-[0.18em] uppercase",
-                    "placeholder:text-ink-faint placeholder:tracking-[0.18em] focus:bg-white focus:outline-none focus:ring-4",
+                    "mt-2 h-14 w-full rounded-[36px] border-2 bg-bg-card px-5 font-code text-lg tracking-[0.18em] uppercase",
+                    "placeholder:text-ink-faint placeholder:tracking-[0.18em] focus:bg-bg-card focus:outline-none focus:ring-4",
                     error ? "border-rose-500 focus:ring-rose-200" : "border-ink-line focus:ring-accent/50",
                   )}
                 />
@@ -181,7 +181,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="mt-2 text-sm font-medium text-rose-600"
+                      className="mt-2 text-sm font-medium text-rose-400"
                     >
                       {error}
                     </motion.p>
@@ -199,7 +199,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                       setSelected(null);
                       setError(null);
                     }}
-                    className="inline-flex h-11 cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[16px] font-bold text-ink-muted hover:text-ink-line"
+                    className="inline-flex h-11 cursor-pointer items-center justify-center gap-1 rounded-full px-4 text-[16px] font-bold text-ink-muted hover:text-ink"
                   >
                     <ArrowLeft size={16} /> Back
                   </button>

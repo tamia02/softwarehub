@@ -17,16 +17,17 @@ export function Hero({ toolCount }: { toolCount: number }) {
             as="h1"
             delay={0.05}
             text={`Get ${toolCount} premium AI and product tools for a full year, on one pass.`}
-            className="t-h1 max-w-[720px] text-balance text-ink-line"
+            highlight={[`${toolCount}`, "premium", "AI"]}
+            className="t-h1 max-w-[720px] text-balance text-ink"
           />
-          <p className="anim-fade-up mt-5 max-w-[600px] text-[16px] leading-[1.4] text-ink md:mt-6" style={at(0.4)}>
-            Software Hub Pool negotiates annual plans with each vendor and issues them to you as one activation code. Buy a
-            pass outright, or open a pool and split it with up to nine people at a tenth of the price each.
+          <p className="anim-fade-up mt-5 max-w-[600px] text-[16px] leading-[1.45] text-ink md:mt-6" style={at(0.4)}>
+            Every plan is included with the Starter and Pro Pass for a full year. New tools join the pass through the year,
+            and you&apos;ll be notified each time one is added.
           </p>
           <div className="anim-fade-up mt-7 md:mt-8" style={at(0.5)}>
             <HeroEmailForm />
           </div>
-          <p className="anim-fade-up mt-5 text-[20px] leading-[1.1] text-ink-line md:text-[24px]" style={at(0.6)}>
+          <p className="anim-fade-up mt-5 text-[20px] leading-[1.1] text-ink md:text-[24px]" style={at(0.6)}>
             Codes are limited — <span className="font-hand text-[28px] text-accent-2 md:text-[32px]">claim yours now!</span>
           </p>
         </div>

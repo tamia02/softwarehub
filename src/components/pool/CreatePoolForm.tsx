@@ -48,7 +48,7 @@ export function CreatePoolForm(p: Props) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const seatPrice = Math.ceil(p.prices[tier].pricePaise / seats);
-  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/20";
+  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-bg-card focus:outline-none focus:ring-4 focus:ring-primary/20";
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -125,7 +125,7 @@ export function CreatePoolForm(p: Props) {
 
       <p className="text-xs text-ink-muted">Pools stay open for {p.expiryDays} days. If not every seat is paid by then, everyone is refunded automatically.</p>
       {error && (
-        <p role="alert" className="text-sm font-medium text-rose-600">
+        <p role="alert" className="text-sm font-medium text-rose-400">
           {error}
         </p>
       )}

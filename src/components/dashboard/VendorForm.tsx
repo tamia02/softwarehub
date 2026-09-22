@@ -9,7 +9,7 @@ type V = { id: string; name: string; claimUrlTemplate: string | null; couponMode
 export function VendorForm({ vendor }: { vendor: V }) {
   const [f, setF] = useState({ claimUrlTemplate: vendor.claimUrlTemplate ?? "", couponMode: vendor.couponMode, contractRef: vendor.contractRef ?? "", eligibilityNote: vendor.eligibilityNote ?? "" });
   const [pending, start] = useTransition();
-  const inp = "h-9 w-full rounded-lg border border-line bg-white px-2 text-xs focus:border-primary focus:outline-none";
+  const inp = "h-9 w-full rounded-lg border border-line bg-bg-card px-2 text-xs focus:border-primary focus:outline-none";
   return (
     <tr>
       <td className="px-4 py-2 font-semibold">{vendor.name}</td>
@@ -18,7 +18,7 @@ export function VendorForm({ vendor }: { vendor: V }) {
       <td className="px-4 py-2"><input className={inp} value={f.contractRef} onChange={(e) => setF({ ...f, contractRef: e.target.value })} placeholder="Agreement ref" /></td>
       <td className="px-4 py-2"><input className={inp} value={f.eligibilityNote} onChange={(e) => setF({ ...f, eligibilityNote: e.target.value })} placeholder="e.g. new accounts only" /></td>
       <td className="px-4 py-2">
-        <button onClick={() => start(async () => { await updateVendorAction(vendor.id, f); })} disabled={pending} className="h-8 rounded-lg bg-ink px-3 text-xs font-bold text-white disabled:opacity-50">
+        <button onClick={() => start(async () => { await updateVendorAction(vendor.id, f); })} disabled={pending} className="h-8 rounded-lg bg-ink px-3 text-xs font-bold text-on-primary disabled:opacity-50">
           {pending ? <Loader2 size={12} className="animate-spin" /> : "Save"}
         </button>
       </td>

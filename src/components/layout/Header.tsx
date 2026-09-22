@@ -46,7 +46,7 @@ export function Header() {
   const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My Pass", href: "/account" } : { label: "Sign in", href: "/login" }];
 
   return (
-    <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
+    <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(2,22,23,0.88)] shadow-[0_2px_0_rgba(94,234,212,0.15)] backdrop-blur-[12px]" : "bg-transparent")}>
       <div className="container-page flex h-[76px] items-center justify-between gap-6 md:h-[88px]">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
           <LogoLockup />
@@ -54,7 +54,7 @@ export function Header() {
 
         <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="Primary">
           {links.map((n) => (
-            <Link key={n.href} href={n.href} className="text-[20px] font-medium leading-none text-ink-line transition-colors duration-150 hover:text-accent-2 xl:text-[22px]">
+            <Link key={n.href} href={n.href} className="text-[20px] font-medium leading-none text-ink transition-colors duration-150 hover:text-accent-2 xl:text-[22px]">
               {n.label}
             </Link>
           ))}
@@ -66,7 +66,7 @@ export function Header() {
           </Button>
         </div>
 
-        <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-white lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
+        <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-bg-card lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
           <Menu />
         </button>
       </div>
@@ -76,14 +76,14 @@ export function Header() {
           <motion.div className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 32 }} role="dialog" aria-modal="true">
             <div className="container-page flex h-[76px] items-center justify-between">
               <LogoLockup />
-              <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-white" aria-label="Close menu" onClick={() => setOpen(false)}>
+              <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-bg-card" aria-label="Close menu" onClick={() => setOpen(false)}>
                 <X />
               </button>
             </div>
             <nav className="container-page flex flex-1 flex-col gap-1 pt-4" aria-label="Mobile">
               {links.map((n, i) => (
                 <motion.div key={n.href} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.06 + i * 0.05 }}>
-                  <Link href={n.href} onClick={() => setOpen(false)} className="block border-b-2 border-line px-1 py-4 text-[26px] font-bold text-ink-line">
+                  <Link href={n.href} onClick={() => setOpen(false)} className="block border-b-2 border-line px-1 py-4 text-[26px] font-bold text-ink">
                     {n.label}
                   </Link>
                 </motion.div>

@@ -95,7 +95,7 @@ export default async function PoolPage({ params }: { params: Promise<{ id: strin
                 <li
                   key={i}
                   className={`grid aspect-square place-items-center rounded-full text-xs font-bold ${
-                    paid ? "bg-primary text-white" : m ? "bg-amber-100 text-amber-800" : "border-2 border-dashed border-line text-ink-faint"
+                    paid ? "bg-primary text-on-primary" : m ? "bg-primary-soft text-accent" : "border-2 border-dashed border-line text-ink-faint"
                   }`}
                   title={paid ? `Seat ${i + 1} · paid` : m ? `Seat ${i + 1} · reserved` : `Seat ${i + 1} · open`}
                 >

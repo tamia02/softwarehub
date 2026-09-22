@@ -42,9 +42,9 @@ export function RedeemForm() {
         placeholder="SHPP-XXXX-XXXX-XXXX"
         autoComplete="off"
         spellCheck={false}
-        className={`mt-2 h-14 w-full rounded-2xl border bg-bg-soft px-4 font-mono text-lg uppercase tracking-[0.15em] focus:bg-white focus:outline-none focus:ring-4 ${error ? "border-rose-400 focus:ring-rose-200" : "border-line focus:border-primary focus:ring-primary/20"}`}
+        className={`mt-2 h-14 w-full rounded-2xl border bg-bg-soft px-4 font-mono text-lg uppercase tracking-[0.15em] focus:bg-bg-card focus:outline-none focus:ring-4 ${error ? "border-rose-400 focus:ring-rose-200" : "border-line focus:border-primary focus:ring-primary/20"}`}
       />
-      {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-600">{error}</p>}
+      {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-400">{error}</p>}
       <Button type="submit" size="lg" className="mt-5 w-full" disabled={busy || code.length < 16}>
         {busy ? <Loader2 className="animate-spin" size={18} /> : null} Redeem
       </Button>

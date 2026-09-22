@@ -19,9 +19,9 @@ export default async function AdminPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         <Panel title="Needs attention">
           <ul className="space-y-2 text-sm">
-            <li className="flex justify-between"><span>Orders awaiting inventory</span><Link href="/admin/orders" className={`font-bold ${o.awaitingInventory ? "text-rose-600" : "text-ink-faint"}`}>{o.awaitingInventory}</Link></li>
-            <li className="flex justify-between"><span>Payout requests</span><Link href="/admin/payouts" className={`font-bold ${o.pendingPayouts ? "text-amber-700" : "text-ink-faint"}`}>{o.pendingPayouts} · {formatINR(o.pendingPayoutPaise)}</Link></li>
-            <li className="flex justify-between"><span>Guarantee claims</span><Link href="/admin/issues" className={`font-bold ${o.openIssues ? "text-amber-700" : "text-ink-faint"}`}>{o.openIssues}</Link></li>
+            <li className="flex justify-between"><span>Orders awaiting inventory</span><Link href="/admin/orders" className={`font-bold ${o.awaitingInventory ? "text-rose-400" : "text-ink-faint"}`}>{o.awaitingInventory}</Link></li>
+            <li className="flex justify-between"><span>Payout requests</span><Link href="/admin/payouts" className={`font-bold ${o.pendingPayouts ? "text-accent" : "text-ink-faint"}`}>{o.pendingPayouts} · {formatINR(o.pendingPayoutPaise)}</Link></li>
+            <li className="flex justify-between"><span>Guarantee claims</span><Link href="/admin/issues" className={`font-bold ${o.openIssues ? "text-accent" : "text-ink-faint"}`}>{o.openIssues}</Link></li>
           </ul>
         </Panel>
         <Panel title="Quick links" className="sm:col-span-2">

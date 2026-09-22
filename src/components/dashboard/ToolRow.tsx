@@ -15,7 +15,7 @@ export function ToolRow({ tool }: { tool: { id: string; name: string; vendorName
       await updateToolAction(t.id, { active: next.active, valueUsd: next.valueUsd, badge: (next.badge as "NEW" | "LIMITED" | "PRO" | null) ?? null, tierMin: next.tierMin as "starter" | "pro", logoUrl: next.logoUrl || null });
     });
   };
-  const sel = "h-8 rounded-lg border border-line bg-white px-2 text-xs";
+  const sel = "h-8 rounded-lg border border-line bg-bg-card px-2 text-xs";
   return (
     <tr className={t.active ? "" : "opacity-50"}>
       <td className="px-4 py-2"><input type="checkbox" checked={t.active} onChange={(e) => save({ active: e.target.checked })} className="h-4 w-4 accent-[var(--brand-primary)]" title="Active — untick tools without a vendor agreement" /></td>

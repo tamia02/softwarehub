@@ -39,7 +39,7 @@ export function ActionButton({
       >
         {pending ? <Loader2 size={16} className="animate-spin" /> : null} {label}
       </Button>
-      {msg && <p className={`mt-2 text-xs font-medium ${msg.ok ? "text-emerald-700" : "text-rose-600"}`}>{msg.text}</p>}
+      {msg && <p className={`mt-2 text-xs font-medium ${msg.ok ? "text-emerald-300" : "text-rose-400"}`}>{msg.text}</p>}
     </div>
   );
 }

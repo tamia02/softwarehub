@@ -30,7 +30,7 @@ export function ToolLogo({
   const src = logoSources[slug];
   const [failed, setFailed] = useState(false);
   const glyph = size * 0.58;
-  const box = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-[22%] border border-line bg-white", className);
+  const box = cn("relative grid shrink-0 place-items-center overflow-hidden rounded-[22%] border border-line bg-bg-card", className);
 
   if (logoUrl && !failed) {
     return (

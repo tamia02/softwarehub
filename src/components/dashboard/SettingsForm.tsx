@@ -12,7 +12,7 @@ export function SettingsForm({ settings, tiers }: { settings: Values; tiers: { s
   const [t, setT] = useState(tiers);
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
-  const inp = "mt-1 h-10 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-white focus:outline-none";
+  const inp = "mt-1 h-10 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-bg-card focus:outline-none";
   const num = (k: string, label: string, hint?: string) => (
     <label className="block text-sm font-semibold">{label}<input type="number" step="any" className={inp} value={v[k] ?? ""} onChange={(e) => setV({ ...v, [k]: Number(e.target.value) })} />{hint && <span className="text-xs font-normal text-ink-muted">{hint}</span>}</label>
   );

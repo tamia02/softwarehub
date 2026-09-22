@@ -29,17 +29,17 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1], delay: (index % 8) * 0.04 }}
       className="card-3d card-3d-lg h-full"
     >
-      <div className="card-3d-body flex h-full flex-col gap-[14px] bg-white px-6 pb-4 pt-6">
+      <div className="card-3d-body flex h-full flex-col gap-[14px] bg-bg-card px-6 pb-4 pt-6">
         <div className="flex min-h-[44px] items-center justify-between gap-3">
           <span className="inline-flex items-center gap-2.5">
             <ToolLogo slug={tool.slug} name={tool.vendor} logoUrl={tool.logoUrl} size={44} className="border-line" />
-            <span className="text-[18px] font-bold leading-none text-ink-line">{tool.vendor}</span>
+            <span className="text-[18px] font-bold leading-none text-ink">{tool.vendor}</span>
           </span>
           {tool.badge && tool.badge !== "PRO" && <Badge tone={badgeTone[tool.badge]}>{tool.badge}</Badge>}
         </div>
 
         <div className="space-y-1">
-          <p className="t-card-title text-ink-line">
+          <p className="t-card-title text-ink">
             {tool.name} · {tool.offerTitle}
           </p>
           <p className="text-[16px] leading-[1.4] text-ink-muted">{tool.blurb}</p>
@@ -50,11 +50,11 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
             {formatINR(tool.retailPaise)} value
           </span>
           {proOnly ? (
-            <span className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[100px] border-2 border-ink-line bg-accent-soft px-4 text-[16px] font-medium text-ink-line">
+            <span className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[100px] border-2 border-ink-line bg-accent-soft px-4 text-[16px] font-medium text-ink">
               <Lock size={14} /> Pro only
             </span>
           ) : (
-            <span className="inline-flex h-10 shrink-0 items-center rounded-[100px] border-2 border-ink-line bg-white px-4 text-[16px] font-medium text-ink-line">Included</span>
+            <span className="inline-flex h-10 shrink-0 items-center rounded-[100px] border-2 border-ink-line bg-bg-card px-4 text-[16px] font-medium text-ink">Included</span>
           )}
         </div>
       </div>

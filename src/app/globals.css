@@ -1,36 +1,38 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Brand tokens — Warm Cream palette (Option 5) applied to a measured
-   outlined-pill design system: 2px ink outlines, offset "3D" layers,
-   22/24/30px radii, cream section panels.
+   Brand tokens — "Dark Teal" (Option 6: #021617 · #0D9488 · #14BBA6 ·
+   #5EEAD4 · #E6FFFB) applied to the outlined-pill design system.
+   Swap these to re-theme the whole site.
    ------------------------------------------------------------------ */
 :root {
-  --brand-primary: #92400e;        /* deep brown: dark fills, offsets behind CTAs */
-  --brand-primary-600: #78350f;
-  --brand-primary-soft: #fde8c8;
-  --brand-accent: #f59e0b;         /* amber: primary CTA fill */
-  --brand-accent-2: #d97706;       /* amber-600: links, emphasis text */
-  --brand-accent-soft: #fef3c7;    /* cream 2: section panels */
-  --offset-card: #f3d08a;          /* offset layer behind cards */
-  --offset-card-hover: #f5c76a;
+  --brand-primary: #0d9488;        /* teal: dark fills, offsets behind CTAs, active chips */
+  --brand-primary-600: #0f766e;
+  --brand-primary-soft: #0b3b38;
+  --brand-accent: #5eead4;         /* mint: primary CTA fill, highlights */
+  --brand-accent-2: #14bba6;       /* bright teal: links, hand-script accents */
+  --brand-accent-soft: #052221;    /* section panels */
+  --offset-card: #0d9488;          /* offset layer behind cards */
+  --offset-card-hover: #14bba6;
 
-  --bg: #fffbeb;                   /* page cream */
-  --bg-soft: #fef3c7;
-  --bg-card: #ffffff;
-  --bg-dark: #2a1508;
-  --ink: #2f2f2f;                  /* soft black for text */
-  --ink-line: #1c1917;             /* outline black */
-  --ink-muted: #565656;
-  --ink-faint: #817c77;
-  --line: #eadfc4;
-  --line-strong: #d9c79b;
+  --bg: #021617;                   /* page */
+  --bg-soft: #052221;
+  --bg-card: #07302e;              /* card / input surface */
+  --bg-dark: #031c1c;
+  --ink: #e6fffb;                  /* text */
+  --ink-line: #5eead4;             /* 2px outlines */
+  --ink-muted: #a7d9d1;
+  --ink-faint: #6fa8a0;
+  --line: #124a46;
+  --line-strong: #1b6660;
+  --on-accent: #021617;            /* text on mint / bright fills */
+  --on-primary: #e6fffb;           /* text on teal fills */
 
   --r-card: 22px;
   --r-card-lg: 30px;
   --r-pill: 100px;
-  --shadow-card: 0 1px 2px rgba(47, 47, 47, 0.04);
-  --shadow-hover: 0 10px 24px rgba(146, 64, 14, 0.12);
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-hover: 0 10px 24px rgba(20, 187, 166, 0.18);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --panel-w: calc(100% - clamp(24px, 7.5vw, 144px));
 }
@@ -52,6 +54,8 @@
   --color-ink-faint: var(--ink-faint);
   --color-line: var(--line);
   --color-line-strong: var(--line-strong);
+  --color-on-accent: var(--on-accent);
+  --color-on-primary: var(--on-primary);
 
   --font-display: var(--font-display), system-ui, sans-serif;
   --font-body: var(--font-display), system-ui, sans-serif;
@@ -111,8 +115,8 @@ h1, h2, h3, h4, .font-display {
 }
 
 ::selection {
-  background: var(--brand-accent-soft);
-  color: var(--ink);
+  background: var(--brand-accent);
+  color: var(--on-accent);
 }
 
 /* ------------------------------------------------------------------
@@ -238,15 +242,15 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 .anim-promo-in { animation: promo-in 0.45s var(--ease-out) both; }
 
 .skeleton {
-  background: linear-gradient(90deg, #f3e9d0 0%, #fbf5e6 50%, #f3e9d0 100%);
+  background: linear-gradient(90deg, #07302e 0%, #0b3b38 50%, #07302e 100%);
   background-size: 1200px 100%;
   animation: shimmer 1.6s linear infinite;
   border-radius: 12px;
 }
 
 .mark-gray {
-  filter: grayscale(1);
-  opacity: 0.75;
+  filter: grayscale(1) brightness(1.6);
+  opacity: 0.8;
   transition: filter 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
 }
 .group:hover .mark-gray,
@@ -266,5 +270,5 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 
 @media print {
   header, footer, nav, .anim-promo-in { display: none !important; }
-  body { background: white; }
+  body { background: white; color: #111; }
 }

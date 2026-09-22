@@ -20,7 +20,7 @@ export function AssignCodeForm({ codeId }: { codeId: string }) {
       }}
     >
       <input value={id} onChange={(e) => setId(e.target.value)} placeholder="member email / mobile" className="h-8 w-44 rounded-lg border border-line px-2 text-xs focus:border-primary focus:outline-none" />
-      <button type="submit" disabled={pending || id.length < 5} className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-white disabled:opacity-40" aria-label="Assign and send">
+      <button type="submit" disabled={pending || id.length < 5} className="grid h-8 w-8 place-items-center rounded-lg bg-primary text-on-primary disabled:opacity-40" aria-label="Assign and send">
         {pending ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
       </button>
       {msg && <span className="text-[11px] text-ink-muted">{msg}</span>}

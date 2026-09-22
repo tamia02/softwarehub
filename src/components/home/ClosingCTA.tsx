@@ -8,7 +8,7 @@ export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount }: { proPr
       <div className="panel border-2 border-ink-line bg-accent">
         <div className="panel-inner text-center">
           <FadeUp>
-            <h2 className="t-h2 mx-auto max-w-3xl text-balance text-ink-line">
+            <h2 className="t-h2 mx-auto max-w-3xl text-balance text-ink">
               {toolCount} tools. One code. Twelve months.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[16px] leading-[1.4] text-ink-line/80 md:text-[20px]">

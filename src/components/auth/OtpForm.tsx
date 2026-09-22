@@ -47,7 +47,7 @@ export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initi
     router.refresh();
   }
 
-  const input = "mt-2 h-14 w-full rounded-2xl border border-line bg-bg-soft px-4 text-lg focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/20";
+  const input = "mt-2 h-14 w-full rounded-2xl border border-line bg-bg-soft px-4 text-lg focus:border-primary focus:bg-bg-card focus:outline-none focus:ring-4 focus:ring-primary/20";
 
   return (
     <AnimatePresence mode="wait" initial={false}>
@@ -55,7 +55,7 @@ export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initi
         <motion.form key="id" onSubmit={request} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }}>
           <label htmlFor="identifier" className="block text-sm font-semibold">Email or mobile number</label>
           <input id="identifier" className={input} value={identifier} onChange={(e) => setIdentifier(e.target.value)} placeholder="you@company.com or 98765 43210" autoComplete="username" autoFocus required />
-          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-600">{error}</p>}
+          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-400">{error}</p>}
           <Button type="submit" size="lg" className="mt-5 w-full" disabled={busy || identifier.trim().length < 3}>
             {busy ? <Loader2 className="animate-spin" size={18} /> : null} Send code
           </Button>
@@ -69,11 +69,11 @@ export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initi
           <label htmlFor="otp" className="mt-4 block text-sm font-semibold">6-digit code</label>
           <input id="otp" className={`${input} font-mono tracking-[0.5em]`} value={code} onChange={(e) => setCode(e.target.value.replace(/\D/g, "").slice(0, 6))} inputMode="numeric" autoComplete="one-time-code" placeholder="••••••" autoFocus required />
           {devCode && (
-            <p className="mt-2 rounded-xl bg-amber-50 px-3 py-2 text-xs text-amber-800">
+            <p className="mt-2 rounded-xl bg-primary-soft px-3 py-2 text-xs text-accent">
               Dev mode — no email/SMS provider configured. Your code is <strong className="font-mono">{devCode}</strong>.
             </p>
           )}
-          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-600">{error}</p>}
+          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-400">{error}</p>}
           <Button type="submit" size="lg" className="mt-5 w-full" disabled={busy || code.length !== 6}>
             {busy ? <Loader2 className="animate-spin" size={18} /> : null} Verify & continue
           </Button>

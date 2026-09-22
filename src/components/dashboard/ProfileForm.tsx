@@ -14,7 +14,7 @@ export function ProfileForm({ initial, kycStatus }: { initial: Form; kycStatus: 
   const field = (k: keyof Form, label: string, placeholder?: string) => (
     <label className="block text-sm font-semibold">
       {label}
-      <input value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} placeholder={placeholder} className="mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/20" />
+      <input value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} placeholder={placeholder} className="mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-bg-card focus:outline-none focus:ring-4 focus:ring-primary/20" />
     </label>
   );
   return (

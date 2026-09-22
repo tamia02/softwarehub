@@ -5,9 +5,9 @@ import { cn } from "@/lib/utils";
  * content lines and an amber stripe — drawn in the site's 2px outline style.
  */
 export function Logo({ className, size = 36, tone = "brand" }: { className?: string; size?: number; tone?: "brand" | "light" }) {
-  const fill = tone === "light" ? "#fffbeb" : "var(--brand-accent)";
-  const stroke = tone === "light" ? "#fffbeb" : "var(--ink-line)";
-  const ink = tone === "light" ? "var(--brand-primary)" : "var(--ink-line)";
+  const fill = tone === "light" ? "var(--on-primary)" : "var(--brand-accent)";
+  const stroke = fill;
+  const ink = tone === "light" ? "var(--brand-primary)" : "var(--on-accent)";
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden className={cn("shrink-0", className)}>
       <path d="M10 4h20a5 5 0 0 1 5 5v22a5 5 0 0 1-5 5H10a5 5 0 0 1-5-5V9a5 5 0 0 1 5-5Z" fill={fill} stroke={stroke} strokeWidth="2.4" />
@@ -21,7 +21,7 @@ export function Logo({ className, size = 36, tone = "brand" }: { className?: str
 }
 
 export function Wordmark({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {
-  return <span className={cn("font-display text-[22px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-[#fffbeb]" : "text-ink-line", className)}>Software Hub Pool</span>;
+  return <span className={cn("font-display text-[22px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-on-primary" : "text-ink", className)}>Software Hub Pool</span>;
 }
 
 export function LogoLockup({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {

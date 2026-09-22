@@ -98,7 +98,7 @@ export function PayButton({
         name: "Software Hub Pool",
         order_id: data.gatewayOrderId,
         prefill: data.prefill ?? {},
-        theme: { color: "#92400e" },
+        theme: { color: "#0d9488" },
         handler: async (r: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           const v = await fetch("/api/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(r) });
           const vd = await v.json();
@@ -142,9 +142,9 @@ export function PayButton({
   return (
     <div className={className}>
       {mock ? (
-        <div className="rounded-2xl border border-dashed border-amber-300 bg-amber-50 p-4 text-sm">
-          <p className="font-semibold text-amber-900">Mock gateway (no Razorpay keys set)</p>
-          <p className="mt-1 text-amber-800">
+        <div className="rounded-2xl border border-dashed border-accent-2 bg-primary-soft p-4 text-sm">
+          <p className="font-semibold text-on-accent">Mock gateway (no Razorpay keys set)</p>
+          <p className="mt-1 text-accent">
             Order {mock.gatewayOrderId} for ₹{((mock.amountPaise ?? 0) / 100).toLocaleString("en-IN")}. This button runs the same capture path a real webhook would.
           </p>
           <Button onClick={simulate} disabled={busy} variant="primary" className="mt-3 w-full">
@@ -157,7 +157,7 @@ export function PayButton({
         </Button>
       )}
       {error && (
-        <p role="alert" className="mt-2 text-sm font-medium text-rose-600">
+        <p role="alert" className="mt-2 text-sm font-medium text-rose-400">
           {error}
         </p>
       )}

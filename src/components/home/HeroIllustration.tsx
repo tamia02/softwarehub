@@ -52,11 +52,11 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
     return () => window.removeEventListener("mousemove", onMove);
   }, [interactive, reduce, mx, my]);
 
-  const size = compact ? 64 : 96;
+  const size = compact ? 56 : 78;
 
   return (
-    <div className={`relative mx-auto w-full select-none ${compact ? "max-w-[340px]" : "max-w-[420px] md:max-w-[560px]"}`} aria-hidden>
-      <div className="grid grid-cols-4 gap-3 md:gap-5">
+    <div className={`relative mx-auto w-full select-none ${compact ? "max-w-[300px]" : "max-w-[360px] md:max-w-[470px]"}`} aria-hidden>
+      <div className="grid grid-cols-4 gap-3 md:gap-4">
         {Array.from({ length: 12 }).map((_, i) => {
           const col = i % 4;
           const row = Math.floor(i / 4);
@@ -66,10 +66,10 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
             return (
               <div key="brand" className="col-span-2 flex items-center justify-center" style={{ transform: "rotate(-2deg)" }}>
                 <div className="card-3d w-full">
-                  <div className="card-3d-body flex h-full flex-col items-center justify-center gap-1 bg-primary px-4 py-4 text-center text-[#fffbeb]" style={{ minHeight: size * 1.05 }}>
-                    <Logo size={compact ? 26 : 34} tone="light" />
-                    <span className="mt-1 text-[15px] font-bold leading-none md:text-[18px]">Pro Pass</span>
-                    <span className="font-hand text-[22px] leading-none text-accent md:text-[26px]">35 tools · 1 year</span>
+                  <div className="card-3d-body flex h-full flex-col items-center justify-center gap-1 bg-primary px-4 py-4 text-center text-on-primary" style={{ minHeight: size * 1.05 }}>
+                    <Logo size={compact ? 24 : 30} tone="light" />
+                    <span className="mt-1 text-[14px] font-bold leading-none md:text-[16px]">Pro Pass</span>
+                    <span className="font-hand text-[20px] leading-none text-accent md:text-[23px]">35 tools · 1 year</span>
                   </div>
                 </div>
               </div>
@@ -92,8 +92,8 @@ function FloatingTile({ tile, px, py, size }: { tile: Tile; px: MotionValue<numb
     <motion.div style={{ x, y, rotate: tile.rot }} className="flex items-center justify-center">
       <div className="anim-float" style={{ animationDelay: `${tile.delay}s`, animationDuration: `${5.5 + tile.depth}s` }}>
         <div className="card-3d">
-          <div className="card-3d-body grid place-items-center bg-white" style={{ width: size, height: size }}>
-            <ToolLogo slug={tile.slug} name={t?.vendor ?? tile.slug} logoUrl={t?.logoUrl} size={Math.round(size * 0.62)} className="border-0 bg-transparent" />
+          <div className="card-3d-body grid place-items-center bg-bg-card" style={{ width: size, height: size }}>
+            <ToolLogo slug={tile.slug} name={t?.vendor ?? tile.slug} logoUrl={t?.logoUrl} size={Math.round(size * 0.58)} className="border-0 bg-transparent" />
           </div>
         </div>
       </div>

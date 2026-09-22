@@ -11,9 +11,9 @@ type Variant = "primary" | "secondary" | "dark" | "ghost";
 type Size = "sm" | "md" | "lg";
 
 const face: Record<Variant, string> = {
-  primary: "bg-accent text-ink-line border-ink-line",
-  secondary: "bg-white text-ink-line border-ink-line",
-  dark: "bg-primary text-[#fffbeb] border-ink-line",
+  primary: "bg-accent text-on-accent border-ink-line",
+  secondary: "bg-bg-card text-ink border-ink-line",
+  dark: "bg-primary text-on-primary border-ink-line",
   ghost: "bg-transparent text-ink border-transparent",
 };
 const layer: Record<Variant, string> = {

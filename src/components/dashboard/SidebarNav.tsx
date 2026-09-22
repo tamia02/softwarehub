@@ -22,7 +22,7 @@ export function SidebarNav({ items, horizontal }: { items: NavItem[]; horizontal
               href={i.href}
               className={cn(
                 "block whitespace-nowrap rounded-xl px-3 py-2 text-sm font-semibold",
-                active ? "bg-ink text-white" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
+                active ? "bg-ink text-on-primary" : "text-ink-muted hover:bg-bg-soft hover:text-ink",
               )}
             >
               {i.label}

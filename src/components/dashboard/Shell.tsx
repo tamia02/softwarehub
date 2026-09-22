@@ -15,7 +15,7 @@ export function DashboardShell({
 }) {
   return (
     <div className="flex min-h-dvh">
-      <aside className="hidden w-64 shrink-0 flex-col border-r border-line bg-white px-4 py-5 md:flex">
+      <aside className="hidden w-64 shrink-0 flex-col border-r border-line bg-bg-card px-4 py-5 md:flex">
         <Link href="/home"><LogoLockup /></Link>
         <p className="mt-6 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ink-faint">{title}</p>
         <SidebarNav items={nav} />
@@ -24,12 +24,12 @@ export function DashboardShell({
         </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-line bg-white/80 px-4 backdrop-blur md:px-8">
+        <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-line bg-bg-card/80 px-4 backdrop-blur md:px-8">
           <div className="md:hidden"><LogoLockup /></div>
           <div className="hidden md:block" />
           <div className="flex items-center gap-3">{topRight}</div>
         </header>
-        <nav className="flex gap-1 overflow-x-auto border-b border-line bg-white px-3 py-2 md:hidden">
+        <nav className="flex gap-1 overflow-x-auto border-b border-line bg-bg-card px-3 py-2 md:hidden">
           <SidebarNav items={nav} horizontal />
         </nav>
         <main className="flex-1 px-4 py-6 md:px-8 md:py-8">{children}</main>
@@ -40,17 +40,17 @@ export function DashboardShell({
 
 export function StatCard({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
   return (
-    <div className={`rounded-[20px] border p-5 ${accent ? "border-primary/30 bg-primary text-white" : "border-line bg-white"}`}>
-      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-white/80" : "text-ink-faint"}`}>{label}</p>
+    <div className={`rounded-[20px] border p-5 ${accent ? "border-primary/30 bg-primary text-on-primary" : "border-line bg-bg-card"}`}>
+      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-on-primary/80" : "text-ink-faint"}`}>{label}</p>
       <p className="mt-2 font-display text-[28px] font-black leading-none tabular-nums">{value}</p>
-      {sub && <p className={`mt-1.5 text-xs ${accent ? "text-white/80" : "text-ink-muted"}`}>{sub}</p>}
+      {sub && <p className={`mt-1.5 text-xs ${accent ? "text-on-primary/80" : "text-ink-muted"}`}>{sub}</p>}
     </div>
   );
 }
 
 export function Panel({ title, action, children, className }: { title?: string; action?: React.ReactNode; children: React.ReactNode; className?: string }) {
   return (
-    <section className={`rounded-[20px] border border-line bg-white ${className ?? ""}`}>
+    <section className={`rounded-[20px] border border-line bg-bg-card ${className ?? ""}`}>
       {(title || action) && (
         <div className="flex items-center justify-between gap-3 border-b border-line px-5 py-3.5">
           {title && <h2 className="text-sm font-extrabold">{title}</h2>}

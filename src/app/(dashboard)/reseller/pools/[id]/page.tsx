@@ -82,7 +82,7 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
                   <td className="px-4 py-2.5 tabular-nums">{m.seatNo}</td>
                   <td className="px-4 py-2.5 font-semibold">{m.name ?? "—"}</td>
                   <td className="px-4 py-2.5 text-xs text-ink-muted">{m.phone ?? m.email}</td>
-                  <td className="px-4 py-2.5">{m.paidAt || pool.paymentModel === "single" ? <span className="text-emerald-700">✓</span> : <span className="text-ink-faint">✗</span>}{m.refundedAt && <span className="ml-1 text-xs text-rose-600">refunded</span>}</td>
+                  <td className="px-4 py-2.5">{m.paidAt || pool.paymentModel === "single" ? <span className="text-emerald-300">✓</span> : <span className="text-ink-faint">✗</span>}{m.refundedAt && <span className="ml-1 text-xs text-rose-400">refunded</span>}</td>
                   <td className="px-4 py-2.5 whitespace-nowrap text-xs">{m.joinedAt.toLocaleString("en-IN", { dateStyle: "medium", timeStyle: "short" })}</td>
                 </tr>
               ))}
@@ -130,7 +130,7 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
       {pool.resellerId && (
         <Panel title={pool.status === "fulfilled" ? "Revenue split (final)" : "Revenue split (projected)"}>
           {!projected ? (
-            <p className="text-sm text-rose-600">The split cannot be computed (negative margin). Check the reseller price and seat count.</p>
+            <p className="text-sm text-rose-400">The split cannot be computed (negative margin). Check the reseller price and seat count.</p>
           ) : (
             <div className="grid gap-4 md:grid-cols-2">
               <dl className="space-y-2 text-sm">
@@ -144,7 +144,7 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
                 ].map(([k, v]) => (
                   <div key={String(k)} className="flex justify-between border-b border-line pb-1.5">
                     <dt className="text-ink-muted">{k}</dt>
-                    <dd className={`font-semibold tabular-nums ${Number(v) < 0 ? "text-rose-600" : ""}`}>{formatINR(Number(v))}</dd>
+                    <dd className={`font-semibold tabular-nums ${Number(v) < 0 ? "text-rose-400" : ""}`}>{formatINR(Number(v))}</dd>
                   </div>
                 ))}
               </dl>

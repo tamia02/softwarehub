@@ -7,7 +7,7 @@ export function VendorMark({ slug, name, logoUrl, size = "md", mono, className }
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
       <ToolLogo slug={slug} name={name} logoUrl={logoUrl} size={px} mono={mono} />
-      <span className={cn("font-bold leading-none text-ink-line whitespace-nowrap", text)}>{name}</span>
+      <span className={cn("font-bold leading-none text-ink whitespace-nowrap", text)}>{name}</span>
     </span>
   );
 }

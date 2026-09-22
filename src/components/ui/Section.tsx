@@ -28,7 +28,7 @@ export function Hand({ children, className }: { children: React.ReactNode; class
 export function SectionHeading({ title, sub, hand, align = "center", className }: { title: React.ReactNode; sub?: React.ReactNode; hand?: React.ReactNode; align?: "center" | "left"; className?: string }) {
   return (
     <div className={cn("flex flex-col gap-3 md:gap-5", align === "center" ? "mx-auto items-center text-center" : "items-start", className)}>
-      <h2 className="t-h2 text-balance text-ink-line">{title}</h2>
+      <h2 className="t-h2 text-balance text-ink">{title}</h2>
       {hand && <Hand>{hand}</Hand>}
       {sub && <p className="t-lead max-w-2xl text-ink-muted">{sub}</p>}
     </div>

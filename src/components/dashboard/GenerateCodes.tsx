@@ -16,7 +16,7 @@ export function GenerateCodes() {
   const [pending, start] = useTransition();
   const [result, setResult] = useState<{ codes: string[]; message: string } | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const sel = "h-10 rounded-xl border border-line bg-white px-3 text-sm";
+  const sel = "h-10 rounded-xl border border-line bg-bg-card px-3 text-sm";
 
   function run() {
     start(async () => {
@@ -50,11 +50,11 @@ export function GenerateCodes() {
         <label className="text-xs font-semibold">{kind === "bundle" ? "Batch / vendor allocation ref" : "Label"}<br /><input value={label} onChange={(e) => setLabel(e.target.value)} className={`${sel} w-56`} placeholder={kind === "bundle" ? "e.g. vendor-alloc-2026-09" : "e.g. Instagram campaign"} /></label>
         <Button onClick={run} disabled={pending}>{pending ? <Loader2 size={16} className="animate-spin" /> : null} Generate</Button>
       </div>
-      {error && <p className="text-sm text-rose-600">{error}</p>}
+      {error && <p className="text-sm text-rose-400">{error}</p>}
       {result && (
-        <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4">
-          <p className="text-sm font-bold text-amber-900">{result.message} These codes are shown once — copy or download them now.</p>
-          <textarea readOnly value={text} className="mt-3 h-40 w-full rounded-xl border border-amber-200 bg-white p-3 font-mono text-xs" />
+        <div className="rounded-2xl border border-accent-2 bg-primary-soft p-4">
+          <p className="text-sm font-bold text-on-accent">{result.message} These codes are shown once — copy or download them now.</p>
+          <textarea readOnly value={text} className="mt-3 h-40 w-full rounded-xl border border-accent-2 bg-bg-card p-3 font-mono text-xs" />
           <div className="mt-2 flex gap-2">
             <Button size="sm" variant="secondary" onClick={() => navigator.clipboard.writeText(text)}><Copy size={14} /> Copy</Button>
             <Button size="sm" variant="secondary" onClick={download}><Download size={14} /> Download .txt</Button>

@@ -22,7 +22,7 @@ export function StaggerWords({
       {words.map((w, i) => {
         const hl = highlight?.includes(w.replace(/[^\w$+%,.]/g, ""));
         return (
-          <span key={i} aria-hidden className={hl ? "anim-word text-primary" : "anim-word"} style={{ animationDelay: `${delay + i * 0.04}s` }}>
+          <span key={i} aria-hidden className={hl ? "anim-word text-accent" : "anim-word"} style={{ animationDelay: `${delay + i * 0.04}s` }}>
             {w}
             {i < words.length - 1 ? " " : ""}
           </span>

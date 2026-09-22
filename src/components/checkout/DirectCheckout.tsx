@@ -10,7 +10,7 @@ export function DirectCheckout({ tier, signedIn, defaultName, defaultGstin }: { 
   const [gstin, setGstin] = useState(defaultGstin);
   const idempotencyKey = useMemo(() => `direct:${tier}:${Math.random().toString(36).slice(2)}:${Date.now()}`, [tier]);
   const gstinOk = gstin === "" || /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/.test(gstin.toUpperCase());
-  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-white focus:outline-none focus:ring-4 focus:ring-primary/20";
+  const input = "mt-1 h-11 w-full rounded-xl border border-line bg-bg-soft px-3 text-sm focus:border-primary focus:bg-bg-card focus:outline-none focus:ring-4 focus:ring-primary/20";
 
   if (!signedIn) {
     return (
@@ -37,7 +37,7 @@ export function DirectCheckout({ tier, signedIn, defaultName, defaultGstin }: { 
         successHref={(orderId) => `/checkout/success?order=${orderId}`}
         event="checkout_started_direct"
       />
-      {!gstinOk && <p className="text-xs text-rose-600">That GSTIN doesn’t look right.</p>}
+      {!gstinOk && <p className="text-xs text-rose-400">That GSTIN doesn’t look right.</p>}
     </div>
   );
 }

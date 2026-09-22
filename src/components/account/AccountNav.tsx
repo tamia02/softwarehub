@@ -20,9 +20,9 @@ export function AccountNav({ role }: { role: string }) {
     router.refresh();
   }
   return (
-    <nav className="flex flex-wrap items-center gap-1 rounded-full border border-line bg-white p-1 text-sm font-semibold">
+    <nav className="flex flex-wrap items-center gap-1 rounded-full border border-line bg-bg-card p-1 text-sm font-semibold">
       {items.map((i) => (
-        <Link key={i.href} href={i.href} className={cn("rounded-full px-3.5 py-2", pathname === i.href ? "bg-ink text-white" : "text-ink-muted hover:bg-bg-soft hover:text-ink")}>
+        <Link key={i.href} href={i.href} className={cn("rounded-full px-3.5 py-2", pathname === i.href ? "bg-ink text-on-primary" : "text-ink-muted hover:bg-bg-soft hover:text-ink")}>
           {i.label}
         </Link>
       ))}

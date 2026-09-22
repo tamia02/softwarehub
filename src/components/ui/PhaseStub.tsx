@@ -6,7 +6,7 @@ export function PhaseStub({ title, phase, children }: { title: string; phase: nu
   return (
     <div className="container-page py-20">
       <div className="mx-auto max-w-xl rounded-[24px] border border-dashed border-line bg-bg-soft p-8 text-center">
-        <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-white text-primary shadow-sm">
+        <span className="mx-auto grid h-12 w-12 place-items-center rounded-2xl bg-bg-card text-primary shadow-sm">
           <Construction size={22} />
         </span>
         <h1 className="mt-5 text-2xl font-extrabold">{title}</h1>

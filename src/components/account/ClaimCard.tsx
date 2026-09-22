@@ -58,7 +58,7 @@ export function ClaimCard({ claim, expired }: { claim: ClaimView; expired: boole
   }
 
   return (
-    <div className={`card flex flex-col gap-3 p-4 ${status === "issue" ? "border-amber-300" : ""}`}>
+    <div className={`card flex flex-col gap-3 p-4 ${status === "issue" ? "border-accent-2" : ""}`}>
       <div className="flex items-start justify-between gap-2">
         <ToolLogo slug={claim.toolId} name={claim.vendorName} size={40} />
         {status === "claimed" && <Badge tone="new">Claimed</Badge>}
@@ -89,11 +89,11 @@ export function ClaimCard({ claim, expired }: { claim: ClaimView; expired: boole
         )}
       </AnimatePresence>
 
-      {status === "issue" && claim.issueNote && <p className="text-xs text-amber-800">We’re on it: “{claim.issueNote}”</p>}
+      {status === "issue" && claim.issueNote && <p className="text-xs text-accent">We’re on it: “{claim.issueNote}”</p>}
 
       <div className="mt-auto flex items-center gap-2">
         {status === "available" ? (
-          <button onClick={claim_} disabled={busy || expired} className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-primary text-sm font-bold text-white hover:bg-primary-600 disabled:opacity-50">
+          <button onClick={claim_} disabled={busy || expired} className="inline-flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-primary text-sm font-bold text-on-primary hover:bg-primary-600 disabled:opacity-50">
             {busy ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />} {expired ? "Pass expired" : "Claim"}
           </button>
         ) : status === "claimed" && !result ? (
@@ -112,13 +112,13 @@ export function ClaimCard({ claim, expired }: { claim: ClaimView; expired: boole
         {issueOpen && (
           <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} className="overflow-hidden">
             <textarea value={issueNote} onChange={(e) => setIssueNote(e.target.value)} placeholder="What happened when you tried to activate?" className="h-20 w-full rounded-xl border border-line p-2 text-xs focus:border-primary focus:outline-none" />
-            <button onClick={report} disabled={busy || issueNote.trim().length < 5} className="mt-2 h-8 w-full rounded-full bg-amber-400 text-xs font-bold text-ink hover:brightness-95 disabled:opacity-50">
+            <button onClick={report} disabled={busy || issueNote.trim().length < 5} className="mt-2 h-8 w-full rounded-full bg-accent text-xs font-bold text-ink hover:brightness-95 disabled:opacity-50">
               Report under Code Works Guarantee
             </button>
           </motion.div>
         )}
       </AnimatePresence>
-      {error && <p className="text-xs font-medium text-rose-600">{error}</p>}
+      {error && <p className="text-xs font-medium text-rose-400">{error}</p>}
     </div>
   );
 }

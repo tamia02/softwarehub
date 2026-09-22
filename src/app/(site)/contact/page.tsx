@@ -16,7 +16,7 @@ export default async function ContactPage({ searchParams }: { searchParams: Prom
         <p className="mt-2 text-sm text-ink-muted">
           {topic === "teams" ? `Save ${s.teamDiscountPct}% per seat on ${5}+ seats. Tell us how many seats and which pass, and we will send a GST quote within one business day.` : "Reseller enquiries, vendor partnerships, or anything else — a human replies within one business day."}
         </p>
-        <a href={`mailto:${site.supportEmail}?subject=${encodeURIComponent(subject)}`} className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-primary px-6 font-bold text-white hover:bg-primary-600">
+        <a href={`mailto:${site.supportEmail}?subject=${encodeURIComponent(subject)}`} className="mt-6 inline-flex h-12 items-center justify-center rounded-full bg-primary px-6 font-bold text-on-primary hover:bg-primary-600">
           Email {site.supportEmail}
         </a>
       </div>

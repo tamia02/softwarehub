@@ -18,7 +18,7 @@ export function Footer() {
             Annual plans on 35 premium tools, issued as one activation code. Buy a pass outright or share one through a pool.
           </p>
           <p className="mt-4">
-            <a className="text-[16px] font-bold text-ink-line hover:text-accent-2" href={`mailto:${site.supportEmail}`}>
+            <a className="text-[16px] font-bold text-ink hover:text-accent-2" href={`mailto:${site.supportEmail}`}>
               {site.supportEmail}
             </a>
           </p>
@@ -28,13 +28,13 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-[16px]">
             {nav.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} className="font-medium text-ink-line hover:text-accent-2">
+                <Link href={n.href} className="font-medium text-ink hover:text-accent-2">
                   {n.label}
                 </Link>
               </li>
             ))}
             <li>
-              <Link href="/?switch=1&role=reseller" className="font-medium text-ink-line hover:text-accent-2">
+              <Link href="/?switch=1&role=reseller" className="font-medium text-ink hover:text-accent-2">
                 Reseller program
               </Link>
             </li>
@@ -45,13 +45,13 @@ export function Footer() {
           <ul className="mt-4 space-y-2.5 text-[16px]">
             {legal.map((n) => (
               <li key={n.href}>
-                <Link href={n.href} className="font-medium text-ink-line hover:text-accent-2">
+                <Link href={n.href} className="font-medium text-ink hover:text-accent-2">
                   {n.label}
                 </Link>
               </li>
             ))}
             <li>
-              <a href="/api/gate/switch" className="font-medium text-ink-line hover:text-accent-2">
+              <a href="/api/gate/switch" className="font-medium text-ink hover:text-accent-2">
                 Switch role
               </a>
             </li>

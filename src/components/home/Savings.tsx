@@ -22,19 +22,19 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
 
   return (
     <section id="savings" className="scroll-mt-24 py-3 md:py-4">
-      <div className="panel border-2 border-ink-line bg-bg-dark text-[#fffbeb]">
+      <div className="panel border-2 border-ink-line bg-bg-dark text-on-primary">
         <div className="panel-inner">
           <FadeUp className="mx-auto max-w-2xl text-center">
-            <h2 className="t-h2 text-[#fffbeb]">What the same plans cost separately</h2>
-            <p className="mt-4 text-[16px] leading-[1.4] text-[#fffbeb]/75 md:text-[20px]">
+            <h2 className="t-h2 text-on-primary">What the same plans cost separately</h2>
+            <p className="mt-4 text-[16px] leading-[1.4] text-on-primary/75 md:text-[20px]">
               Retail is each vendor&apos;s own list price, converted at ₹{settings.usdInrRate} to the dollar. Your price is the pass.
             </p>
           </FadeUp>
 
           <div className="mt-6 flex justify-center md:mt-8">
-            <div role="tablist" className="relative inline-flex rounded-[100px] border-2 border-[#fffbeb]/30 p-1">
+            <div role="tablist" className="relative inline-flex rounded-[100px] border-2 border-on-primary/30 p-1">
               {(["starter", "pro"] as TierSlug[]).map((t) => (
-                <button key={t} role="tab" aria-selected={tier === t} onClick={() => setTier(t)} className={cn("relative h-10 cursor-pointer rounded-[100px] px-5 text-[16px] font-bold leading-none transition-colors", tier === t ? "text-ink-line" : "text-[#fffbeb]/80 hover:text-[#fffbeb]")}>
+                <button key={t} role="tab" aria-selected={tier === t} onClick={() => setTier(t)} className={cn("relative h-10 cursor-pointer rounded-[100px] px-5 text-[16px] font-bold leading-none transition-colors", tier === t ? "text-ink" : "text-on-primary/80 hover:text-on-primary")}>
                   {tier === t && <motion.span layoutId="savings-toggle" className="absolute inset-0 rounded-[100px] bg-accent" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
                   <span className="relative">{pricing[t].name}</span>
                 </button>
@@ -49,7 +49,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
           </div>
 
           <div className="mt-8 text-center">
-            <button onClick={() => setExpanded((v) => !v)} aria-expanded={expanded} className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[100px] border-2 border-[#fffbeb]/40 px-5 text-[16px] font-bold text-[#fffbeb] hover:bg-white/10">
+            <button onClick={() => setExpanded((v) => !v)} aria-expanded={expanded} className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[100px] border-2 border-on-primary/40 px-5 text-[16px] font-bold text-on-primary hover:bg-on-primary/10">
               {expanded ? "Hide" : "Show"} the per-tool comparison
               <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.25 }}>
                 <ChevronDown size={16} />
@@ -60,9 +60,9 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
           <AnimatePresence initial={false}>
             {expanded && (
               <motion.div key="table" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                <div className="mt-6 max-h-[520px] overflow-auto rounded-[22px] border-2 border-[#fffbeb]/20">
+                <div className="mt-6 max-h-[520px] overflow-auto rounded-[22px] border-2 border-on-primary/20">
                   <table className="w-full min-w-[560px] text-left text-[15px]">
-                    <thead className="sticky top-0 bg-[#3d2212] text-[12px] font-bold uppercase tracking-wider text-[#fffbeb]/70">
+                    <thead className="sticky top-0 bg-bg-soft text-[12px] font-bold uppercase tracking-wider text-on-primary/70">
                       <tr>
                         <th className="px-4 py-3">Tool</th>
                         <th className="px-4 py-3">Offer</th>
@@ -73,16 +73,16 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
                     </thead>
                     <tbody>
                       {rows.map((t, i) => (
-                        <tr key={t.slug} className={i % 2 ? "bg-white/[0.04]" : ""}>
+                        <tr key={t.slug} className={i % 2 ? "bg-bg-card/[0.04]" : ""}>
                           <td className="px-4 py-2.5 font-bold">{t.name}</td>
-                          <td className="px-4 py-2.5 text-[#fffbeb]/75">{t.offerTitle}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-[#fffbeb]/75">{formatUSD(t.valueUsd)}</td>
-                          <td className="px-4 py-2.5 text-right tabular-nums text-[#fffbeb]/75">{formatINR(t.retailPaise)}</td>
+                          <td className="px-4 py-2.5 text-on-primary/75">{t.offerTitle}</td>
+                          <td className="px-4 py-2.5 text-right tabular-nums text-on-primary/75">{formatUSD(t.valueUsd)}</td>
+                          <td className="px-4 py-2.5 text-right tabular-nums text-on-primary/75">{formatINR(t.retailPaise)}</td>
                           <td className="px-4 py-2.5 text-right font-bold text-accent">Included</td>
                         </tr>
                       ))}
                     </tbody>
-                    <tfoot className="sticky bottom-0 bg-[#3d2212] font-bold">
+                    <tfoot className="sticky bottom-0 bg-bg-soft font-bold">
                       <tr>
                         <td className="px-4 py-3" colSpan={2}>
                           Total ({rows.length} tools)
@@ -98,13 +98,13 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
             )}
           </AnimatePresence>
 
-          <FadeUp className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-5 rounded-[22px] border-2 border-[#fffbeb]/25 bg-white/5 p-6 md:mt-12 md:flex-row md:items-center md:p-7">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border-2 border-ink-line bg-accent text-ink-line">
+          <FadeUp className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-5 rounded-[22px] border-2 border-on-primary/25 bg-on-primary/5 p-6 md:mt-12 md:flex-row md:items-center md:p-7">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent">
               <ShieldCheck size={26} />
             </span>
             <div className="flex-1">
-              <h3 className="text-[22px] font-bold leading-none text-[#fffbeb] md:text-[24px]">Code Works Guarantee</h3>
-              <p className="mt-2 text-[16px] leading-[1.4] text-[#fffbeb]/75">
+              <h3 className="text-[22px] font-bold leading-none text-on-primary md:text-[24px]">Code Works Guarantee</h3>
+              <p className="mt-2 text-[16px] leading-[1.4] text-on-primary/75">
                 If any code fails to activate we issue a replacement — or refund that tool&apos;s share — within {settings.guaranteeDays} days. One click from My Pass.
               </p>
             </div>
@@ -120,12 +120,12 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
 
 function Stat({ label, sub, value, accent }: { label: string; sub: string; value: number; accent?: boolean }) {
   return (
-    <FadeUp className={cn("rounded-[22px] border-2 p-6 md:p-7", accent ? "border-ink-line bg-accent text-ink-line" : "border-[#fffbeb]/25 bg-white/5")}>
-      <p className={cn("text-[13px] font-bold uppercase tracking-wider", accent ? "text-ink-line/70" : "text-[#fffbeb]/60")}>{label}</p>
+    <FadeUp className={cn("rounded-[22px] border-2 p-6 md:p-7", accent ? "border-ink-line bg-accent text-on-accent" : "border-on-primary/25 bg-on-primary/5")}>
+      <p className={cn("text-[13px] font-bold uppercase tracking-wider", accent ? "text-ink-line/70" : "text-on-primary/60")}>{label}</p>
       <p className="mt-2 text-[36px] font-bold leading-none tabular-nums md:text-[44px]">
         ₹<CountUp value={value} format={(n) => formatINRNumber(n)} />
       </p>
-      <p className={cn("mt-2 text-[15px]", accent ? "text-ink-line/70" : "text-[#fffbeb]/60")}>{sub}</p>
+      <p className={cn("mt-2 text-[15px]", accent ? "text-ink-line/70" : "text-on-primary/60")}>{sub}</p>
     </FadeUp>
   );
 }

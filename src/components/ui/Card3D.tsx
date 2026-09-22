@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 export function Card3D({ className, bodyClassName, children }: { className?: string; bodyClassName?: string; children: React.ReactNode }) {
   return (
     <div className={cn("card-3d card-3d-lg", className)}>
-      <div className={cn("card-3d-body bg-white", bodyClassName)}>{children}</div>
+      <div className={cn("card-3d-body bg-bg-card", bodyClassName)}>{children}</div>
     </div>
   );
 }
