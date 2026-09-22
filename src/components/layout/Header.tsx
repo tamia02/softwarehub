@@ -47,21 +47,21 @@ export function Header() {
 
   return (
     <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
-      <div className="container-page flex h-[76px] items-center justify-between gap-6 md:h-[88px]">
+      <div className="container-page flex h-[68px] items-center justify-between gap-6 md:h-[76px]">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
           <LogoLockup />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex xl:gap-9" aria-label="Primary">
+        <nav className="hidden items-center gap-6 lg:flex xl:gap-7" aria-label="Primary">
           {links.map((n) => (
-            <Link key={n.href} href={n.href} className="text-[20px] font-medium leading-none text-ink transition-colors duration-150 hover:text-accent-2 xl:text-[22px]">
+            <Link key={n.href} href={n.href} className="text-[16px] font-medium leading-none text-ink transition-colors duration-150 hover:text-accent-2">
               {n.label}
             </Link>
           ))}
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="/checkout/direct?tier=pro" size="md">
+          <Button href="/checkout/direct?tier=pro" size="sm">
             Get the Pro Pass
           </Button>
         </div>

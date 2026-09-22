@@ -23,7 +23,7 @@ const layer: Record<Variant, string> = {
   ghost: "hidden",
 };
 const sizes: Record<Size, string> = {
-  sm: "h-10 px-5 text-[15px]",
+  sm: "h-[42px] px-5 text-[16px]",
   md: "h-12 px-6 text-[18px]",
   lg: "h-14 px-8 text-[20px]",
 };

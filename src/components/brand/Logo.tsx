@@ -21,13 +21,13 @@ export function Logo({ className, size = 36, tone = "brand" }: { className?: str
 }
 
 export function Wordmark({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {
-  return <span className={cn("font-display text-[22px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-on-primary" : "text-ink", className)}>Software Hub Pool</span>;
+  return <span className={cn("font-display text-[19px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-on-primary" : "text-ink", className)}>Software Hub Pool</span>;
 }
 
 export function LogoLockup({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <Logo size={34} tone={tone === "light" ? "light" : "brand"} />
+      <Logo size={30} tone={tone === "light" ? "light" : "brand"} />
       <Wordmark tone={tone} />
     </span>
   );
