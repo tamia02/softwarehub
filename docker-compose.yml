@@ -27,6 +27,11 @@ services:
     restart: unless-stopped
     environment:
       NODE_ENV: production
+      # Bind to every interface — the container is on two networks and Next's
+      # standalone server otherwise binds only to its hostname (wrong one), so
+      # Traefik on shp_web can't reach it (502).
+      HOSTNAME: "0.0.0.0"
+      PORT: "3000"
       DATABASE_URL: "postgresql://shp:${DB_PASSWORD}@shp-db:5432/shp"
       NEXT_PUBLIC_SITE_URL: "https://${DOMAIN}"
       NEXT_PUBLIC_SUPPORT_EMAIL: "${SUPPORT_EMAIL}"
