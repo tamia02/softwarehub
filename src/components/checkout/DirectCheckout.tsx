@@ -37,7 +37,7 @@ export function DirectCheckout({ tier, signedIn, defaultName, defaultGstin }: { 
         successHref={(orderId) => `/checkout/success?order=${orderId}`}
         event="checkout_started_direct"
       />
-      {!gstinOk && <p className="text-xs text-rose-400">That GSTIN doesn’t look right.</p>}
+      {!gstinOk && <p className="text-xs text-rose-600">That GSTIN doesn’t look right.</p>}
     </div>
   );
 }

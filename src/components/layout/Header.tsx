@@ -46,7 +46,7 @@ export function Header() {
   const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My Pass", href: "/account" } : { label: "Sign in", href: "/login" }];
 
   return (
-    <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(2,22,23,0.88)] shadow-[0_2px_0_rgba(94,234,212,0.15)] backdrop-blur-[12px]" : "bg-transparent")}>
+    <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
       <div className="container-page flex h-[76px] items-center justify-between gap-6 md:h-[88px]">
         <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
           <LogoLockup />

@@ -5,7 +5,7 @@ import { JoinPool, ShareLink } from "@/components/pool/JoinPool";
 import { Badge } from "@/components/ui/Badge";
 import { site } from "@/config/site";
 import { getSessionUser } from "@/lib/auth.server";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatUSDFromPaise } from "@/lib/format";
 import { getPool } from "@/lib/pools.server";
 import { getSettings } from "@/lib/settings.server";
 
@@ -64,7 +64,7 @@ export default async function PoolPage({ params }: { params: Promise<{ id: strin
               <Users size={15} /> {seatsLeft === 1 ? "1 seat left" : `${seatsLeft} seats left`}
             </p>
             <p className="mt-4 text-ink-muted">
-              {pool.seats} members share one {tier?.name} bundle. Each seat is <strong className="text-ink">{formatINR(pool.seatPricePaise)}</strong>
+              {pool.seats} members share one {tier?.name} bundle. Each seat is <strong className="text-ink">{formatINR(pool.seatPricePaise)}</strong> ({formatUSDFromPaise(pool.seatPricePaise, s.usdInrRate)})
               {pool.paymentModel === "escrow"
                 ? `, held in escrow and refunded automatically if the pool does not fill within ${s.poolExpiryDays} days.`
                 : `, collected by the pool organiser.`}

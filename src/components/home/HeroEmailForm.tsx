@@ -34,7 +34,7 @@ export function HeroEmailForm({ next = "/checkout/direct?tier=pro" }: { next?: s
         onChange={(e) => setValue(e.target.value)}
         placeholder="your@email.com"
         autoComplete="email"
-        className="block h-full min-w-0 flex-1 bg-transparent text-[20px] font-bold leading-[1.2] text-ink caret-accent outline-none placeholder:text-ink-faint md:text-[24px]"
+        className="block h-full min-w-0 flex-1 bg-transparent text-[20px] font-bold leading-[1.2] text-ink caret-ink-line outline-none placeholder:text-ink-faint md:text-[24px]"
       />
       <button type="submit" aria-label="Get started" className="group relative inline-flex h-[44px] w-[60px] shrink-0 rounded-[100px]">
         <span aria-hidden className="pointer-events-none absolute inset-0 rounded-[100px] border-2 border-ink-line bg-primary opacity-0 transition-opacity duration-150 group-hover:opacity-100" />

@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
  */
 export function Logo({ className, size = 36, tone = "brand" }: { className?: string; size?: number; tone?: "brand" | "light" }) {
   const fill = tone === "light" ? "var(--on-primary)" : "var(--brand-accent)";
-  const stroke = fill;
+  const stroke = tone === "light" ? fill : "var(--ink-line)";
   const ink = tone === "light" ? "var(--brand-primary)" : "var(--on-accent)";
   return (
     <svg width={size} height={size} viewBox="0 0 40 40" fill="none" aria-hidden className={cn("shrink-0", className)}>

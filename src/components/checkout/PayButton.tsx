@@ -98,7 +98,7 @@ export function PayButton({
         name: "Software Hub Pool",
         order_id: data.gatewayOrderId,
         prefill: data.prefill ?? {},
-        theme: { color: "#0d9488" },
+        theme: { color: "#92400e" },
         handler: async (r: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
           const v = await fetch("/api/payments/verify", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(r) });
           const vd = await v.json();
@@ -157,7 +157,7 @@ export function PayButton({
         </Button>
       )}
       {error && (
-        <p role="alert" className="mt-2 text-sm font-medium text-rose-400">
+        <p role="alert" className="mt-2 text-sm font-medium text-rose-600">
           {error}
         </p>
       )}

@@ -40,8 +40,8 @@ export default async function ResellerRevenuePage() {
                 <td className="px-4 py-2.5"><Link href={`/reseller/pools/${s.poolId}`} className="font-semibold hover:text-primary">{s.poolName ?? s.poolId}</Link><span className="block text-xs text-ink-faint">{s.mode.replace("_", " ")}</span></td>
                 <td className="px-4 py-2.5 whitespace-nowrap text-xs">{s.fulfilledAt?.toLocaleDateString("en-IN", { dateStyle: "medium" })}</td>
                 <td className="px-4 py-2.5 tabular-nums">{formatINR(s.grossPaise)}</td>
-                <td className="px-4 py-2.5 tabular-nums text-rose-400">−{formatINR(s.platformFeePaise)}</td>
-                <td className="px-4 py-2.5 tabular-nums text-rose-400">−{formatINR(s.resellerCostPaise)}</td>
+                <td className="px-4 py-2.5 tabular-nums text-rose-600">−{formatINR(s.platformFeePaise)}</td>
+                <td className="px-4 py-2.5 tabular-nums text-rose-600">−{formatINR(s.resellerCostPaise)}</td>
                 <td className="px-4 py-2.5 tabular-nums">{formatINR(s.marginPaise)}</td>
                 <td className="px-4 py-2.5 tabular-nums font-bold">{formatINR(s.resellerSharePaise)}</td>
                 <td className="px-4 py-2.5 tabular-nums">{formatINR(s.memberSharesPaise)}</td>

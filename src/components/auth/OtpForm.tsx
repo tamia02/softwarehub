@@ -55,7 +55,7 @@ export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initi
         <motion.form key="id" onSubmit={request} initial={{ opacity: 0, x: -12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }}>
           <label htmlFor="identifier" className="block text-sm font-semibold">Email or mobile number</label>
           <input id="identifier" className={input} value={identifier} onChange={(e) => setIdentifier(e.target.value)} placeholder="you@company.com or 98765 43210" autoComplete="username" autoFocus required />
-          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-400">{error}</p>}
+          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-600">{error}</p>}
           <Button type="submit" size="lg" className="mt-5 w-full" disabled={busy || identifier.trim().length < 3}>
             {busy ? <Loader2 className="animate-spin" size={18} /> : null} Send code
           </Button>
@@ -73,7 +73,7 @@ export function OtpForm({ next, initialIdentifier = "" }: { next?: string; initi
               Dev mode — no email/SMS provider configured. Your code is <strong className="font-mono">{devCode}</strong>.
             </p>
           )}
-          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-400">{error}</p>}
+          {error && <p role="alert" className="mt-2 text-sm font-medium text-rose-600">{error}</p>}
           <Button type="submit" size="lg" className="mt-5 w-full" disabled={busy || code.length !== 6}>
             {busy ? <Loader2 className="animate-spin" size={18} /> : null} Verify & continue
           </Button>

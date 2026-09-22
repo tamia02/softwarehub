@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/Button";
 import { FadeUp } from "@/components/motion/FadeUp";
-import { formatINR } from "@/lib/format";
+import { formatDual } from "@/lib/format";
 
-export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount }: { proPricePaise: number; seatPricePaise: number; toolCount: number }) {
+export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount, usdInrRate }: { proPricePaise: number; seatPricePaise: number; toolCount: number; usdInrRate: number }) {
   return (
     <section className="py-3 md:py-4">
       <div className="panel border-2 border-ink-line bg-accent">
@@ -12,7 +12,7 @@ export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount }: { proPr
               {toolCount} tools. One code. Twelve months.
             </h2>
             <p className="mx-auto mt-4 max-w-xl text-[16px] leading-[1.4] text-ink-line/80 md:text-[20px]">
-              {formatINR(proPricePaise)} for the Pro Pass, or {formatINR(seatPricePaise)} for a seat in a pool. Allocation is per vendor, so codes are limited.
+              {formatDual(proPricePaise, usdInrRate)} for the Pro Pass, or {formatDual(seatPricePaise, usdInrRate)} for a seat in a pool. Allocation is per vendor, so codes are limited.
             </p>
             <div className="mt-7 md:mt-8">
               <Button href="/checkout/direct?tier=pro" size="lg" variant="dark">

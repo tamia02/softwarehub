@@ -35,9 +35,9 @@ export default async function HomePage() {
       <Catalog core={core} pro={pro} starterRetailPaise={pricing.starter.retailPaise} proRetailPaise={pricing.pro.retailPaise} />
       <Savings pricing={pricing} tools={tools} />
       <Pricing pricing={pricing} />
-      <PoolExplainer pools={pools} />
+      <PoolExplainer pools={pools} usdInrRate={pricing.pro.usdInrRate} />
       <FAQ items={faq} />
-      <ClosingCTA proPricePaise={pricing.pro.pricePaise} seatPricePaise={pricing.pro.seatPricePaise} toolCount={tools.length} />
+      <ClosingCTA proPricePaise={pricing.pro.pricePaise} seatPricePaise={pricing.pro.seatPricePaise} toolCount={tools.length} usdInrRate={pricing.pro.usdInrRate} />
     </>
   );
 }

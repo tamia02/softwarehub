@@ -34,7 +34,7 @@ export default async function GatePage({
           </div>
         </div>
         <div className="absolute inset-0 bg-[rgba(251,246,236,0.62)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(20,187,166,0.14),transparent)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(60%_50%_at_50%_0%,rgba(232,163,23,0.14),transparent)]" />
       </div>
 
       <GateCard initialRole={initialRole} />

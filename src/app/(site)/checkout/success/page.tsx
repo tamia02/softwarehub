@@ -32,7 +32,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   return (
     <div className="container-page py-12 md:py-16">
       <div className="card mx-auto max-w-xl p-8 text-center">
-        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-900/30 text-emerald-300"><CheckCircle2 size={30} /></span>
+        <span className="mx-auto grid h-14 w-14 place-items-center rounded-full bg-emerald-50 text-emerald-700"><CheckCircle2 size={30} /></span>
         <h1 className="mt-4 text-[28px] font-black">Payment received</h1>
         <p className="mt-1 text-ink-muted">{formatINR(order.amountPaise)} · order {order.id.slice(0, 8)}</p>
 

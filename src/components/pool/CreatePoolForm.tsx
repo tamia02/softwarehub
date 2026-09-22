@@ -125,7 +125,7 @@ export function CreatePoolForm(p: Props) {
 
       <p className="text-xs text-ink-muted">Pools stay open for {p.expiryDays} days. If not every seat is paid by then, everyone is refunded automatically.</p>
       {error && (
-        <p role="alert" className="text-sm font-medium text-rose-400">
+        <p role="alert" className="text-sm font-medium text-rose-600">
           {error}
         </p>
       )}

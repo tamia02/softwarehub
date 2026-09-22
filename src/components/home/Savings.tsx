@@ -9,7 +9,7 @@ import { FadeUp } from "@/components/motion/FadeUp";
 import { settings } from "@/config/site";
 import type { TierSlug } from "@/data/tiers";
 import type { TierPricing } from "@/lib/pricing";
-import { formatINR, formatINRNumber, formatUSD } from "@/lib/format";
+import { formatINR, formatINRNumber, formatUSD, formatUSDFromPaise } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { CatalogTool } from "./ToolCard";
 
@@ -44,8 +44,8 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
 
           <div className="mt-8 grid gap-5 md:mt-10 md:grid-cols-3">
             <Stat label="Retail value" sub={`${p.toolCount} tools · ${formatUSD(p.retailUsd)}`} value={p.retailPaise} />
-            <Stat label="Your price" sub="one activation code" value={p.pricePaise} accent />
-            <Stat label="You save" sub={`${p.savingsPct.toFixed(1)}% off retail`} value={p.savingsPaise} />
+            <Stat label="Your price" sub={`${formatUSDFromPaise(p.pricePaise, p.usdInrRate)} · one activation code`} value={p.pricePaise} accent />
+            <Stat label="You save" sub={`${formatUSDFromPaise(p.savingsPaise, p.usdInrRate)} · ${p.savingsPct.toFixed(1)}% off retail`} value={p.savingsPaise} />
           </div>
 
           <div className="mt-8 text-center">

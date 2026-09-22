@@ -36,7 +36,7 @@ Gate codes: `CUST-DEMO-2026` / `RSL-DEMO-2026` (replace before launch).
 | Path | What |
 |---|---|
 | `src/config/site.ts` | Brand strings, default settings, cookie names |
-| `src/app/globals.css` | Design tokens + measured type scale (outlined-pill system: 2px outlines, offset layers, 22/30px radii, panels) — Dark Teal palette (#021617 · #0D9488 · #14BBA6 · #5EEAD4 · #E6FFFB); Bricolage Grotesque + Caveat; change `--brand-*` here |
+| `src/app/globals.css` | Design tokens + measured type scale (outlined-pill system: 2px outlines, offset layers, 22/30px radii, panels) — Warm Cream palette (#92400E · #D97706 · #F59E0B · #FEF3C7 · #FFFBEB); Bricolage Grotesque + Caveat; change `--brand-*` here |
 | `src/data/logos.ts`, `scripts/gen-logos.cjs` | Vendor logo sources: simple-icons (CC0) glyphs + favicon-by-domain fallback; admin can set an official `logoUrl` per tool |
 | `src/db/schema.ts` | All tables (§7). Money in paise, enums as validated text |
 | `src/db/seed.ts` | Demo data (tiers, 35 tools, vendors, users, pools, code inventory) |

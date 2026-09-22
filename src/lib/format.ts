@@ -43,3 +43,13 @@ export function formatINRCompact(paise: number): string {
 export function formatPct(pct: number): string {
   return `${pct.toFixed(1)}%`;
 }
+
+/** ₹47,000 · $560 — INR with an approximate USD equivalent at the configured rate. */
+export function formatDual(paise: number, usdInrRate: number): string {
+  return `${formatINR(paise)} · ${usd.format(paise / 100 / usdInrRate)}`;
+}
+
+/** ≈ $560 */
+export function formatUSDFromPaise(paise: number, usdInrRate: number): string {
+  return `≈ ${usd.format(paise / 100 / usdInrRate)}`;
+}

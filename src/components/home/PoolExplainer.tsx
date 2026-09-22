@@ -12,7 +12,7 @@ import { Hand, Panel } from "@/components/ui/Section";
 import { settings } from "@/config/site";
 import { tiers } from "@/data/tiers";
 import type { PoolSummary } from "@/data/pools";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatUSDFromPaise } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 const steps = [
@@ -21,7 +21,7 @@ const steps = [
   { icon: <Gift size={22} />, title: "The pass is issued to everyone", desc: "When the last seat is paid, each member's tools appear in My Pass. If the pool doesn't fill in time, every seat is refunded." },
 ];
 
-export function PoolExplainer({ pools }: { pools: PoolSummary[] }) {
+export function PoolExplainer({ pools, usdInrRate }: { pools: PoolSummary[]; usdInrRate: number }) {
   return (
     <Panel id="pool">
       <div className="mx-auto flex max-w-2xl flex-col items-center gap-3 text-center md:gap-5">
@@ -44,7 +44,7 @@ export function PoolExplainer({ pools }: { pools: PoolSummary[] }) {
         </Button>
       </div>
 
-      <PoolCarousel pools={pools} />
+      <PoolCarousel pools={pools} usdInrRate={usdInrRate} />
 
       <div className="mt-6 sm:hidden">
         <Button href="/checkout/pool" variant="secondary" className="w-full">
@@ -78,14 +78,14 @@ function Stepper() {
   );
 }
 
-function PoolCarousel({ pools }: { pools: PoolSummary[] }) {
+function PoolCarousel({ pools, usdInrRate }: { pools: PoolSummary[]; usdInrRate: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const scrollBy = (dir: 1 | -1) => ref.current?.scrollBy({ left: dir * 320, behavior: "smooth" });
   return (
     <div className="relative mt-6">
       <div ref={ref} className="-mx-3 flex snap-x snap-mandatory gap-6 overflow-x-auto px-3 pb-4 pt-2 [scrollbar-width:none] md:mx-0 md:px-0">
         {pools.map((p, i) => (
-          <PoolCard key={p.id} pool={p} index={i} />
+          <PoolCard key={p.id} pool={p} index={i} usdInrRate={usdInrRate} />
         ))}
       </div>
       <div className="mt-2 hidden justify-end gap-2 md:flex">
@@ -100,7 +100,7 @@ function PoolCarousel({ pools }: { pools: PoolSummary[] }) {
   );
 }
 
-function PoolCard({ pool, index }: { pool: PoolSummary; index: number }) {
+function PoolCard({ pool, index, usdInrRate }: { pool: PoolSummary; index: number; usdInrRate: number }) {
   const t = tiers[pool.tier];
   const left = pool.seats - pool.filled;
   return (
@@ -126,6 +126,7 @@ function PoolCard({ pool, index }: { pool: PoolSummary; index: number }) {
         <Button href={`/pool/${pool.id}`} size="md" variant={pool.tier === "pro" ? "primary" : "secondary"} className="w-full">
           Join for {formatINR(pool.seatPricePaise)}
         </Button>
+        <p className="-mt-2 text-center text-[13px] text-ink-faint">{formatUSDFromPaise(pool.seatPricePaise, usdInrRate)} a seat</p>
         <Link href={`/pool/${pool.id}`} className="text-center text-[14px] font-medium text-ink-muted hover:text-ink">
           View pool →
         </Link>

@@ -5,7 +5,7 @@ import { Lock } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
 import { ToolLogo } from "@/components/brand/ToolLogo";
 import type { Tool } from "@/data/tools";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatUSD } from "@/lib/format";
 
 export type CatalogTool = Tool & { retailPaise: number };
 
@@ -46,8 +46,9 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
         </div>
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-2">
-          <span className="font-hand whitespace-nowrap text-[28px] leading-[0.8] text-accent-2 md:text-[30px]" title="Listed annual retail value">
-            {formatINR(tool.retailPaise)} value
+          <span className="flex flex-col" title="Listed annual retail value">
+            <span className="font-hand whitespace-nowrap text-[26px] leading-[0.85] text-accent-2 md:text-[28px]">{formatINR(tool.retailPaise)} value</span>
+            <span className="mt-1 text-[13px] font-medium leading-none text-ink-faint">{formatUSD(tool.valueUsd)} at list price</span>
           </span>
           {proOnly ? (
             <span className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[100px] border-2 border-ink-line bg-accent-soft px-4 text-[16px] font-medium text-ink">

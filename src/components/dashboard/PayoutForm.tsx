@@ -27,7 +27,7 @@ export function PayoutForm({ availableRupees, kycVerified }: { availableRupees: 
       <Button type="submit" disabled={pending || !kycVerified || Number(amount) <= 0 || Number(amount) > availableRupees}>
         {pending ? <Loader2 size={16} className="animate-spin" /> : null} Request payout
       </Button>
-      {msg && <span className={`text-xs font-medium ${msg.ok ? "text-emerald-300" : "text-rose-400"}`}>{msg.text}</span>}
+      {msg && <span className={`text-xs font-medium ${msg.ok ? "text-emerald-700" : "text-rose-600"}`}>{msg.text}</span>}
       {!kycVerified && <span className="text-xs text-accent">KYC must be verified first.</span>}
     </form>
   );

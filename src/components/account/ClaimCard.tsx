@@ -118,7 +118,7 @@ export function ClaimCard({ claim, expired }: { claim: ClaimView; expired: boole
           </motion.div>
         )}
       </AnimatePresence>
-      {error && <p className="text-xs font-medium text-rose-400">{error}</p>}
+      {error && <p className="text-xs font-medium text-rose-600">{error}</p>}
     </div>
   );
 }

@@ -9,7 +9,7 @@ import { formatINR } from "@/lib/format";
 export function JoinPool({ poolId, seatPricePaise, open, alreadyIn, signedIn, single }: { poolId: string; seatPricePaise: number; open: boolean; alreadyIn: boolean; signedIn: boolean; single: boolean }) {
   if (alreadyIn) {
     return (
-      <div className="flex h-14 flex-1 items-center justify-center gap-2 rounded-full bg-emerald-900/30 font-bold text-emerald-300">
+      <div className="flex h-14 flex-1 items-center justify-center gap-2 rounded-full bg-emerald-50 font-bold text-emerald-700">
         <Check size={18} /> Your seat is confirmed
       </div>
     );

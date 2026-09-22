@@ -4,7 +4,7 @@ import { DirectCheckout } from "@/components/checkout/DirectCheckout";
 import { tiers as tierCopy, type TierSlug } from "@/data/tiers";
 import { getSessionUser } from "@/lib/auth.server";
 import { getCatalog } from "@/lib/catalog.server";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatUSDFromPaise } from "@/lib/format";
 
 export const metadata = { title: "Checkout" };
 export const dynamic = "force-dynamic";
@@ -63,7 +63,10 @@ export default async function DirectCheckoutPage({ searchParams }: { searchParam
             </div>
             <div className="flex justify-between border-t border-line pt-3 text-base">
               <dt className="font-bold">Total (incl. GST)</dt>
-              <dd className="font-black tabular-nums">{formatINR(p.pricePaise)}</dd>
+              <dd className="text-right font-black tabular-nums">
+                {formatINR(p.pricePaise)}
+                <span className="block text-xs font-medium text-ink-faint">{formatUSDFromPaise(p.pricePaise, p.usdInrRate)}</span>
+              </dd>
             </div>
           </dl>
           <div className="mt-6">

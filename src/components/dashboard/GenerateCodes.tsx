@@ -50,7 +50,7 @@ export function GenerateCodes() {
         <label className="text-xs font-semibold">{kind === "bundle" ? "Batch / vendor allocation ref" : "Label"}<br /><input value={label} onChange={(e) => setLabel(e.target.value)} className={`${sel} w-56`} placeholder={kind === "bundle" ? "e.g. vendor-alloc-2026-09" : "e.g. Instagram campaign"} /></label>
         <Button onClick={run} disabled={pending}>{pending ? <Loader2 size={16} className="animate-spin" /> : null} Generate</Button>
       </div>
-      {error && <p className="text-sm text-rose-400">{error}</p>}
+      {error && <p className="text-sm text-rose-600">{error}</p>}
       {result && (
         <div className="rounded-2xl border border-accent-2 bg-primary-soft p-4">
           <p className="text-sm font-bold text-on-accent">{result.message} These codes are shown once — copy or download them now.</p>

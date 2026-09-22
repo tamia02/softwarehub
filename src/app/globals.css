@@ -1,38 +1,37 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Brand tokens — "Dark Teal" (Option 6: #021617 · #0D9488 · #14BBA6 ·
-   #5EEAD4 · #E6FFFB) applied to the outlined-pill design system.
-   Swap these to re-theme the whole site.
+   Brand tokens — Warm Cream palette (#92400E · #D97706 · #F59E0B · #FEF3C7 ·
+   #FFFBEB) applied to the outlined-pill design system. Swap to re-theme.
    ------------------------------------------------------------------ */
 :root {
-  --brand-primary: #0d9488;        /* teal: dark fills, offsets behind CTAs, active chips */
-  --brand-primary-600: #0f766e;
-  --brand-primary-soft: #0b3b38;
-  --brand-accent: #5eead4;         /* mint: primary CTA fill, highlights */
-  --brand-accent-2: #14bba6;       /* bright teal: links, hand-script accents */
-  --brand-accent-soft: #052221;    /* section panels */
-  --offset-card: #0d9488;          /* offset layer behind cards */
-  --offset-card-hover: #14bba6;
+  --brand-primary: #92400e;        /* deep brown: dark fills, offsets behind CTAs, active chips */
+  --brand-primary-600: #78350f;
+  --brand-primary-soft: #fde8c8;
+  --brand-accent: #f59e0b;         /* amber: primary CTA fill, highlights */
+  --brand-accent-2: #d97706;       /* amber-600: links, hand-script accents */
+  --brand-accent-soft: #fef3c7;    /* section panels */
+  --offset-card: #f3d08a;          /* offset layer behind cards */
+  --offset-card-hover: #f5c76a;
 
-  --bg: #021617;                   /* page */
-  --bg-soft: #052221;
-  --bg-card: #07302e;              /* card / input surface */
-  --bg-dark: #031c1c;
-  --ink: #e6fffb;                  /* text */
-  --ink-line: #5eead4;             /* 2px outlines */
-  --ink-muted: #a7d9d1;
-  --ink-faint: #6fa8a0;
-  --line: #124a46;
-  --line-strong: #1b6660;
-  --on-accent: #021617;            /* text on mint / bright fills */
-  --on-primary: #e6fffb;           /* text on teal fills */
+  --bg: #fffbeb;                   /* page */
+  --bg-soft: #fef3c7;
+  --bg-card: #ffffff;              /* card / input surface */
+  --bg-dark: #2a1508;
+  --ink: #2f2f2f;                  /* text */
+  --ink-line: #1c1917;             /* 2px outlines */
+  --ink-muted: #565656;
+  --ink-faint: #817c77;
+  --line: #eadfc4;
+  --line-strong: #d9c79b;
+  --on-accent: #1c1917;            /* text on amber fills */
+  --on-primary: #fffbeb;           /* text on brown fills */
 
   --r-card: 22px;
   --r-card-lg: 30px;
   --r-pill: 100px;
-  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.2);
-  --shadow-hover: 0 10px 24px rgba(20, 187, 166, 0.18);
+  --shadow-card: 0 1px 2px rgba(47, 47, 47, 0.04);
+  --shadow-hover: 0 10px 24px rgba(146, 64, 14, 0.12);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --panel-w: calc(100% - clamp(24px, 7.5vw, 144px));
 }
@@ -115,8 +114,8 @@ h1, h2, h3, h4, .font-display {
 }
 
 ::selection {
-  background: var(--brand-accent);
-  color: var(--on-accent);
+  background: var(--brand-accent-soft);
+  color: var(--ink);
 }
 
 /* ------------------------------------------------------------------
@@ -242,15 +241,15 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 .anim-promo-in { animation: promo-in 0.45s var(--ease-out) both; }
 
 .skeleton {
-  background: linear-gradient(90deg, #07302e 0%, #0b3b38 50%, #07302e 100%);
+  background: linear-gradient(90deg, #f3e9d0 0%, #fbf5e6 50%, #f3e9d0 100%);
   background-size: 1200px 100%;
   animation: shimmer 1.6s linear infinite;
   border-radius: 12px;
 }
 
 .mark-gray {
-  filter: grayscale(1) brightness(1.6);
-  opacity: 0.8;
+  filter: grayscale(1);
+  opacity: 0.75;
   transition: filter 0.25s var(--ease-out), opacity 0.25s var(--ease-out);
 }
 .group:hover .mark-gray,

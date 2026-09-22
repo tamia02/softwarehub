@@ -11,7 +11,7 @@ import { Hand, Section } from "@/components/ui/Section";
 import { settings } from "@/config/site";
 import { tierList, type TierSlug } from "@/data/tiers";
 import type { TierPricing } from "@/lib/pricing";
-import { formatINR } from "@/lib/format";
+import { formatINR, formatUSDFromPaise } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
 type Mode = "bundle" | "pool";
@@ -67,6 +67,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
                   </span>
                   <span className="pb-2 text-[17px] leading-none text-ink-muted">{mode === "bundle" ? "/year" : "/seat"}</span>
                 </div>
+                <p className="mt-1 text-[15px] font-medium text-ink-faint">{formatUSDFromPaise(price, p.usdInrRate)} at ₹{p.usdInrRate}/USD</p>
                 <p className="mt-1 text-[16px] text-ink-muted">
                   {mode === "bundle" ? (
                     <>

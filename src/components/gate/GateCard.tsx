@@ -181,7 +181,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                       initial={{ opacity: 0, y: -4 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0 }}
-                      className="mt-2 text-sm font-medium text-rose-400"
+                      className="mt-2 text-sm font-medium text-rose-600"
                     >
                       {error}
                     </motion.p>

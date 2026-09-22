@@ -3,8 +3,8 @@ import { cn } from "@/lib/utils";
 type Tone = "new" | "limited" | "pro" | "neutral" | "success";
 
 const tones: Record<Tone, string> = {
-  new: "bg-emerald-900/40 text-emerald-200",
-  limited: "bg-rose-900/40 text-rose-200",
+  new: "bg-emerald-100 text-emerald-900",
+  limited: "bg-rose-100 text-rose-900",
   pro: "bg-accent text-on-accent",
   neutral: "bg-bg-soft text-ink-muted",
   success: "bg-primary-soft text-primary",
