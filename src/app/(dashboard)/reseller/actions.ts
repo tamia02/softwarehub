@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { requireUser } from "@/lib/auth.server";
 import { fulfilPool, getPool, setPoolAssignment } from "@/lib/pools.server";
 import { assignCodeToMember, requestPayout, updateResellerProfile } from "@/lib/reseller.server";
+import { createResellerProduct, addProductCodes, setProductActive } from "@/lib/market.server";
 
 export type ActionResult = { ok: true; message?: string } | { ok: false; error: string };
 
@@ -52,4 +53,32 @@ export async function updateProfileAction(form: { businessName: string; accountN
   });
   revalidatePath("/reseller/settings");
   return { ok: true, message: "Saved. KYC will be reviewed by the admin team." };
+}
+
+export async function addProductAction(formData: FormData): Promise<ActionResult> {
+  const user = await requireUser(["reseller", "admin"]);
+  const name = String(formData.get("name") ?? "").trim();
+  const vendor = String(formData.get("vendor") ?? "").trim() || name;
+  const category = String(formData.get("category") ?? "Subscriptions");
+  const blurb = String(formData.get("blurb") ?? "").trim();
+  const rupees = Number(formData.get("price") ?? 0);
+  if (name.length < 2) return { ok: false, error: "Enter a product name." };
+  if (!(rupees > 0)) return { ok: false, error: "Enter a valid price." };
+  await createResellerProduct(user.id, { name, vendor, category, blurb: blurb || `${name} — activated with a code.`, basePricePaise: Math.round(rupees * 100) });
+  revalidatePath("/reseller/products");
+  return { ok: true, message: `${name} added — upload codes and activate it to go live.` };
+}
+
+export async function uploadCodesAction(productId: string, formData: FormData): Promise<ActionResult> {
+  const user = await requireUser(["reseller", "admin"]);
+  const n = await addProductCodes(productId, user.id, String(formData.get("codes") ?? ""));
+  revalidatePath("/reseller/products");
+  return n > 0 ? { ok: true, message: `Added ${n} code${n === 1 ? "" : "s"} to stock.` } : { ok: false, error: "No codes added." };
+}
+
+export async function toggleProductAction(productId: string, active: boolean): Promise<ActionResult> {
+  const user = await requireUser(["reseller", "admin"]);
+  const ok = await setProductActive(productId, user.id, active);
+  revalidatePath("/reseller/products");
+  return ok ? { ok: true, message: active ? "Product is live." : "Product hidden." } : { ok: false, error: "Not your product." };
 }

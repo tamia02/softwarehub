@@ -4,7 +4,8 @@ import { getDb, schema, type Db } from "@/db";
 import type { Order, User } from "@/db/schema";
 import { customerPaise } from "@/data/marketplace";
 import { createGatewayOrder, type GatewayOrder } from "./payments.server";
-import { decrypt } from "./crypto.server";
+import { decrypt, encrypt } from "./crypto.server";
+import { hashCode } from "./codes.server";
 import { audit } from "./audit.server";
 import { uuid } from "./ids";
 import { bust } from "./cache.server";
@@ -169,4 +170,89 @@ export async function resellerSales(resellerId: string): Promise<{ held: number;
     .from(schema.marketOrders)
     .where(eq(schema.marketOrders.resellerId, resellerId));
   return { held: Number(row?.held ?? 0), earned: Number(row?.earned ?? 0), orders: Number(row?.orders ?? 0) };
+}
+
+/* ------------------------------------------------------------------
+   Reseller product & code management (Stage 4)
+   ------------------------------------------------------------------ */
+export interface ResellerProduct {
+  id: string;
+  slug: string;
+  name: string;
+  vendor: string;
+  category: string;
+  basePricePaise: number;
+  commissionPct: number;
+  pricePaise: number;
+  active: boolean;
+  stock: number;
+  sold: number;
+}
+
+export async function listResellerProducts(resellerId: string): Promise<ResellerProduct[]> {
+  const db = await getDb();
+  const rows = await db.select().from(schema.products).where(eq(schema.products.resellerId, resellerId)).orderBy(desc(schema.products.createdAt));
+  const out: ResellerProduct[] = [];
+  for (const p of rows) {
+    const [stock] = await db.select({ n: sql<number>`count(*)::int` }).from(schema.productCodes).where(and(eq(schema.productCodes.productId, p.id), eq(schema.productCodes.status, "available")));
+    const [sold] = await db.select({ n: sql<number>`count(*)::int` }).from(schema.productCodes).where(and(eq(schema.productCodes.productId, p.id), eq(schema.productCodes.status, "sold")));
+    out.push({
+      id: p.id, slug: p.slug, name: p.name, vendor: p.vendor, category: p.category,
+      basePricePaise: p.basePricePaise, commissionPct: p.commissionPct, pricePaise: customerPaise(p.basePricePaise, p.commissionPct),
+      active: p.active, stock: Number(stock?.n ?? 0), sold: Number(sold?.n ?? 0),
+    });
+  }
+  return out;
+}
+
+function slugify(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40);
+}
+
+export async function createResellerProduct(resellerId: string, data: { name: string; vendor: string; category: string; blurb: string; basePricePaise: number }): Promise<string> {
+  const db = await getDb();
+  const id = uuid();
+  const slug = `${slugify(data.name)}-${id.slice(0, 4)}`;
+  await db.insert(schema.products).values({
+    id, slug, name: data.name, vendor: data.vendor, category: data.category, blurb: data.blurb,
+    resellerId, basePricePaise: data.basePricePaise, commissionPct: 20, hue: 220, active: false, sort: 500,
+  });
+  await audit({ actorId: resellerId, entity: "product", entityId: id, to: "created", meta: { name: data.name } }, db);
+  bust("marketplace");
+  return id;
+}
+
+async function ownProduct(db: Db, productId: string, resellerId: string) {
+  const [p] = await db.select().from(schema.products).where(and(eq(schema.products.id, productId), eq(schema.products.resellerId, resellerId)));
+  return p ?? null;
+}
+
+export async function updateResellerProduct(productId: string, resellerId: string, data: { name?: string; vendor?: string; category?: string; blurb?: string; basePricePaise?: number }): Promise<boolean> {
+  const db = await getDb();
+  if (!(await ownProduct(db, productId, resellerId))) return false;
+  await db.update(schema.products).set({ ...data }).where(eq(schema.products.id, productId));
+  bust("marketplace");
+  return true;
+}
+
+export async function setProductActive(productId: string, resellerId: string, active: boolean): Promise<boolean> {
+  const db = await getDb();
+  if (!(await ownProduct(db, productId, resellerId))) return false;
+  await db.update(schema.products).set({ active }).where(eq(schema.products.id, productId));
+  bust("marketplace");
+  return true;
+}
+
+/** Bulk-add codes (one per line) as available stock. Returns how many added. */
+export async function addProductCodes(productId: string, resellerId: string, codesRaw: string): Promise<number> {
+  const db = await getDb();
+  if (!(await ownProduct(db, productId, resellerId))) return 0;
+  const codes = codesRaw.split(/[\r\n]+/).map((c) => c.trim()).filter(Boolean).slice(0, 2000);
+  if (codes.length === 0) return 0;
+  await db.insert(schema.productCodes).values(
+    codes.map((c) => ({ id: uuid(), productId, codeHash: hashCode(c), codeEnc: encrypt(c), last4: c.slice(-4), batch: "reseller" })),
+  );
+  await audit({ actorId: resellerId, entity: "product", entityId: productId, to: "codes_added", meta: { count: codes.length } }, db);
+  bust("marketplace");
+  return codes.length;
 }

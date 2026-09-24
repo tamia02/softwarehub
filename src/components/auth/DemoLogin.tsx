@@ -7,8 +7,8 @@ import { Loader2, User, Store, ShieldCheck } from "lucide-react";
 type Role = "customer" | "reseller" | "admin";
 
 const ROLES: { role: Role; label: string; hint: string; icon: typeof User }[] = [
-  { role: "customer", label: "Customer", hint: "Passes, Growth, Community, Lab", icon: User },
-  { role: "reseller", label: "Reseller", hint: "Pools, Community seller, Lab", icon: Store },
+  { role: "customer", label: "Customer", hint: "Browse and buy from the marketplace", icon: User },
+  { role: "reseller", label: "Reseller", hint: "List products, upload codes, sell", icon: Store },
   { role: "admin", label: "Admin", hint: "Full control panel", icon: ShieldCheck },
 ];
 
