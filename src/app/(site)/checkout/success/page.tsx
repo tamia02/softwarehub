@@ -5,6 +5,7 @@ import { getDb, schema } from "@/db";
 import { Button } from "@/components/ui/Button";
 import { requireUser } from "@/lib/auth.server";
 import { revealOrderCode } from "@/lib/orders.server";
+import { revealMarketCode } from "@/lib/market.server";
 import { formatINR } from "@/lib/format";
 import { displayCode } from "@/lib/codes";
 
@@ -27,6 +28,7 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
   }
   const [invoice] = await db.select().from(schema.invoices).where(eq(schema.invoices.orderId, order.id));
   const reveal = order.type === "direct" ? await revealOrderCode(order.id, user.id) : null;
+  const productReveal = order.type === "product" ? await revealMarketCode(order.id, user.id) : null;
   const poolId = (order.metaJson as { poolId?: string } | null)?.poolId;
 
   return (
@@ -54,13 +56,29 @@ export default async function SuccessPage({ searchParams }: { searchParams: Prom
           </div>
         )}
 
+        {order.type === "product" && (
+          <div className="mt-8 rounded-2xl border border-line bg-bg-soft p-5 text-left">
+            <p className="inline-flex items-center gap-2 text-sm font-bold"><KeyRound size={16} className="text-primary" /> Your code</p>
+            {productReveal?.code ? (
+              <>
+                <p className="mt-3 select-all font-mono text-xl font-bold tracking-[0.12em]">{productReveal.code}</p>
+                <p className="mt-2 text-xs text-ink-muted">Shown once — save it now. Confirm it works from My purchases so the seller is paid.</p>
+              </>
+            ) : (
+              <p className="mt-3 text-sm text-ink-muted">This code (ending {productReveal?.last4}) is in My purchases.</p>
+            )}
+          </div>
+        )}
+
         {order.type === "pool_seat" && poolId && (
-          <p className="mt-6 text-sm text-ink-muted">Your seat is confirmed. Track the pool and share the link to fill it faster.</p>
+          <p className="mt-6 text-sm text-ink-muted">Your seat is confirmed. Track the order and share the link to fill it faster.</p>
         )}
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          {order.type === "pool_seat" && poolId ? (
-            <Button href={`/pool/${poolId}`} size="lg" className="flex-1">View pool</Button>
+          {order.type === "product" ? (
+            <Button href="/account/purchases" size="lg" className="flex-1">My purchases</Button>
+          ) : order.type === "pool_seat" && poolId ? (
+            <Button href={`/pool/${poolId}`} size="lg" className="flex-1">View order</Button>
           ) : order.type === "reseller_code" ? (
             <Button href="/reseller/codes" size="lg" className="flex-1">View inventory</Button>
           ) : (

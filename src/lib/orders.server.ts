@@ -11,7 +11,7 @@ import { createGatewayOrder, type GatewayOrder } from "./payments.server";
 import { getSettings } from "./settings.server";
 import type { Order, Payment, User } from "@/db/schema";
 
-export type OrderType = "direct" | "pool_seat" | "reseller_code";
+export type OrderType = "direct" | "pool_seat" | "reseller_code" | "product";
 
 /* ------------------------------------------------------------------
    Creation (idempotent on idempotencyKey)
@@ -139,6 +139,12 @@ async function fulfilOrder(db: Db, order: Order, payment: Payment): Promise<Orde
     const pools = await import("./pools.server");
     if (meta.single && meta.poolId) await pools.onSinglePoolPaid(db, meta.poolId);
     else await pools.onSeatPaid(db, order, payment);
+    return setOrderStatus(db, order, "fulfilled");
+  }
+
+  if (order.type === "product") {
+    const market = await import("./market.server");
+    await market.onProductOrderPaid(db, order);
     return setOrderStatus(db, order, "fulfilled");
   }
 
