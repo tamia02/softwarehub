@@ -6,6 +6,7 @@ import type { Db } from "./index";
 import * as schema from "./schema";
 import { tiers as tierData } from "@/data/tiers";
 import { tools as toolData } from "@/data/tools";
+import { productSeeds, bundleSeeds } from "@/data/marketplace";
 import { checkCharIsUsable, computeCheckChar } from "@/lib/codes";
 import { hashCode, generateCode } from "@/lib/codes.server";
 import { encrypt } from "@/lib/crypto.server";
@@ -120,6 +121,41 @@ export async function seed(db: Db) {
     })),
   );
 
+  // Marketplace: products (owned by the demo reseller) + code inventory + bundles
+  const prodIdBySlug = new Map<string, string>();
+  for (const p of productSeeds) {
+    const id = uuid();
+    prodIdBySlug.set(p.slug, id);
+    await db.insert(schema.products).values({
+      id,
+      slug: p.slug,
+      name: p.name,
+      vendor: p.vendor,
+      category: p.category,
+      blurb: p.blurb,
+      description: p.description ?? null,
+      resellerId: reseller.id,
+      basePricePaise: p.basePaise,
+      commissionPct: p.commissionPct ?? 20,
+      warrantyDays: p.warrantyDays ?? 14,
+      hue: p.hue,
+      badge: p.badge ?? null,
+      sort: productSeeds.indexOf(p),
+    });
+    const codes = Array.from({ length: p.stock }, () => `${p.slug.slice(0, 4).toUpperCase()}-${shortId().toUpperCase()}-${shortId().toUpperCase()}`);
+    await db.insert(schema.productCodes).values(
+      codes.map((c) => ({ id: uuid(), productId: id, codeHash: hashCode(c), codeEnc: encrypt(c), last4: c.slice(-4), batch: "seed" })),
+    );
+  }
+  for (const b of bundleSeeds) {
+    const bid = uuid();
+    await db.insert(schema.bundles).values({ id: bid, slug: b.slug, name: b.name, blurb: b.blurb, pricePaise: b.pricePaise, badge: b.badge ?? null, sort: bundleSeeds.indexOf(b) });
+    await db.insert(schema.bundleItems).values(
+      b.productSlugs.filter((s) => prodIdBySlug.has(s)).map((s) => ({ id: uuid(), bundleId: bid, productId: prodIdBySlug.get(s)! })),
+    );
+  }
+  lines.push(`Marketplace: ${productSeeds.length} products, ${bundleSeeds.length} bundles seeded.`, "");
+
   // Demo open pools with paid members
   const poolSpecs = [
     { tier: "pro", filled: 7, days: 2.3, name: "Bengaluru builders", reseller: true },
@@ -197,6 +233,7 @@ export async function seed(db: Db) {
 export async function resetAndSeed(db: Db) {
   for (const t of [
     schema.auditLog, schema.payouts, schema.invoices, schema.payments, schema.poolMembers, schema.orders, schema.toolClaims,
+    schema.marketOrders, schema.bundleItems, schema.bundles, schema.productCodes, schema.products,
     schema.passes, schema.pools, schema.bundleCodes, schema.gateCodes, schema.otpCodes, schema.resellers, schema.users,
     schema.tools, schema.vendors, schema.tiers, schema.settings,
   ]) {

@@ -15,6 +15,13 @@
       "when": 1790008283536,
       "tag": "0001_tool_logo_url",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790269198588,
+      "tag": "0002_typical_wither",
+      "breakpoints": true
     }
   ]
 }

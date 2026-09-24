@@ -3,7 +3,7 @@
  * with a proper hero; the customer/reseller can move between them from the
  * header. Copy is written for us — not lifted from any reference site.
  */
-export type ProductSlug = "passes" | "growth" | "community";
+export type ProductSlug = "passes" | "community";
 
 export interface Product {
   slug: ProductSlug;
@@ -51,35 +51,6 @@ export const products: Product[] = [
       { step: "01", title: "Pick a pass", body: "Starter or Pro — see exactly which tools each includes." },
       { step: "02", title: "Pay once", body: "UPI, cards or net-banking. Your code appears instantly and by email." },
       { step: "03", title: "Redeem & build", body: "Enter the code, unlock everything, and get a full year of access." },
-    ],
-  },
-  {
-    slug: "growth",
-    href: "/growth",
-    nav: "Growth",
-    name: "Growth Panel",
-    eyebrow: "Social growth, wholesale",
-    headline: "Grow every platform at wholesale rates, delivered automatically.",
-    highlight: ["wholesale", "automatically"],
-    hand: "instant start!",
-    sub: "Followers, views, likes and watch-time across Instagram, YouTube, TikTok and more — dispatched to real servers in seconds and tracked live from one dashboard.",
-    primary: { label: "Browse services", href: "/growth#services" },
-    secondary: { label: "Become a reseller", href: "/growth#reseller" },
-    stats: [
-      { value: "1,400+", label: "services" },
-      { value: "0–5 min", label: "typical start" },
-      { value: "99.9%", label: "order success" },
-      { value: "30–55%", label: "reseller margin" },
-    ],
-    features: [
-      { title: "Real, non-drop growth", body: "High-quality engagement with automatic refill so your counts hold, not evaporate." },
-      { title: "Instant auto-dispatch", body: "Orders go straight to provider nodes — most begin within minutes, tracked in real time." },
-      { title: "Wallet + API", body: "Top up once, order from the dashboard or plug our API v2 straight into your own panel." },
-    ],
-    how: [
-      { step: "01", title: "Add funds", body: "Deposit by UPI, QR, cards or crypto — credited to your panel wallet instantly." },
-      { step: "02", title: "Pick a service", body: "Choose a platform and service, paste your link, set the quantity." },
-      { step: "03", title: "Order & track", body: "Automated delivery starts and you watch progress live, 24/7." },
     ],
   },
   {

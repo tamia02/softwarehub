@@ -317,6 +317,117 @@ export const auditLog = pgTable(
   (t) => [index("audit_entity_idx").on(t.entity, t.entityId)],
 );
 
+/* ------------------------------------------------------------------
+   Marketplace (§ v2) — products sold as codes, listed by resellers,
+   marked up by a platform commission, delivered through escrow.
+   ------------------------------------------------------------------ */
+
+/** A sellable product (e.g. "Canva Pro · 1 year"). Owned by a reseller; the
+ *  customer price is basePrice + platform commission. Stock = available codes. */
+export const products = pgTable(
+  "products",
+  {
+    id: text("id").primaryKey(),
+    slug: text("slug").notNull(),
+    name: text("name").notNull(),
+    vendor: text("vendor").notNull(),
+    category: text("category").notNull(),
+    blurb: text("blurb").notNull(),
+    description: text("description"),
+    resellerId: text("reseller_id"), // owning reseller (null = platform/admin listed)
+    basePricePaise: integer("base_price_paise").notNull(), // reseller's price
+    commissionPct: integer("commission_pct").notNull().default(20), // platform markup
+    deliveryType: text("delivery_type").notNull().default("code"), // code | account | manual
+    warrantyDays: integer("warranty_days").notNull().default(14),
+    logoUrl: text("logo_url"),
+    hue: integer("hue").notNull().default(220),
+    badge: text("badge"),
+    active: boolean("active").notNull().default(true),
+    sort: integer("sort").notNull().default(0),
+    createdAt: ts("created_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("products_slug_idx").on(t.slug), index("products_reseller_idx").on(t.resellerId), index("products_active_idx").on(t.active)],
+);
+
+/** Inventory: one row per redeemable code for a product. */
+export const productCodes = pgTable(
+  "product_codes",
+  {
+    id: text("id").primaryKey(),
+    productId: text("product_id")
+      .notNull()
+      .references(() => products.id),
+    codeHash: text("code_hash").notNull(),
+    codeEnc: text("code_enc"), // AES-GCM ciphertext, wiped after the buyer confirms
+    last4: text("last4").notNull(),
+    status: text("status").notNull().default("available"), // available | reserved | sold | void
+    orderId: text("order_id"),
+    reservedForUserId: text("reserved_for_user_id"),
+    batch: text("batch"),
+    soldAt: ts("sold_at"),
+    createdAt: ts("created_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("product_codes_hash_idx").on(t.codeHash), index("product_codes_stock_idx").on(t.productId, t.status)],
+);
+
+/** A curated bundle of products at a bundle price. */
+export const bundles = pgTable(
+  "bundles",
+  {
+    id: text("id").primaryKey(),
+    slug: text("slug").notNull(),
+    name: text("name").notNull(),
+    blurb: text("blurb").notNull(),
+    pricePaise: integer("price_paise").notNull(),
+    badge: text("badge"),
+    active: boolean("active").notNull().default(true),
+    sort: integer("sort").notNull().default(0),
+    createdAt: ts("created_at").notNull().defaultNow(),
+  },
+  (t) => [uniqueIndex("bundles_slug_idx").on(t.slug)],
+);
+
+export const bundleItems = pgTable(
+  "bundle_items",
+  {
+    id: text("id").primaryKey(),
+    bundleId: text("bundle_id")
+      .notNull()
+      .references(() => bundles.id),
+    productId: text("product_id")
+      .notNull()
+      .references(() => products.id),
+  },
+  (t) => [uniqueIndex("bundle_items_idx").on(t.bundleId, t.productId)],
+);
+
+/** Marketplace purchase with escrow lifecycle. */
+export const marketOrders = pgTable(
+  "market_orders",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id),
+    productId: text("product_id").references(() => products.id),
+    bundleId: text("bundle_id").references(() => bundles.id),
+    resellerId: text("reseller_id"),
+    orderId: text("order_id"), // payment order (orders table)
+    productCodeId: text("product_code_id"),
+    qty: integer("qty").notNull().default(1),
+    pricePaise: integer("price_paise").notNull(), // customer price paid
+    basePricePaise: integer("base_price_paise").notNull(), // reseller's cut
+    commissionPaise: integer("commission_paise").notNull(), // platform's cut
+    // escrow: pending_payment | held | delivered | completed | disputed | refunded | cancelled
+    status: text("status").notNull().default("pending_payment"),
+    deliveredAt: ts("delivered_at"),
+    confirmDeadline: ts("confirm_deadline"),
+    completedAt: ts("completed_at"),
+    createdAt: ts("created_at").notNull().defaultNow(),
+  },
+  (t) => [index("market_orders_user_idx").on(t.userId), index("market_orders_reseller_idx").on(t.resellerId), index("market_orders_status_idx").on(t.status)],
+);
+
 export type User = typeof users.$inferSelect;
 export type Reseller = typeof resellers.$inferSelect;
 export type ToolRow = typeof tools.$inferSelect;
@@ -330,3 +441,8 @@ export type Order = typeof orders.$inferSelect;
 export type Payment = typeof payments.$inferSelect;
 export type Invoice = typeof invoices.$inferSelect;
 export type Payout = typeof payouts.$inferSelect;
+export type Product = typeof products.$inferSelect;
+export type ProductCode = typeof productCodes.$inferSelect;
+export type Bundle = typeof bundles.$inferSelect;
+export type BundleItem = typeof bundleItems.$inferSelect;
+export type MarketOrder = typeof marketOrders.$inferSelect;
