@@ -5,7 +5,7 @@ const nav = [
   { href: "/admin", label: "Overview", exact: true },
   { href: "/admin/codes", label: "Codes" },
   { href: "/admin/orders", label: "Orders" },
-  { href: "/admin/pools", label: "Pools" },
+  { href: "/admin/products", label: "Products" },
   { href: "/admin/tools", label: "Tools" },
   { href: "/admin/vendors", label: "Vendors" },
   { href: "/admin/payouts", label: "Resellers & payouts" },

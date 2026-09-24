@@ -256,3 +256,70 @@ export async function addProductCodes(productId: string, resellerId: string, cod
   bust("marketplace");
   return codes.length;
 }
+
+/* ------------------------------------------------------------------
+   Admin: all products, commission, marketplace overview (Stage 5)
+   ------------------------------------------------------------------ */
+export interface AdminProduct {
+  id: string;
+  name: string;
+  vendor: string;
+  category: string;
+  resellerName: string | null;
+  basePricePaise: number;
+  commissionPct: number;
+  pricePaise: number;
+  active: boolean;
+  stock: number;
+  sold: number;
+}
+
+export async function adminListProducts(): Promise<AdminProduct[]> {
+  const db = await getDb();
+  const rows = await db
+    .select({ p: schema.products, resellerName: schema.users.name, resellerEmail: schema.users.email })
+    .from(schema.products)
+    .leftJoin(schema.users, eq(schema.products.resellerId, schema.users.id))
+    .orderBy(desc(schema.products.createdAt));
+  const stock = await db
+    .select({ productId: schema.productCodes.productId, status: schema.productCodes.status, n: sql<number>`count(*)::int` })
+    .from(schema.productCodes)
+    .groupBy(schema.productCodes.productId, schema.productCodes.status);
+  const avail = new Map<string, number>();
+  const sold = new Map<string, number>();
+  for (const s of stock) {
+    if (s.status === "available") avail.set(s.productId, Number(s.n));
+    if (s.status === "sold") sold.set(s.productId, Number(s.n));
+  }
+  return rows.map(({ p, resellerName, resellerEmail }) => ({
+    id: p.id, name: p.name, vendor: p.vendor, category: p.category,
+    resellerName: resellerName ?? resellerEmail ?? null,
+    basePricePaise: p.basePricePaise, commissionPct: p.commissionPct, pricePaise: customerPaise(p.basePricePaise, p.commissionPct),
+    active: p.active, stock: avail.get(p.id) ?? 0, sold: sold.get(p.id) ?? 0,
+  }));
+}
+
+export async function adminSetCommission(productId: string, pct: number): Promise<void> {
+  const db = await getDb();
+  const clamped = Math.max(0, Math.min(90, Math.round(pct)));
+  await db.update(schema.products).set({ commissionPct: clamped }).where(eq(schema.products.id, productId));
+  bust("marketplace");
+}
+
+export async function adminSetProductActive(productId: string, active: boolean): Promise<void> {
+  const db = await getDb();
+  await db.update(schema.products).set({ active }).where(eq(schema.products.id, productId));
+  bust("marketplace");
+}
+
+export async function marketOverview(): Promise<{ products: number; live: number; orders: number; gmvPaise: number; heldPaise: number; commissionPaise: number }> {
+  const db = await getDb();
+  const [p] = await db.select({ n: sql<number>`count(*)::int`, live: sql<number>`coalesce(sum(case when ${schema.products.active} then 1 else 0 end),0)::int` }).from(schema.products);
+  const [o] = await db.select({
+    orders: sql<number>`count(*)::int`,
+    gmv: sql<number>`coalesce(sum(case when ${schema.marketOrders.status} in ('held','completed') then ${schema.marketOrders.pricePaise} else 0 end),0)::int`,
+    held: sql<number>`coalesce(sum(case when ${schema.marketOrders.status} = 'held' then ${schema.marketOrders.pricePaise} else 0 end),0)::int`,
+    commission: sql<number>`coalesce(sum(case when ${schema.marketOrders.status} in ('held','completed') then ${schema.marketOrders.commissionPaise} else 0 end),0)::int`,
+  }).from(schema.marketOrders);
+  return { products: Number(p?.n ?? 0), live: Number(p?.live ?? 0), orders: Number(o?.orders ?? 0), gmvPaise: Number(o?.gmv ?? 0), heldPaise: Number(o?.held ?? 0), commissionPaise: Number(o?.commission ?? 0) };
+}

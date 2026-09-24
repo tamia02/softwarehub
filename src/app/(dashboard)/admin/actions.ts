@@ -91,3 +91,19 @@ export async function retryInventoryAction(): Promise<ActionResult> {
   revalidatePath("/admin/orders");
   return { ok: true, message: `Fulfilled ${n} order(s).` };
 }
+
+export async function setCommissionAction(productId: string, pct: number): Promise<ActionResult> {
+  await requireUser("admin");
+  const { adminSetCommission } = await import("@/lib/market.server");
+  await adminSetCommission(productId, pct);
+  revalidatePath("/admin/products");
+  return { ok: true, message: `Commission set to ${Math.round(pct)}%.` };
+}
+
+export async function setProductActiveAction(productId: string, active: boolean): Promise<ActionResult> {
+  await requireUser("admin");
+  const { adminSetProductActive } = await import("@/lib/market.server");
+  await adminSetProductActive(productId, active);
+  revalidatePath("/admin/products");
+  return { ok: true };
+}
