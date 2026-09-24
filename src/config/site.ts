@@ -48,5 +48,4 @@ export const nav = [
   { label: "Passes", href: "/home" },
   { label: "Growth", href: "/growth" },
   { label: "Community", href: "/community" },
-  { label: "Lab", href: "/lab" },
 ];

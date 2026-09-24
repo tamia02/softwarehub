@@ -3,7 +3,7 @@
  * with a proper hero; the customer/reseller can move between them from the
  * header. Copy is written for us — not lifted from any reference site.
  */
-export type ProductSlug = "passes" | "growth" | "community" | "lab";
+export type ProductSlug = "passes" | "growth" | "community";
 
 export interface Product {
   slug: ProductSlug;
@@ -109,36 +109,6 @@ export const products: Product[] = [
       { step: "01", title: "Find an offer", body: "Browse by category and brand, compare sellers and prices, pick the one you trust." },
       { step: "02", title: "Pay into escrow", body: "Checkout securely; your payment is held, not sent straight to the seller." },
       { step: "03", title: "Confirm & release", body: "Inspect what you received, confirm, and the funds release — or open a dispute." },
-    ],
-  },
-  {
-    slug: "lab",
-    href: "/lab",
-    nav: "Lab",
-    name: "The Lab",
-    dark: true,
-    eyebrow: "root@softwarehub:~$",
-    headline: "A toolkit and playbook library for builders and security folk.",
-    highlight: ["toolkit", "playbook"],
-    hand: "// runs in your browser",
-    sub: "Decoders, network and security utilities that run right in your browser, plus tier-gated playbooks and a community forum. No fluff, no sign-up for the free tools.",
-    primary: { label: "Open the toolkit", href: "/lab#tools" },
-    secondary: { label: "Read playbooks", href: "/lab#playbooks" },
-    stats: [
-      { value: "60+", label: "tools" },
-      { value: "3 tiers", label: "Free · Pro · VIP" },
-      { value: "0", label: "data leaves the tab" },
-      { value: "⌘K", label: "command palette" },
-    ],
-    features: [
-      { title: "Decode & convert", body: "JWT, Base64, hex, JSON, timestamps, regex — the everyday developer bench, all client-side." },
-      { title: "Network & security", body: "DNS, WHOIS, header graders, SSL checks, breach lookups and hash tools against public data only." },
-      { title: "Playbooks & forum", body: "Long-form growth, hardening and automation guides, plus a community with reputation and streaks." },
-    ],
-    how: [
-      { step: "01", title: "Pick a tool", body: "Search or hit ⌘K. Free tools open instantly, no account needed." },
-      { step: "02", title: "Run it locally", body: "Everything computes in your browser — your input never leaves the tab." },
-      { step: "03", title: "Go deeper", body: "Unlock Pro/VIP playbooks and the vault when you want the advanced material." },
     ],
   },
 ];
