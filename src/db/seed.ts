@@ -6,7 +6,7 @@ import type { Db } from "./index";
 import * as schema from "./schema";
 import { tiers as tierData } from "@/data/tiers";
 import { tools as toolData } from "@/data/tools";
-import { productSeeds, bundleSeeds } from "@/data/marketplace";
+import { productSeeds, bundleSeeds, brandLogoUrl } from "@/data/marketplace";
 import { checkCharIsUsable, computeCheckChar } from "@/lib/codes";
 import { hashCode, generateCode } from "@/lib/codes.server";
 import { encrypt } from "@/lib/crypto.server";
@@ -33,7 +33,7 @@ function demoCode(body: string) {
 export async function seed(db: Db) {
   const now = new Date();
   const day = 86_400_000;
-  const lines: string[] = ["Software Hub Pool — demo credentials (dev only)", ""];
+  const lines: string[] = ["Software Hub — demo credentials (dev only)", ""];
 
   // Tiers — reseller prices are the §13 defaults; edit in /admin/settings.
   await db.insert(schema.tiers).values([
@@ -140,6 +140,7 @@ export async function seed(db: Db) {
       warrantyDays: p.warrantyDays ?? 14,
       hue: p.hue,
       badge: p.badge ?? null,
+      logoUrl: brandLogoUrl(p.slug),
       sort: productSeeds.indexOf(p),
     });
     const codes = Array.from({ length: p.stock }, () => `${p.slug.slice(0, 4).toUpperCase()}-${shortId().toUpperCase()}-${shortId().toUpperCase()}`);

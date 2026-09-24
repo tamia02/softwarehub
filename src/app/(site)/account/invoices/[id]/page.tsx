@@ -100,7 +100,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
         </table>
 
         <p className="mt-8 text-xs text-ink-faint">
-          Computer-generated invoice; no signature required. Software Hub Pool resells third-party software subscriptions; each tool is governed by its vendor’s terms.
+          Computer-generated invoice; no signature required. Software Hub resells third-party software subscriptions; each tool is governed by its vendor’s terms.
         </p>
       </article>
     </div>

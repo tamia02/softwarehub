@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   const requested = body.role === "reseller" ? "reseller" : "customer";
 
   if (!code && requested === "customer") {
-    const res = NextResponse.json({ ok: true, role: "customer", redirect: "/home" });
+    const res = NextResponse.json({ ok: true, role: "customer", redirect: "/market" });
     res.cookies.set(cookieNames.role, "customer", roleCookieOptions());
     res.cookies.delete(cookieNames.ref);
     return res;

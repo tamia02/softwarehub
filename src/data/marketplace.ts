@@ -122,3 +122,18 @@ export const bundleSeeds: BundleSeed[] = [
 export function customerPaise(basePaise: number, commissionPct = 20): number {
   return Math.round(basePaise * (1 + commissionPct / 100));
 }
+
+/** simple-icons brand slug per product (for real logos via cdn.simpleicons.org).
+ *  Unmapped products fall back to a lettered tile. */
+export const brandIcon: Record<string, string> = {
+  "valorant-1000vp": "valorant", "valorant-fresh": "valorant", "valorant-ranked": "valorant",
+  "roblox-800robux": "roblox", "steam-500": "steam", "steam-random": "steam",
+  "googleplay-500": "googleplay", "psn-1000": "playstation", "netflix-gift-500": "netflix", "netflix-4k-1m": "netflix",
+  "claude-pro-1m": "claude", "perplexity-1y": "perplexity", "gemini-pro-1m": "googlegemini",
+  "spotify-1y": "spotify", "youtube-1y": "youtube", "razer-gold-10": "razer",
+};
+
+export function brandLogoUrl(slug: string): string | null {
+  const b = brandIcon[slug];
+  return b ? `https://cdn.simpleicons.org/${b}` : null;
+}

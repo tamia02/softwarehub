@@ -41,7 +41,7 @@ export function ShareLink({ url }: { url: string }) {
   async function share() {
     try {
       if (navigator.share) {
-        await navigator.share({ title: "Join my Software Hub Pool", url });
+        await navigator.share({ title: "Join my Software Hub", url });
         return;
       }
       await navigator.clipboard.writeText(url);

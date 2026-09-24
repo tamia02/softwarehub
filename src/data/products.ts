@@ -1,5 +1,5 @@
 /**
- * The four product areas of Software Hub Pool. Each has its own landing page
+ * The four product areas of Software Hub. Each has its own landing page
  * with a proper hero; the customer/reseller can move between them from the
  * header. Copy is written for us — not lifted from any reference site.
  */
@@ -29,7 +29,7 @@ export const products: Product[] = [
     href: "/home",
     nav: "Passes",
     name: "Software Passes",
-    eyebrow: "Software Hub Pool",
+    eyebrow: "Software Hub",
     headline: "35 premium AI and product tools for a full year, on one pass.",
     highlight: ["35", "premium", "AI"],
     hand: "one code!",

@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     template: `%s · ${site.name}`,
   },
   description:
-    "Software Hub Pool negotiates annual plans on 35 premium tools and issues them as a single activation code. Buy a pass outright, or share one through a pool. Prices in INR.",
+    "Software Hub is a marketplace for premium software, subscriptions and game top-ups — activated instantly with a code, protected by escrow. Prices in INR.",
   openGraph: {
     title: site.name,
     description: site.tagline,

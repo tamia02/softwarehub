@@ -12,7 +12,7 @@ export default async function MarketPage() {
   return (
     <main className="bg-bg">
       <section className="container-page pb-6 pt-10 md:pt-14">
-        <p className="text-[15px] font-bold uppercase tracking-wider text-accent-2">Software Hub Pool</p>
+        <p className="text-[15px] font-bold uppercase tracking-wider text-accent-2">Software Hub</p>
         <h1 className="t-h1 mt-3 max-w-[18ch] text-balance text-ink">Premium software, activated instantly with a code.</h1>
         <p className="mt-4 max-w-[60ch] text-[16px] text-ink-muted">
           Subscriptions, keys and tools from verified resellers — every order protected by escrow until you confirm it works.

@@ -36,7 +36,7 @@ export const SETTING_DEFAULTS: RuntimeSettings = {
   gstPct: 18,
   sellerStateCode: "27",
   sellerGstin: "27AAAAA0000A1Z5",
-  sellerLegalName: "Software Hub Pool",
+  sellerLegalName: "Software Hub",
   sellerAddress: "Mumbai, Maharashtra, India",
   invoicePrefix: "SHP",
   teamDiscountPct: defaults.teamDiscountPct,

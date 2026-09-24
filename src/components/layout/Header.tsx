@@ -48,7 +48,7 @@ export function Header() {
   return (
     <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
       <div className="container-page flex h-[68px] items-center justify-between gap-6 md:h-[76px]">
-        <Link href="/home" aria-label="Software Hub Pool home" className="shrink-0">
+        <Link href="/home" aria-label="Software Hub home" className="shrink-0">
           <LogoLockup />
         </Link>
 
@@ -61,9 +61,7 @@ export function Header() {
         </nav>
 
         <div className="hidden lg:block">
-          <Button href="/checkout/direct?tier=pro" size="sm">
-            Get the Pro Pass
-          </Button>
+          <Button href="/market" size="sm">Browse marketplace</Button>
         </div>
 
         <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-bg-card lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
@@ -89,9 +87,7 @@ export function Header() {
                 </motion.div>
               ))}
               <div className="mt-auto pb-10">
-                <Button href="/checkout/direct?tier=pro" size="lg" className="w-full">
-                  Get the Pro Pass
-                </Button>
+                <Button href="/market" size="lg" className="w-full">Browse marketplace</Button>
               </div>
             </nav>
           </motion.div>

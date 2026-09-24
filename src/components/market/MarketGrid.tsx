@@ -34,7 +34,7 @@ export function MarketGrid({ products, categories }: { products: MarketProduct[]
             className="flex flex-col rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-4 shadow-[4px_4px_0_var(--offset-card)] transition-transform hover:-translate-y-0.5"
           >
             <div className="flex items-start justify-between">
-              <ToolLogo slug={p.slug} name={p.vendor} size={40} />
+              <ToolLogo slug={p.slug} name={p.vendor} logoUrl={p.logoUrl} size={40} />
               {p.badge && <span className="rounded-full bg-accent px-2 py-0.5 text-[10px] font-bold text-on-accent">{p.badge}</span>}
             </div>
             <h3 className="t-card-title mt-3 text-[15px] leading-snug text-ink">{p.name}</h3>

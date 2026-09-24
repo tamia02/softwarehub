@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
 
   if (pathname === "/") {
     if (roleCookie && !searchParams.has("switch")) {
-      const to = roleCookie === "reseller" ? "/reseller" : roleCookie === "admin" ? "/admin" : "/home";
+      const to = roleCookie === "reseller" ? "/reseller" : roleCookie === "admin" ? "/admin" : "/market";
       return NextResponse.redirect(new URL(to, req.url));
     }
     return NextResponse.next();
@@ -27,7 +27,7 @@ export async function middleware(req: NextRequest) {
 
   if (pathname.startsWith("/admin")) {
     if (!session) return login(pathname);
-    if (session.role !== "admin") return NextResponse.redirect(new URL("/home", req.url));
+    if (session.role !== "admin") return NextResponse.redirect(new URL("/market", req.url));
   } else if (pathname.startsWith("/reseller")) {
     if (!session) {
       // Came through the reseller gate but not signed in yet → OTP, then back here.

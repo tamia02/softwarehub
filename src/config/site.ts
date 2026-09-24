@@ -3,9 +3,9 @@
  * (or in the `settings` table once the DB exists) — never hard-coded in UI.
  */
 export const site = {
-  name: "Software Hub Pool",
+  name: "Software Hub",
   shortName: "SHP",
-  tagline: "Annual plans on 35 premium AI and product tools, issued as one activation code.",
+  tagline: "Premium software, subscriptions and game top-ups, activated instantly with a code.",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@softwarehubpool.example",
   currency: "INR" as const,
   locale: "en-IN" as const,
@@ -45,6 +45,6 @@ export const cookieNames = {
 export type Role = "customer" | "reseller" | "admin";
 
 export const nav = [
-  { label: "Passes", href: "/home" },
-  { label: "Community", href: "/community" },
+  { label: "Marketplace", href: "/market" },
+  { label: "Bundles", href: "/market#bundles" },
 ];

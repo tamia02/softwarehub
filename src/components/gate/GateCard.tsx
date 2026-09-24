@@ -82,7 +82,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
       <motion.div layout="position" className="flex flex-col items-center text-center">
         <Logo size={48} />
         <h1 className="mt-5 text-balance text-[30px] font-bold leading-[1.08] text-ink sm:text-[40px]">
-          How will you use Software Hub Pool?
+          How will you use Software Hub?
         </h1>
         <p className="mt-3 text-[16px] leading-[1.4] text-ink-muted">Choose a path. You can switch any time from the footer.</p>
       </motion.div>

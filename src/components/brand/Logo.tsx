@@ -21,7 +21,7 @@ export function Logo({ className, size = 36, tone = "brand" }: { className?: str
 }
 
 export function Wordmark({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {
-  return <span className={cn("font-display text-[19px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-on-primary" : "text-ink", className)}>Software Hub Pool</span>;
+  return <span className={cn("font-display text-[19px] font-bold leading-none tracking-[-0.01em]", tone === "light" ? "text-on-primary" : "text-ink", className)}>Software Hub</span>;
 }
 
 export function LogoLockup({ className, tone = "ink" }: { className?: string; tone?: "ink" | "light" }) {

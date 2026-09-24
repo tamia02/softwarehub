@@ -7,7 +7,7 @@ export const metadata = { title: "Contact" };
 export default async function ContactPage({ searchParams }: { searchParams: Promise<{ topic?: string }> }) {
   const { topic } = await searchParams;
   const s = await getSettings();
-  const subject = topic === "teams" ? `Team pricing (${s.teamDiscountPct}% off for 5+ seats)` : "Software Hub Pool enquiry";
+  const subject = topic === "teams" ? `Team pricing (${s.teamDiscountPct}% off for 5+ seats)` : "Software Hub enquiry";
   return (
     <div className="container-page py-16">
       <div className="card mx-auto max-w-xl p-8 text-center">

@@ -19,7 +19,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
       <div className="mt-5 grid gap-8 md:grid-cols-[1fr_360px]">
         <div>
           <div className="flex items-center gap-4">
-            <ToolLogo slug={p.slug} name={p.vendor} size={64} />
+            <ToolLogo slug={p.slug} name={p.vendor} logoUrl={p.logoUrl} size={64} />
             <div>
               <p className="text-[13px] font-bold uppercase tracking-wider text-ink-faint">{p.vendor} · {p.category}</p>
               <h1 className="text-[28px] font-black leading-tight text-ink">{p.name}</h1>

@@ -91,7 +91,7 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
               <div className="mt-3 flex justify-center">
                 <Logo size={compact ? 30 : 38} />
               </div>
-              <p className="mt-3 whitespace-nowrap text-[8px] font-bold uppercase tracking-[0.18em] text-ink-muted md:text-[9px] md:tracking-[0.2em]">Software Hub Pool</p>
+              <p className="mt-3 whitespace-nowrap text-[8px] font-bold uppercase tracking-[0.18em] text-ink-muted md:text-[9px] md:tracking-[0.2em]">Software Hub</p>
               <p className={`font-display font-bold uppercase leading-[0.9] tracking-[-0.02em] text-ink ${compact ? "text-[26px]" : "text-[26px] md:text-[32px]"}`}>
                 Pro
                 <br />

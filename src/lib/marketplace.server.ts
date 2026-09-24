@@ -18,6 +18,7 @@ export interface MarketProduct {
   warrantyDays: number;
   hue: number;
   badge: string | null;
+  logoUrl: string | null;
   stock: number;
 }
 
@@ -69,6 +70,7 @@ async function loadMarketplace(): Promise<Marketplace> {
     warrantyDays: p.warrantyDays,
     hue: p.hue,
     badge: p.badge,
+    logoUrl: p.logoUrl,
     stock: stockBy.get(p.id) ?? 0,
   }));
   const byId = new Map(products.map((p) => [p.id, p]));
@@ -122,6 +124,7 @@ export async function getProduct(slug: string): Promise<MarketProduct | null> {
     warrantyDays: p.warrantyDays,
     hue: p.hue,
     badge: p.badge,
+    logoUrl: p.logoUrl,
     stock: Number(n),
   };
 }
