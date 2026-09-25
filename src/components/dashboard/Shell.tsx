@@ -20,7 +20,7 @@ export function DashboardShell({
         <p className="mt-6 px-3 text-[11px] font-bold uppercase tracking-[0.18em] text-ink-faint">{title}</p>
         <SidebarNav items={nav} />
         <div className="mt-auto px-3 text-xs text-ink-faint">
-          <Link href="/account" className="hover:text-ink">My Pass</Link> · <a href="/api/auth/logout" className="hover:text-ink">Sign out</a>
+          <Link href="/account" className="hover:text-ink">My account</Link> · <a href="/api/auth/logout" className="hover:text-ink">Sign out</a>
         </div>
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">

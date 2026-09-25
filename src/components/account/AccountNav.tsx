@@ -16,7 +16,7 @@ export function AccountNav({ role }: { role: string }) {
   const router = useRouter();
   async function logout() {
     await fetch("/api/auth/logout", { method: "POST" });
-    router.push("/home");
+    router.push("/market");
     router.refresh();
   }
   return (
