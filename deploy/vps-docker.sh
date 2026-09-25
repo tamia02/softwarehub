@@ -75,8 +75,19 @@ else
 fi
 docker compose --env-file "$ENV" up -d --build
 
+# --- Auto-deploy: check GitHub every 5 min and redeploy on new commits ---
+REPO_DIR=$(pwd)
+if command -v crontab >/dev/null 2>&1 || [ -d /etc/cron.d ]; then
+  cat > /etc/cron.d/shp-autodeploy <<CRON
+*/5 * * * * root cd $REPO_DIR && bash deploy/autodeploy.sh >> /var/log/shp-autodeploy.log 2>&1
+CRON
+  chmod 644 /etc/cron.d/shp-autodeploy
+  touch /var/log/shp-autodeploy.log
+  echo "==> Auto-deploy installed: this server now updates itself from GitHub every 5 min."
+fi
+
 echo
 echo "Done. Give it a minute for the image build + first request, then open:"
 echo "    https://$DOMAIN"
-echo "  logs   : docker compose logs -f shp-app"
-echo "  update : git pull && docker compose --env-file deploy/.env up -d --build"
+echo "  This server now AUTO-DEPLOYS: any push to GitHub goes live within ~5 min,"
+echo "  no terminal needed. Watch it:  tail -f /var/log/shp-autodeploy.log"
