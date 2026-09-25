@@ -71,7 +71,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
                 <p className="mt-1 text-[16px] text-ink-muted">
                   {mode === "bundle" ? (
                     <>
-                      or <strong className="text-ink">{formatINR(p.seatPricePaise)}</strong> a seat in a pool of {p.seats}
+                      or <strong className="text-ink">{formatINR(p.seatPricePaise)}</strong> a seat in a group of {p.seats}
                     </>
                   ) : (
                     <>
@@ -93,7 +93,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
 
                 <div className="mt-8">
                   <Button href={href} size="md" variant={tier.bestValue ? "primary" : "secondary"} className="w-full">
-                    {mode === "bundle" ? tier.cta : `Join a ${tier.name} pool`}
+                    {mode === "bundle" ? tier.cta : `Join a ${tier.name} group`}
                   </Button>
                 </div>
               </Card3D>

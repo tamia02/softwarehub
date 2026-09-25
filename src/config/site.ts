@@ -46,6 +46,7 @@ export type Role = "customer" | "reseller" | "admin";
 
 export const nav = [
   { label: "Marketplace", href: "/market" },
+  { label: "Passes", href: "/passes" },
   { label: "Grow", href: "/growth" },
   { label: "Methods", href: "/methods" },
 ];
