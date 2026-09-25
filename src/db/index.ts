@@ -29,6 +29,9 @@ async function connect(): Promise<Db> {
     const client = postgres(process.env.DATABASE_URL, { max: 10, prepare: false });
     const db = drizzlePg(client, { schema });
     if (auto) await migratePg(db, { migrationsFolder });
+    // Seed a fresh database so the marketplace has products/demo data on first run.
+    const { seedIfEmpty } = await import("./seed");
+    await seedIfEmpty(db);
     return db;
   }
 

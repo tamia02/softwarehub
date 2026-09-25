@@ -18,7 +18,8 @@ const csp = [
 
 const nextConfig: NextConfig = {
   // Self-contained server bundle for Docker (.next/standalone).
-  output: "standalone",
+  // Standalone bundle for Docker/VPS; Vercel uses its own output, so skip it there.
+  output: process.env.VERCEL ? undefined : "standalone",
   outputFileTracingRoot: __dirname,
   reactStrictMode: true,
   poweredByHeader: false,
