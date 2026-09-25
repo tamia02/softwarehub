@@ -22,6 +22,7 @@ export const users = pgTable(
     role: text("role").notNull().default("customer"), // customer | reseller | admin
     gstin: text("gstin"),
     referredByResellerId: text("referred_by_reseller_id"),
+    walletPaise: integer("wallet_paise").notNull().default(0),
     createdAt: ts("created_at").notNull().defaultNow(),
   },
   (t) => [uniqueIndex("users_email_idx").on(t.email), uniqueIndex("users_phone_idx").on(t.phone)],
@@ -428,6 +429,67 @@ export const marketOrders = pgTable(
   (t) => [index("market_orders_user_idx").on(t.userId), index("market_orders_reseller_idx").on(t.resellerId), index("market_orders_status_idx").on(t.status)],
 );
 
+/* ------------------------------------------------------------------
+   SMM panel — wallet, orders, and the public API (Social-Bazaar-style)
+   ------------------------------------------------------------------ */
+
+/** Every wallet movement (deposit, order charge, refund) for an audit trail. */
+export const walletLedger = pgTable(
+  "wallet_ledger",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id),
+    deltaPaise: integer("delta_paise").notNull(), // + credit, - debit
+    balanceAfterPaise: integer("balance_after_paise").notNull(),
+    kind: text("kind").notNull(), // deposit | order | refund | adjust
+    ref: text("ref"), // orderId / paymentId
+    note: text("note"),
+    createdAt: ts("created_at").notNull().defaultNow(),
+  },
+  (t) => [index("wallet_ledger_user_idx").on(t.userId)],
+);
+
+/** An SMM order placed from the panel or the API. */
+export const smmOrders = pgTable(
+  "smm_orders",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id),
+    serviceId: integer("service_id").notNull(),
+    serviceName: text("service_name").notNull(),
+    link: text("link").notNull(),
+    quantity: integer("quantity").notNull(),
+    chargePaise: integer("charge_paise").notNull(),
+    startCount: integer("start_count").notNull().default(0),
+    remains: integer("remains").notNull().default(0),
+    // pending | in_progress | processing | completed | partial | canceled | refunded
+    status: text("status").notNull().default("pending"),
+    source: text("source").notNull().default("panel"), // panel | api
+    dripRuns: integer("drip_runs"),
+    dripIntervalMin: integer("drip_interval_min"),
+    createdAt: ts("created_at").notNull().defaultNow(),
+    startedAt: ts("started_at"),
+    completedAt: ts("completed_at"),
+  },
+  (t) => [index("smm_orders_user_idx").on(t.userId), index("smm_orders_status_idx").on(t.status)],
+);
+
+/** Per-user API key for the public SMM API v2. */
+export const apiKeys = pgTable(
+  "api_keys",
+  {
+    id: text("id").primaryKey(),
+    userId: text("user_id").notNull().references(() => users.id),
+    keyHash: text("key_hash").notNull(),
+    last4: text("last4").notNull(),
+    label: text("label"),
+    createdAt: ts("created_at").notNull().defaultNow(),
+    lastUsedAt: ts("last_used_at"),
+    revokedAt: ts("revoked_at"),
+  },
+  (t) => [uniqueIndex("api_keys_hash_idx").on(t.keyHash), index("api_keys_user_idx").on(t.userId)],
+);
+
 export type User = typeof users.$inferSelect;
 export type Reseller = typeof resellers.$inferSelect;
 export type ToolRow = typeof tools.$inferSelect;
@@ -446,3 +508,6 @@ export type ProductCode = typeof productCodes.$inferSelect;
 export type Bundle = typeof bundles.$inferSelect;
 export type BundleItem = typeof bundleItems.$inferSelect;
 export type MarketOrder = typeof marketOrders.$inferSelect;
+export type WalletLedgerRow = typeof walletLedger.$inferSelect;
+export type SmmOrder = typeof smmOrders.$inferSelect;
+export type ApiKey = typeof apiKeys.$inferSelect;
