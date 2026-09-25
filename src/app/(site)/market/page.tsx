@@ -3,6 +3,7 @@ import { ShieldCheck, Zap, BadgeCheck, Headphones, ArrowRight } from "lucide-rea
 import { StaggerWords } from "@/components/motion/StaggerWords";
 import { MarketHero } from "@/components/market/MarketHero";
 import { MarketGrid } from "@/components/market/MarketGrid";
+import { MarketMarquee } from "@/components/market/MarketMarquee";
 import { Panel } from "@/components/ui/Section";
 import { Button } from "@/components/ui/Button";
 import { getMarketplace } from "@/lib/marketplace.server";
@@ -74,6 +75,8 @@ export default async function MarketPage() {
           </div>
         </div>
       </section>
+
+      <MarketMarquee items={products.map((p) => ({ slug: p.slug, vendor: p.vendor, logoUrl: p.logoUrl }))} />
 
       {/* Bundles */}
       {bundles.length > 0 && (

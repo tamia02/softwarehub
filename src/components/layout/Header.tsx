@@ -7,6 +7,7 @@ import { Menu, X } from "lucide-react";
 import { nav } from "@/config/site";
 import { LogoLockup } from "@/components/brand/Logo";
 import { Button } from "@/components/ui/Button";
+import { DemoQuickLogin } from "@/components/auth/DemoQuickLogin";
 import { cn } from "@/lib/utils";
 
 /** Sticky header. Nav links 20px medium (24px on wide screens), CTA pill 18px bold — measured from the reference. */
@@ -43,12 +44,12 @@ export function Header() {
   const role = me.role;
   const resellerHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
   const resellerLabel = role === "reseller" ? "Dashboard" : role === "admin" ? "Admin" : "Resellers";
-  const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My Pass", href: "/account" } : { label: "Sign in", href: "/login" }];
+  const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My account", href: "/account" } : { label: "Sign in", href: "/login" }];
 
   return (
     <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
       <div className="container-page flex h-[68px] items-center justify-between gap-6 md:h-[76px]">
-        <Link href="/home" aria-label="Software Hub home" className="shrink-0">
+        <Link href="/market" aria-label="Software Hub home" className="shrink-0">
           <LogoLockup />
         </Link>
 
@@ -60,7 +61,8 @@ export function Header() {
           ))}
         </nav>
 
-        <div className="hidden lg:block">
+        <div className="hidden items-center gap-3 lg:flex">
+          <DemoQuickLogin />
           <Button href="/market" size="sm">Browse marketplace</Button>
         </div>
 
