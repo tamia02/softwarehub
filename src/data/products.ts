@@ -3,7 +3,7 @@
  * with a proper hero; the customer/reseller can move between them from the
  * header. Copy is written for us — not lifted from any reference site.
  */
-export type ProductSlug = "passes" | "community";
+export type ProductSlug = "passes" | "community" | "growth" | "methods";
 
 export interface Product {
   slug: ProductSlug;
@@ -80,6 +80,65 @@ export const products: Product[] = [
       { step: "01", title: "Find an offer", body: "Browse by category and brand, compare sellers and prices, pick the one you trust." },
       { step: "02", title: "Pay into escrow", body: "Checkout securely; your payment is held, not sent straight to the seller." },
       { step: "03", title: "Confirm & release", body: "Inspect what you received, confirm, and the funds release — or open a dispute." },
+    ],
+  },
+  {
+    slug: "growth",
+    href: "/growth",
+    nav: "Grow",
+    name: "Growth Panel",
+    eyebrow: "Social growth, wholesale",
+    headline: "Grow every platform at wholesale rates, delivered automatically.",
+    highlight: ["wholesale", "automatically"],
+    hand: "instant start!",
+    sub: "Followers, views, likes and watch-time across Instagram, YouTube, TikTok and more — dispatched to real servers in seconds and tracked live from one dashboard.",
+    primary: { label: "Browse services", href: "/growth#services" },
+    secondary: { label: "See how it works", href: "/growth#how" },
+    stats: [
+      { value: "1,400+", label: "services" },
+      { value: "0-5 min", label: "typical start" },
+      { value: "99.9%", label: "order success" },
+      { value: "30-55%", label: "reseller margin" },
+    ],
+    features: [
+      { title: "Real, non-drop growth", body: "High-quality engagement with automatic refill so your counts hold, not evaporate." },
+      { title: "Instant auto-dispatch", body: "Orders go straight to provider nodes - most begin within minutes, tracked in real time." },
+      { title: "Wallet + API", body: "Top up once, order from the dashboard or plug our API straight into your own panel." },
+    ],
+    how: [
+      { step: "01", title: "Add funds", body: "Deposit by UPI, QR, cards or crypto - credited to your wallet instantly." },
+      { step: "02", title: "Pick a service", body: "Choose a platform and service, paste your link, set the quantity." },
+      { step: "03", title: "Order & track", body: "Automated delivery starts and you watch progress live, 24/7." },
+    ],
+  },
+  {
+    slug: "methods",
+    href: "/methods",
+    nav: "Methods",
+    name: "Methods & Tools",
+    dark: true,
+    eyebrow: "root@softwarehub:~$",
+    headline: "Learn the method, then run the tools — a builder's playbook library.",
+    highlight: ["method", "playbook"],
+    hand: "// step by step",
+    sub: "Step-by-step guides on growing, reselling, automating and hardening - plus 50+ browser tools to run each method. Free to read, no fluff.",
+    primary: { label: "Read the methods", href: "/methods#playbooks" },
+    secondary: { label: "Open the tools", href: "/methods#tools" },
+    stats: [
+      { value: "20+", label: "methods" },
+      { value: "50+", label: "tools" },
+      { value: "Free", label: "to read" },
+      { value: "Step 1-2-3", label: "every guide" },
+    ],
+    features: [
+      { title: "Growth methods", body: "How to launch an SMM campaign, pick services, and stack refills so results stick." },
+      { title: "Reseller playbooks", body: "How to source codes, price with margin, and turn your listings into repeat sales." },
+      { title: "Automate & harden", body: "Wire up your store, script the boring parts, and lock down accounts and payments." },
+    ],
+    how: [
+      { step: "01", title: "Pick a method", body: "Choose a goal - grow, resell, automate - and open its step-by-step guide." },
+      { step: "02", title: "Run the tools", body: "Each method links the exact browser tools you need, all client-side." },
+      { step: "03", title: "Ship it", body: "Follow the checklist to the finish and repeat what works." },
     ],
   },
 ];
