@@ -16,14 +16,20 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "!! '$1' not found"; exit 1; 
 need docker
 docker compose version >/dev/null 2>&1 || { echo "!! 'docker compose' plugin not found"; exit 1; }
 
-# Ensure some swap so the Next.js Docker build doesn't get OOM-killed on a small VPS.
-SWAP_MB=$(free -m 2>/dev/null | awk '/^Swap:/{print $2}')
-if [ "${SWAP_MB:-0}" -lt 1024 ] && [ ! -f /swapfile ]; then
-  echo "==> Adding 2G swap (prevents build out-of-memory)"
-  fallocate -l 2G /swapfile 2>/dev/null || dd if=/dev/zero of=/swapfile bs=1M count=2048
-  chmod 600 /swapfile && mkswap /swapfile >/dev/null && swapon /swapfile
-  grep -q '/swapfile' /etc/fstab 2>/dev/null || echo '/swapfile none swap sw 0 0' >> /etc/fstab
-fi
+# Ensure some swap so the Next.js Docker build doesn't get OOM-killed on a small
+# VPS. Entirely best-effort — never abort the deploy if swap can't be enabled.
+add_swap() {
+  local mb; mb=$(free -m 2>/dev/null | awk '/^Swap:/{print $2}')
+  [ "${mb:-0}" -ge 1024 ] && return 0
+  [ -f /swapfile ] && return 0
+  echo "==> Trying to add 2G swap (prevents build out-of-memory)"
+  fallocate -l 2G /swapfile 2>/dev/null || dd if=/dev/zero of=/swapfile bs=1M count=2048 2>/dev/null || return 0
+  chmod 600 /swapfile 2>/dev/null || return 0
+  mkswap /swapfile >/dev/null 2>&1 || return 0
+  swapon /swapfile 2>/dev/null && (grep -q '/swapfile' /etc/fstab 2>/dev/null || echo '/swapfile none swap sw 0 0' >> /etc/fstab)
+  return 0
+}
+add_swap || true
 
 echo "==> Detecting your Traefik entrypoint / cert-resolver"
 # The app runs on its OWN network (shp_web); Traefik's Docker provider finds it
