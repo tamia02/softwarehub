@@ -1,6 +1,6 @@
 import { ProductLanding } from "@/components/product/ProductLanding";
 import { MethodsList } from "@/components/product/MethodsList";
-import { LabCatalogue } from "@/components/product/LabCatalogue";
+import { MethodsTools } from "@/components/product/MethodsTools";
 import { productBySlug } from "@/data/products";
 
 const product = productBySlug["methods"];
@@ -10,7 +10,7 @@ export default function MethodsPage() {
   return (
     <ProductLanding product={product}>
       <MethodsList />
-      <LabCatalogue />
+      <MethodsTools />
     </ProductLanding>
   );
 }
