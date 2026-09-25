@@ -16,6 +16,15 @@ need() { command -v "$1" >/dev/null 2>&1 || { echo "!! '$1' not found"; exit 1; 
 need docker
 docker compose version >/dev/null 2>&1 || { echo "!! 'docker compose' plugin not found"; exit 1; }
 
+# Ensure some swap so the Next.js Docker build doesn't get OOM-killed on a small VPS.
+SWAP_MB=$(free -m 2>/dev/null | awk '/^Swap:/{print $2}')
+if [ "${SWAP_MB:-0}" -lt 1024 ] && [ ! -f /swapfile ]; then
+  echo "==> Adding 2G swap (prevents build out-of-memory)"
+  fallocate -l 2G /swapfile 2>/dev/null || dd if=/dev/zero of=/swapfile bs=1M count=2048
+  chmod 600 /swapfile && mkswap /swapfile >/dev/null && swapon /swapfile
+  grep -q '/swapfile' /etc/fstab 2>/dev/null || echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
+
 echo "==> Detecting your Traefik entrypoint / cert-resolver"
 # The app runs on its OWN network (shp_web); Traefik's Docker provider finds it
 # by label. We only need to copy the entrypoint + cert-resolver names from an
