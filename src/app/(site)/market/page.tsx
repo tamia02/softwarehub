@@ -10,7 +10,7 @@ import { getMarketplace } from "@/lib/marketplace.server";
 import { formatINR } from "@/lib/format";
 
 export const metadata = { title: "Marketplace" };
-export const revalidate = 30;
+export const dynamic = "force-dynamic";
 
 const at = (s: number) => ({ animationDelay: `${s}s` });
 
