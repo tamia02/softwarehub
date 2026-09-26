@@ -1,4 +1,6 @@
 import { Button } from "@/components/ui/Button";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
+import { Tilt } from "@/components/motion/Tilt";
 import type { Product } from "@/data/products";
 
 /**
@@ -74,49 +76,61 @@ export function ProductLanding({ product, children }: { product: Product; childr
         </div>
 
         {/* Stat card cluster */}
-        <div className={`grid grid-cols-2 gap-3 rounded-[var(--r-card-lg)] p-1.5 ${dark ? "" : ""}`}>
+        <Stagger className="grid grid-cols-2 gap-3 rounded-[var(--r-card-lg)] p-1.5" gap={0.06}>
           {product.stats.map((s) => (
-            <div key={s.label} className={`rounded-[var(--r-card)] p-5 ${t.card}`}>
-              <p className={`font-display text-[30px] font-black leading-none ${t.statValue}`}>{s.value}</p>
-              <p className={`mt-2 text-[13px] font-medium ${t.statLabel}`}>{s.label}</p>
-            </div>
+            <StaggerItem key={s.label} className="h-full">
+              <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
+                <div className={`h-full rounded-[var(--r-card)] p-5 ${t.card}`}>
+                  <p className={`font-display text-[30px] font-black leading-none [transform:translateZ(22px)] ${t.statValue}`}>{s.value}</p>
+                  <p className={`mt-2 text-[13px] font-medium ${t.statLabel}`}>{s.label}</p>
+                </div>
+              </Tilt>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
       {/* Features */}
       <section className="container-page py-10 md:py-14">
-        <div className="grid gap-4 md:grid-cols-3 md:gap-5">
+        <Stagger className="grid gap-4 md:grid-cols-3 md:gap-5">
           {product.features.map((f) => (
-            <div key={f.title} className={`rounded-[var(--r-card)] p-6 ${t.card}`}>
-              <h3 className={`t-card-title text-[18px] ${t.cardTitle}`}>{f.title}</h3>
-              <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{f.body}</p>
-            </div>
+            <StaggerItem key={f.title} className="h-full">
+              <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
+                <div className={`h-full rounded-[var(--r-card)] p-6 [transform-style:preserve-3d] ${t.card}`}>
+                  <h3 className={`t-card-title text-[18px] [transform:translateZ(20px)] ${t.cardTitle}`}>{f.title}</h3>
+                  <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{f.body}</p>
+                </div>
+              </Tilt>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
       {/* How it works */}
       <section className="container-page py-10 md:py-14">
-        <h2 className={`t-h2 ${t.head}`}>How it works</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+        <Reveal>
+          <h2 className={`t-h2 ${t.head}`}>How it works</h2>
+        </Reveal>
+        <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
           {product.how.map((h) => (
-            <div key={h.step} className={`rounded-[var(--r-card)] p-6 ${t.card}`}>
-              <span className={`grid h-11 w-11 place-items-center rounded-full border-2 font-display text-[16px] font-black ${t.step}`}>
-                {h.step}
-              </span>
-              <h3 className={`t-card-title mt-4 text-[18px] ${t.cardTitle}`}>{h.title}</h3>
-              <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{h.body}</p>
-            </div>
+            <StaggerItem key={h.step} className="h-full">
+              <div className={`group h-full rounded-[var(--r-card)] p-6 transition-transform duration-200 hover:-translate-y-1 ${t.card}`}>
+                <span className={`grid h-11 w-11 place-items-center rounded-full border-2 font-display text-[16px] font-black transition-transform duration-300 group-hover:scale-110 ${t.step}`}>
+                  {h.step}
+                </span>
+                <h3 className={`t-card-title mt-4 text-[18px] ${t.cardTitle}`}>{h.title}</h3>
+                <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{h.body}</p>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
       </section>
 
       {children}
 
       {/* Closing CTA */}
       <section className="container-page py-14 md:py-20">
-        <div className={`flex flex-col items-center gap-5 rounded-[var(--r-card-lg)] p-10 text-center ${t.card}`}>
+        <Reveal className={`flex flex-col items-center gap-5 rounded-[var(--r-card-lg)] p-10 text-center ${t.card}`} y={28}>
           <h2 className={`t-h2 max-w-[20ch] ${t.head}`}>{product.name} is ready when you are.</h2>
           <p className={`max-w-[52ch] text-[16px] ${t.sub}`}>{product.sub}</p>
           <div className="flex flex-wrap justify-center gap-3">
@@ -127,7 +141,7 @@ export function ProductLanding({ product, children }: { product: Product; childr
               Sign in
             </Button>
           </div>
-        </div>
+        </Reveal>
       </section>
     </main>
   );
