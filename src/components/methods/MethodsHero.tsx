@@ -17,6 +17,7 @@ const LINES = [
 export function MethodsHero({ toolCount }: { toolCount: number }) {
   const [shown, setShown] = useState<string[]>([]);
   const [typed, setTyped] = useState("");
+  const [ping, setPing] = useState(24);
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setShown(LINES); return; }
@@ -29,6 +30,12 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
     };
     let timer = setTimeout(tick, 400);
     return () => clearTimeout(timer);
+  }, []);
+
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const id = setInterval(() => setPing(18 + Math.floor(Math.random() * 22)), 1600);
+    return () => clearInterval(id);
   }, []);
 
   return (
@@ -72,6 +79,13 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
             ))}
             {typed && <p className={typed.startsWith("$") ? "text-[#e7f6ef]" : "text-[#34d399]"}>{typed}<span className="cursor-blink">▋</span></p>}
             {shown.length >= LINES.length && <p className="text-[#e7f6ef]">$ <span className="cursor-blink">▋</span></p>}
+          </div>
+          {/* live system HUD */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t border-[#1f2a25] px-4 py-2.5 font-term text-[11px] text-[#7f948b]">
+            <span className="inline-flex items-center gap-1.5 text-[#34d399]"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#34d399]" /> 6 nodes online</span>
+            <span>⟳ <span className="tabular-nums text-[#c7d6cf]">{ping}ms</span></span>
+            <span>uptime <span className="text-[#c7d6cf]">99.98%</span></span>
+            <span className="ml-auto text-[#3f5249]">AES-256 · TLS1.3</span>
           </div>
         </div>
       </div>

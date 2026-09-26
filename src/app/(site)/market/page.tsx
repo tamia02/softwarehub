@@ -3,6 +3,8 @@ import { ShieldCheck, Zap, BadgeCheck, Headphones, ArrowRight } from "lucide-rea
 import { StaggerWords } from "@/components/motion/StaggerWords";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Tilt } from "@/components/motion/Tilt";
+import { FloatingDecor } from "@/components/motion/FloatingDecor";
+import { Testimonials } from "@/components/home/Testimonials";
 import { MarketHero } from "@/components/market/MarketHero";
 import { MarketGrid } from "@/components/market/MarketGrid";
 import { MarketMarquee } from "@/components/market/MarketMarquee";
@@ -35,7 +37,8 @@ export default async function MarketPage() {
   return (
     <main className="bg-bg">
       {/* Hero */}
-      <section className="relative">
+      <section className="relative overflow-hidden">
+        <FloatingDecor />
         <div className="container-page grid items-center gap-8 pb-8 pt-6 md:grid-cols-[minmax(0,660px)_minmax(0,1fr)] md:gap-12 md:pb-16 md:pt-12">
           <div className="order-2 md:order-1">
             <p className="anim-fade-up text-[15px] font-bold uppercase tracking-wider text-accent-2" style={at(0.1)}>Software Hub</p>
@@ -143,6 +146,8 @@ export default async function MarketPage() {
           ))}
         </Stagger>
       </Panel>
+
+      <Testimonials />
 
       {/* Closing CTA */}
       <section className="container-page py-14 md:py-20">

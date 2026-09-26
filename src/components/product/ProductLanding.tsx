@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/Button";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 import { Tilt } from "@/components/motion/Tilt";
+import { FloatingDecor } from "@/components/motion/FloatingDecor";
 import type { Product } from "@/data/products";
 
 /**
@@ -112,7 +113,8 @@ export function ProductLanding({
   return (
     <main className={t.wrap}>
       {/* Hero */}
-      <section className="container-page grid items-center gap-10 pb-12 pt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:pb-16 md:pt-16">
+      <section className="relative grid items-center gap-10 overflow-hidden pb-12 pt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:pb-16 md:pt-16 container-page">
+        {!dark && <FloatingDecor />}
         <div>
           <p className={`anim-fade-up ${t.eyebrow}`} style={{ animationDelay: "0.05s" }}>{product.eyebrow}</p>
           <h1 className={`anim-fade-up t-h1 mt-4 max-w-[16ch] text-balance ${t.head}`} style={{ animationDelay: "0.12s" }}>{highlight(product.headline)}</h1>

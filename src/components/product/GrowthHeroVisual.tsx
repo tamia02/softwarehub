@@ -1,11 +1,18 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { TrendingUp } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { TrendingUp, Zap } from "lucide-react";
 
 const bars = [38, 52, 45, 66, 58, 79, 72, 92];
 const brands = ["instagram", "youtube", "tiktok", "telegram", "spotify", "x"];
+const feed = [
+  "5,000 IG followers → @studio.rae",
+  "20K YouTube views → /watch?v=…",
+  "1,000 TikTok likes → @kabir.codes",
+  "10K Telegram members → t.me/grow",
+  "2,500 Spotify plays → track/7cf",
+];
 
 /** Small count-up that respects reduced motion. */
 function useCountUp(target: number, ms = 1400) {
@@ -31,6 +38,13 @@ export function GrowthHeroVisual() {
   const reduce = useReducedMotion();
   const delivered = useCountUp(48210);
   const ref = useRef<HTMLDivElement>(null);
+  const [tick, setTick] = useState(0);
+
+  useEffect(() => {
+    if (reduce) return;
+    const id = setInterval(() => setTick((t) => (t + 1) % feed.length), 2600);
+    return () => clearInterval(id);
+  }, [reduce]);
 
   return (
     <div ref={ref} className="anim-fade-scale relative rounded-[var(--r-card-lg)] border-2 border-ink-line bg-bg-card p-5 shadow-[7px_7px_0_var(--offset-card)] sm:p-6" style={{ animationDelay: "0.15s" }}>
@@ -89,6 +103,23 @@ export function GrowthHeroVisual() {
             />
           ))}
         </div>
+      </div>
+
+      {/* live order ticker */}
+      <div className="mt-4 flex items-center gap-2 overflow-hidden rounded-full border-2 border-ink-line bg-accent-soft px-3 py-2">
+        <Zap size={14} className="shrink-0 fill-accent text-accent" />
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={tick}
+            initial={reduce ? false : { y: 10, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={reduce ? undefined : { y: -10, opacity: 0 }}
+            transition={{ duration: 0.35 }}
+            className="truncate text-[12px] font-semibold text-ink"
+          >
+            {feed[tick]}
+          </motion.span>
+        </AnimatePresence>
       </div>
     </div>
   );
