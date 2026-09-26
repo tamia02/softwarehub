@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { ShieldCheck, Terminal } from "lucide-react";
 import { methods } from "@/data/methods";
 
 const LINES = [
@@ -32,20 +33,28 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="container-page grid items-center gap-10 pb-10 pt-12 md:grid-cols-[1.05fr_0.95fr] md:pb-16 md:pt-20">
+      <div className="container-page grid items-center gap-10 pb-10 pt-10 md:grid-cols-[1.05fr_0.95fr] md:pb-16 md:pt-16">
         <div>
-          <p className="font-code text-[13px] tracking-[0.25em] text-[#34d399]">root@softwarehub:~$</p>
-          <h1 className="glitch mt-4 font-display text-[44px] font-black uppercase leading-[0.92] tracking-[-0.01em] text-[#e7f6ef] md:text-[68px]" data-text="Methods & Tools.">
+          <div className="flex flex-wrap items-center gap-2 font-hack text-[12px]">
+            <span className="inline-flex items-center gap-1.5 rounded-sm border border-[#233029] bg-[#0e1512] px-2 py-1 text-[#34d399]">
+              <ShieldCheck size={13} /> ENCRYPTED
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-sm border border-[#3a3315] bg-[#161206] px-2 py-1 text-[#f5c542]">
+              <Terminal size={13} /> GUEST · anonymous
+            </span>
+            <span className="tracking-[0.25em] text-[#5f746b]">root@softwarehub:~$</span>
+          </div>
+          <h1 className="glitch anim-flicker mt-4 font-hack text-[46px] font-normal uppercase leading-[0.9] tracking-[0.01em] text-[#e7f6ef] text-neon md:text-[74px]" data-text="Methods & Tools.">
             Methods
             <br />
             <span className="text-[#34d399]">&amp; Tools.</span>
           </h1>
-          <p className="mt-4 max-w-[52ch] font-code text-[14px] leading-relaxed text-[#9fb6ac]">
-            {"//"} learn the method, then run the tool. {toolCount} utilities that execute in your browser — nothing ever leaves the tab.
+          <p className="mt-4 max-w-[54ch] font-hack text-[15px] leading-relaxed text-[#9fb6ac]">
+            {"//"} learn the method, then run the tool. {toolCount} utilities that execute in your browser — <span className="text-[#f5c542]">nothing ever leaves the tab.</span>
           </p>
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link href="#tools" className="rounded-md border border-[#34d399] bg-[#34d399]/10 px-5 py-2.5 font-code text-[14px] font-bold text-[#34d399] transition-colors hover:bg-[#34d399]/20">./open --tools</Link>
-            <Link href="#playbooks" className="rounded-md border border-[#233029] px-5 py-2.5 font-code text-[14px] font-bold text-[#9fb6ac] transition-colors hover:text-white">cat playbooks.md</Link>
+            <Link href="#tools" className="sheen rounded-md border border-[#34d399] bg-[#34d399]/10 px-5 py-2.5 font-hack text-[14px] font-bold text-[#34d399] transition-colors hover:bg-[#34d399]/20">./open --tools</Link>
+            <Link href="#playbooks" className="sheen rounded-md border border-[#233029] px-5 py-2.5 font-hack text-[14px] font-bold text-[#9fb6ac] transition-colors hover:text-white">cat playbooks.md</Link>
           </div>
         </div>
 
@@ -55,9 +64,9 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
             <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
             <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
             <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-            <span className="ml-3 font-code text-[12px] text-[#7f948b]">bash — softwarehub.lab</span>
+            <span className="ml-3 font-hack text-[12px] text-[#7f948b]">bash — softwarehub.lab</span>
           </div>
-          <div className="min-h-[220px] p-4 font-code text-[13px] leading-[1.7]">
+          <div className="min-h-[220px] p-4 font-hack text-[13px] leading-[1.7]">
             {shown.map((l, i) => (
               <p key={i} className={l.startsWith("$") ? "text-[#e7f6ef]" : "text-[#34d399]"}>{l}</p>
             ))}
@@ -76,9 +85,9 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
             { v: "0", l: "data leaves tab" },
             { v: "100%", l: "client-side" },
           ].map((s) => (
-            <div key={s.l} className="rounded-[10px] border border-[#1f2a25] bg-[#0e1512] p-4">
-              <p className="font-display text-[26px] font-black text-[#34d399]">{s.v}</p>
-              <p className="font-code text-[11px] uppercase tracking-wider text-[#7f948b]">{s.l}</p>
+            <div key={s.l} className="rounded-[10px] border border-[#1f2a25] bg-[#0e1512] p-4 transition-colors hover:border-[#34d399]/50">
+              <p className="font-hack text-[30px] font-normal text-[#34d399] text-neon">{s.v}</p>
+              <p className="font-hack text-[11px] uppercase tracking-wider text-[#7f948b]">{s.l}</p>
             </div>
           ))}
         </div>

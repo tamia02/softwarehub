@@ -61,12 +61,12 @@ export function ProductLanding({ product, children }: { product: Product; childr
       {/* Hero */}
       <section className="container-page grid items-center gap-10 pb-12 pt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:pb-16 md:pt-16">
         <div>
-          <p className={t.eyebrow}>{product.eyebrow}</p>
-          <h1 className={`t-h1 mt-4 max-w-[16ch] text-balance ${t.head}`}>{highlight(product.headline)}</h1>
-          <p className={`mt-3 text-[24px] leading-none ${t.hand}`}>{product.hand}</p>
-          <p className={`mt-5 max-w-[60ch] text-[16px] leading-[1.5] ${t.sub}`}>{product.sub}</p>
-          <div className="mt-7 flex flex-wrap gap-3">
-            <Button href={product.primary.href} size="lg" variant={dark ? "primary" : "primary"}>
+          <p className={`anim-fade-up ${t.eyebrow}`} style={{ animationDelay: "0.05s" }}>{product.eyebrow}</p>
+          <h1 className={`anim-fade-up t-h1 mt-4 max-w-[16ch] text-balance ${t.head}`} style={{ animationDelay: "0.12s" }}>{highlight(product.headline)}</h1>
+          <p className={`anim-fade-up mt-3 text-[24px] leading-none ${t.hand}`} style={{ animationDelay: "0.25s" }}>{product.hand}</p>
+          <p className={`anim-fade-up mt-5 max-w-[60ch] text-[16px] leading-[1.5] ${t.sub}`} style={{ animationDelay: "0.32s" }}>{product.sub}</p>
+          <div className="anim-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
+            <Button href={product.primary.href} size="lg" variant="primary" className={dark ? undefined : "anim-cta-glow"}>
               {product.primary.label}
             </Button>
             <Button href={product.secondary.href} size="lg" variant="secondary">
@@ -134,7 +134,7 @@ export function ProductLanding({ product, children }: { product: Product; childr
           <h2 className={`t-h2 max-w-[20ch] ${t.head}`}>{product.name} is ready when you are.</h2>
           <p className={`max-w-[52ch] text-[16px] ${t.sub}`}>{product.sub}</p>
           <div className="flex flex-wrap justify-center gap-3">
-            <Button href={product.primary.href} size="lg">
+            <Button href={product.primary.href} size="lg" className={dark ? undefined : "anim-cta-glow"}>
               {product.primary.label}
             </Button>
             <Button href="/login" size="lg" variant="secondary">

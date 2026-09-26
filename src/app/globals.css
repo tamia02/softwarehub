@@ -287,6 +287,45 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 @keyframes glitchBot { 0%{clip-path:inset(72% 0 0 0)} 25%{clip-path:inset(30% 0 0 0)} 50%{clip-path:inset(58% 0 0 0)} 75%{clip-path:inset(18% 0 0 0)} 100%{clip-path:inset(66% 0 0 0)} }
 @media (prefers-reduced-motion: reduce) { .glitch::before, .glitch::after { display: none } .cursor-blink { animation: none } }
 
+/* Runtime-loaded hacker fonts (see (immersive)/layout.tsx), with self-hosted mono fallback. */
+.font-hack { font-family: "Share Tech Mono", var(--font-mono), ui-monospace, monospace; }
+.font-crt  { font-family: "VT323", var(--font-mono), ui-monospace, monospace; }
+
+/* Subtle terminal text flicker + neon glow for the hacker theme. */
+@keyframes textFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.72; }
+  94% { opacity: 1; }
+  97% { opacity: 0.85; }
+  98% { opacity: 1; }
+}
+.anim-flicker { animation: textFlicker 6s linear infinite; }
+.text-neon { text-shadow: 0 0 6px rgba(52,211,153,0.55), 0 0 22px rgba(52,211,153,0.25); }
+.text-neon-amber { text-shadow: 0 0 6px rgba(245,197,66,0.55), 0 0 22px rgba(245,197,66,0.22); }
+
+/* Pulsing glow behind a CTA (amber). Applied to the button wrapper. */
+@keyframes ctaPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
+  50% { box-shadow: 0 0 22px 2px rgba(245,158,11,0.38); }
+}
+.anim-cta-glow { border-radius: 100px; animation: ctaPulse 2.8s ease-in-out infinite; }
+
+/* Diagonal light sweep across a button/element on hover. Needs overflow-hidden + relative on host. */
+@keyframes sheenSweep { from { transform: translateX(-160%) skewX(-18deg); } to { transform: translateX(260%) skewX(-18deg); } }
+.sheen { position: relative; overflow: hidden; }
+.sheen::after {
+  content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.55), transparent);
+  transform: translateX(-160%) skewX(-18deg); opacity: 0; pointer-events: none;
+}
+.sheen:hover::after { opacity: 1; animation: sheenSweep 0.75s var(--ease-out); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-flicker, .anim-cta-glow { animation: none !important; }
+  .sheen:hover::after { animation: none !important; opacity: 0 !important; }
+}
+
 .scanlines::after {
   content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 1;
   background: repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0, rgba(0,0,0,0) 2px, rgba(52,211,153,0.035) 3px, rgba(0,0,0,0) 4px);

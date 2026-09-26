@@ -100,13 +100,13 @@ export function MethodsTools() {
   return (
     <section id="tools" className="scroll-mt-24 border-t border-[#1f2a25] bg-[#0b0f0e] py-12 md:py-16">
       <div className="container-page">
-        <h2 className="t-h2 text-[#f2fbf6]">The toolkit</h2>
-        <p className="mt-2 font-code text-[13px] text-[#9fb6ac]">{TOOLS.length} working tools · click any to run it — everything stays in your browser</p>
+        <h2 className="font-hack text-[30px] font-normal uppercase tracking-[0.02em] text-[#f2fbf6] text-neon md:text-[40px]">{"> "}The toolkit</h2>
+        <p className="mt-2 font-hack text-[13px] text-[#9fb6ac]">{TOOLS.length} working tools · click any to run it — everything stays in your browser</p>
         <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {TOOLS.map((t, i) => (
-            <button key={t.name} onClick={() => setActive(i)} className="flex items-start justify-between gap-3 rounded-[14px] border border-[#1f2a25] bg-[#111815] p-3.5 text-left transition-colors hover:border-[#34d399]/50">
-              <div><p className="text-[14px] font-bold text-[#e7f6ef]">{t.name}</p><p className="mt-0.5 text-[12px] leading-snug text-[#9fb6ac]">{t.desc}</p></div>
-              <span className="shrink-0 rounded-full bg-[#123024] px-2 py-0.5 text-[10px] font-bold text-[#34d399]">Run</span>
+            <button key={t.name} onClick={() => setActive(i)} className="group flex items-start justify-between gap-3 rounded-[14px] border border-[#1f2a25] bg-[#111815] p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-[#34d399]/60 hover:shadow-[0_0_18px_rgba(52,211,153,0.12)]">
+              <div><p className="font-hack text-[15px] font-normal text-[#e7f6ef] transition-colors group-hover:text-[#34d399]">{t.name}</p><p className="mt-0.5 text-[12px] leading-snug text-[#9fb6ac]">{t.desc}</p></div>
+              <span className="shrink-0 rounded-full bg-[#123024] px-2 py-0.5 font-hack text-[10px] font-bold text-[#34d399] transition-transform group-hover:scale-110">Run</span>
             </button>
           ))}
         </div>

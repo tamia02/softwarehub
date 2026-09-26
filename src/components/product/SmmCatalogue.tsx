@@ -97,7 +97,7 @@ export function SmmCatalogue() {
                         <span className="font-black tabular-nums text-ink">{formatINR(sv.ratePer1k * 100)}</span>
                         <span className="block text-[10px] font-medium text-ink-faint">/ 1K</span>
                       </div>
-                      <a href="/account/growth" className="shrink-0 rounded-full border-2 border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent transition-transform duration-150 hover:brightness-105 active:scale-95">Order</a>
+                      <a href="/account/growth" className="sheen shrink-0 rounded-full border-2 border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent transition-transform duration-150 hover:-translate-y-0.5 hover:brightness-105 active:scale-95">Order</a>
                     </div>
                   ))}
                 </div>
