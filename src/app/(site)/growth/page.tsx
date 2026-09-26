@@ -1,5 +1,6 @@
 import { ProductLanding } from "@/components/product/ProductLanding";
 import { SmmCatalogue } from "@/components/product/SmmCatalogue";
+import { GrowthHeroVisual } from "@/components/product/GrowthHeroVisual";
 import { productBySlug } from "@/data/products";
 
 const product = productBySlug["growth"];
@@ -7,7 +8,7 @@ export const metadata = { title: product.name, description: product.sub };
 
 export default function GrowthPage() {
   return (
-    <ProductLanding product={product}>
+    <ProductLanding product={product} heroAside={<GrowthHeroVisual />} catalogueFirst>
       <SmmCatalogue />
     </ProductLanding>
   );

@@ -287,9 +287,26 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 @keyframes glitchBot { 0%{clip-path:inset(72% 0 0 0)} 25%{clip-path:inset(30% 0 0 0)} 50%{clip-path:inset(58% 0 0 0)} 75%{clip-path:inset(18% 0 0 0)} 100%{clip-path:inset(66% 0 0 0)} }
 @media (prefers-reduced-motion: reduce) { .glitch::before, .glitch::after { display: none } .cursor-blink { animation: none } }
 
-/* Runtime-loaded hacker fonts (see (immersive)/layout.tsx), with self-hosted mono fallback. */
-.font-hack { font-family: "Share Tech Mono", var(--font-mono), ui-monospace, monospace; }
-.font-crt  { font-family: "VT323", var(--font-mono), ui-monospace, monospace; }
+/* Runtime-loaded fonts (see (immersive)/layout.tsx), with self-hosted fallbacks.
+   font-cyber = angular tech display (headings/labels); font-term = monospace
+   terminal/code (self-hosted JetBrains). font-hack kept as an alias of cyber. */
+.font-cyber, .font-hack { font-family: "Chakra Petch", var(--font-mono), ui-monospace, sans-serif; }
+.font-term { font-family: var(--font-mono), "Share Tech Mono", ui-monospace, monospace; }
+
+/* Cyber/HUD helpers for the hacker theme. */
+.clip-cyber { clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px)); }
+.bg-grid {
+  background-image: linear-gradient(rgba(52,211,153,0.05) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(52,211,153,0.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+}
+.hud { position: relative; }
+.hud::before, .hud::after {
+  content: ""; position: absolute; width: 12px; height: 12px; pointer-events: none;
+  border-color: #34d399; border-style: solid;
+}
+.hud::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.hud::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
 
 /* Subtle terminal text flicker + neon glow for the hacker theme. */
 @keyframes textFlicker {

@@ -6,9 +6,21 @@ import type { Product } from "@/data/products";
 /**
  * A finished landing page for one product area (Passes / Growth / Community / Lab).
  * Cream by default; the Lab passes `dark` for a graphite + acid-green treatment.
- * Hero → stat row → features → how-it-works → closing CTA.
+ * Default order: Hero → features → how-it-works → children → CTA.
+ * `catalogueFirst` reorders to: Hero → children → how-it-works → features → CTA.
+ * `heroAside` replaces the default hero stat cluster with a custom visual.
  */
-export function ProductLanding({ product, children }: { product: Product; children?: React.ReactNode }) {
+export function ProductLanding({
+  product,
+  children,
+  heroAside,
+  catalogueFirst = false,
+}: {
+  product: Product;
+  children?: React.ReactNode;
+  heroAside?: React.ReactNode;
+  catalogueFirst?: boolean;
+}) {
   const dark = product.dark;
   const t = dark
     ? {
@@ -56,6 +68,47 @@ export function ProductLanding({ product, children }: { product: Product; childr
     });
   };
 
+  const featuresSection = (
+    <section className="container-page py-10 md:py-14">
+      <Reveal>
+        <h2 className={`t-h2 ${t.head}`}>What you get</h2>
+      </Reveal>
+      <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+        {product.features.map((f) => (
+          <StaggerItem key={f.title} className="h-full">
+            <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
+              <div className={`h-full rounded-[var(--r-card)] p-6 [transform-style:preserve-3d] ${t.card}`}>
+                <h3 className={`t-card-title text-[18px] [transform:translateZ(20px)] ${t.cardTitle}`}>{f.title}</h3>
+                <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{f.body}</p>
+              </div>
+            </Tilt>
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </section>
+  );
+
+  const howSection = (
+    <section className="container-page py-10 md:py-14">
+      <Reveal>
+        <h2 className={`t-h2 ${t.head}`}>How it works</h2>
+      </Reveal>
+      <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+        {product.how.map((h) => (
+          <StaggerItem key={h.step} className="h-full">
+            <div className={`group h-full rounded-[var(--r-card)] p-6 transition-transform duration-200 hover:-translate-y-1 ${t.card}`}>
+              <span className={`grid h-11 w-11 place-items-center rounded-full border-2 font-display text-[16px] font-black transition-transform duration-300 group-hover:scale-110 ${t.step}`}>
+                {h.step}
+              </span>
+              <h3 className={`t-card-title mt-4 text-[18px] ${t.cardTitle}`}>{h.title}</h3>
+              <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{h.body}</p>
+            </div>
+          </StaggerItem>
+        ))}
+      </Stagger>
+    </section>
+  );
+
   return (
     <main className={t.wrap}>
       {/* Hero */}
@@ -75,58 +128,36 @@ export function ProductLanding({ product, children }: { product: Product; childr
           </div>
         </div>
 
-        {/* Stat card cluster */}
-        <Stagger className="grid grid-cols-2 gap-3 rounded-[var(--r-card-lg)] p-1.5" gap={0.06}>
-          {product.stats.map((s) => (
-            <StaggerItem key={s.label} className="h-full">
-              <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
-                <div className={`h-full rounded-[var(--r-card)] p-5 ${t.card}`}>
-                  <p className={`font-display text-[30px] font-black leading-none [transform:translateZ(22px)] ${t.statValue}`}>{s.value}</p>
-                  <p className={`mt-2 text-[13px] font-medium ${t.statLabel}`}>{s.label}</p>
-                </div>
-              </Tilt>
-            </StaggerItem>
-          ))}
-        </Stagger>
+        {/* Hero aside — custom visual, or the default stat cluster */}
+        {heroAside ?? (
+          <Stagger className="grid grid-cols-2 gap-3 rounded-[var(--r-card-lg)] p-1.5" gap={0.06}>
+            {product.stats.map((s) => (
+              <StaggerItem key={s.label} className="h-full">
+                <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
+                  <div className={`h-full rounded-[var(--r-card)] p-5 ${t.card}`}>
+                    <p className={`font-display text-[30px] font-black leading-none [transform:translateZ(22px)] ${t.statValue}`}>{s.value}</p>
+                    <p className={`mt-2 text-[13px] font-medium ${t.statLabel}`}>{s.label}</p>
+                  </div>
+                </Tilt>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        )}
       </section>
 
-      {/* Features */}
-      <section className="container-page py-10 md:py-14">
-        <Stagger className="grid gap-4 md:grid-cols-3 md:gap-5">
-          {product.features.map((f) => (
-            <StaggerItem key={f.title} className="h-full">
-              <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
-                <div className={`h-full rounded-[var(--r-card)] p-6 [transform-style:preserve-3d] ${t.card}`}>
-                  <h3 className={`t-card-title text-[18px] [transform:translateZ(20px)] ${t.cardTitle}`}>{f.title}</h3>
-                  <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{f.body}</p>
-                </div>
-              </Tilt>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      {/* How it works */}
-      <section className="container-page py-10 md:py-14">
-        <Reveal>
-          <h2 className={`t-h2 ${t.head}`}>How it works</h2>
-        </Reveal>
-        <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
-          {product.how.map((h) => (
-            <StaggerItem key={h.step} className="h-full">
-              <div className={`group h-full rounded-[var(--r-card)] p-6 transition-transform duration-200 hover:-translate-y-1 ${t.card}`}>
-                <span className={`grid h-11 w-11 place-items-center rounded-full border-2 font-display text-[16px] font-black transition-transform duration-300 group-hover:scale-110 ${t.step}`}>
-                  {h.step}
-                </span>
-                <h3 className={`t-card-title mt-4 text-[18px] ${t.cardTitle}`}>{h.title}</h3>
-                <p className={`mt-2 text-[15px] leading-[1.5] ${t.cardBody}`}>{h.body}</p>
-              </div>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </section>
-
-      {children}
+      {catalogueFirst ? (
+        <>
+          {children}
+          {howSection}
+          {featuresSection}
+        </>
+      ) : (
+        <>
+          {featuresSection}
+          {howSection}
+          {children}
+        </>
+      )}
 
       {/* Closing CTA */}
       <section className="container-page py-14 md:py-20">

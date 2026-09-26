@@ -106,7 +106,7 @@ export function MethodsTools() {
           {TOOLS.map((t, i) => (
             <button key={t.name} onClick={() => setActive(i)} className="group flex items-start justify-between gap-3 rounded-[14px] border border-[#1f2a25] bg-[#111815] p-3.5 text-left transition-all duration-200 hover:-translate-y-0.5 hover:border-[#34d399]/60 hover:shadow-[0_0_18px_rgba(52,211,153,0.12)]">
               <div><p className="font-hack text-[15px] font-normal text-[#e7f6ef] transition-colors group-hover:text-[#34d399]">{t.name}</p><p className="mt-0.5 text-[12px] leading-snug text-[#9fb6ac]">{t.desc}</p></div>
-              <span className="shrink-0 rounded-full bg-[#123024] px-2 py-0.5 font-hack text-[10px] font-bold text-[#34d399] transition-transform group-hover:scale-110">Run</span>
+              <span className="shrink-0 rounded-full bg-[#123024] px-2 py-0.5 font-term text-[10px] font-bold text-[#34d399] transition-transform group-hover:scale-110">Run</span>
             </button>
           ))}
         </div>
