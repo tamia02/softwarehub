@@ -1,7 +1,7 @@
 import { StaggerWords } from "@/components/motion/StaggerWords";
 import { FloatingDecor } from "@/components/motion/FloatingDecor";
 import { HeroEmailForm } from "./HeroEmailForm";
-import { ProPassHero3D } from "./ProPassHero3D";
+import { ProPassCard3D } from "./ProPassCard3D";
 
 /**
  * Hero, measured against the reference: 720px headline column at 50px/1.05,
@@ -34,7 +34,7 @@ export function Hero({ toolCount }: { toolCount: number }) {
           </p>
         </div>
         <div className="anim-fade-scale order-1 md:order-2" style={at(0.15)}>
-          <ProPassHero3D />
+          <ProPassCard3D />
         </div>
       </div>
     </section>
