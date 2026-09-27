@@ -17,6 +17,8 @@
   },
   "dependencies": {
     "@electric-sql/pglite": "^0.5.8",
+    "@react-three/drei": "^10.7.9",
+    "@react-three/fiber": "^9.8.1",
     "clsx": "^2.1.1",
     "drizzle-orm": "^0.45.3",
     "framer-motion": "^13.4.0",
@@ -34,6 +36,7 @@
     "server-only": "^0.0.1",
     "simple-icons": "^16.32.0",
     "tailwind-merge": "^3.7.0",
+    "three": "^0.180.0",
     "zod": "^4.6.5"
   },
   "devDependencies": {
@@ -43,6 +46,7 @@
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.180.0",
     "autocannon": "^8.0.0",
     "drizzle-kit": "^0.31.11",
     "eslint": "^9",
