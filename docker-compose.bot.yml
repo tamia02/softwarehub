@@ -1,0 +1,46 @@
+# Backend (WhatsApp/credit bot) — deployed as its OWN compose project ("shp-bot")
+# via:  docker compose -p shp-bot -f docker-compose.bot.yml --env-file deploy/.env up -d --build
+#
+# Why separate: a build or runtime failure here can NEVER affect the frontend
+# project ("softwarehub"). It joins the frontend's shp_web network so the site
+# reaches it server-to-server at  http://shp-bot:5000 . Not exposed to Traefik
+# yet (internal only) — add a public route once you have a DNS record + Evolution
+# API for the WhatsApp webhook.
+services:
+  shp-bot:
+    build:
+      context: ./backend
+    image: shp-bot:latest
+    restart: unless-stopped
+    environment:
+      # Its own SQLite DB in a persistent volume (schema untouched).
+      DATABASE_URL: "sqlite:////data/gemini_dist.db"
+      # Admin API is locked until you set BOT_ADMIN_TOKEN in deploy/.env.
+      ADMIN_API_TOKEN: "${BOT_ADMIN_TOKEN:-}"
+      # LLM — placeholder boots the server; real key enables bot replies.
+      OPENAI_API_KEY: "${BOT_OPENAI_API_KEY:-sk-placeholder-replace-me}"
+      OPENAI_BASE_URL: "${BOT_OPENAI_BASE_URL:-https://api.groq.com/openai/v1}"
+      MODEL_NAME: "${BOT_MODEL_NAME:-llama-3.3-70b-versatile}"
+      MODEL_PROVIDER: "${BOT_MODEL_PROVIDER:-groq}"
+      # WhatsApp channel (fill to go live).
+      EVOLUTION_API_URL: "${BOT_EVOLUTION_API_URL:-}"
+      EVOLUTION_API_KEY: "${BOT_EVOLUTION_API_KEY:-}"
+      EVOLUTION_INSTANCE: "${BOT_EVOLUTION_INSTANCE:-}"
+      WEBHOOK_SECRET: "${BOT_WEBHOOK_SECRET:-}"
+      LOG_LEVEL: "INFO"
+    volumes:
+      - shp-bot-data:/data
+    networks:
+      web:
+        aliases:
+          - shp-bot
+    labels:
+      - "traefik.enable=false"
+
+networks:
+  web:
+    external: true
+    name: shp_web
+
+volumes:
+  shp-bot-data:

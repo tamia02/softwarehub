@@ -1,34 +1,25 @@
-# Use official Python runtime
+# Python backend (Flask + LangGraph). Runs behind the same VPS as the frontend,
+# on its own container. Built from requirements-runtime.txt (verified set).
 FROM python:3.11-slim
 
-# Set working directory
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    postgresql-dev \
+# gcc as insurance for any sdist; no libpq needed on the SQLite path.
+RUN apt-get update && apt-get install -y --no-install-recommends gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# Install uv (fast Python package manager)
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+# Install deps first for layer caching.
+COPY requirements-runtime.txt .
+RUN pip install --no-cache-dir -r requirements-runtime.txt
 
-# Copy requirements first for better Docker layer caching
-COPY requirements.txt .
-RUN uv pip install --system --break-system-packages -r requirements.txt
-
-# Copy application code
+# App code.
 COPY . .
+RUN mkdir -p logs /data
 
-# Create logs directory
-RUN mkdir -p logs
-
-# Expose port
 EXPOSE 5000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD python -c "import requests; requests.get('http://localhost:5000/health')" || exit 1
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s --retries=3 \
+    CMD python -c "import requests; requests.get('http://localhost:5000/health').raise_for_status()" || exit 1
 
-# Run the application
-CMD ["python", "app.py"]
+# Init the DB, then serve with waitress (production WSGI). Overridable by compose.
+CMD ["sh", "-c", "python -c 'from database import init_db; init_db()' && waitress-serve --host=0.0.0.0 --port=5000 app:app"]
