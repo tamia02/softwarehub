@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini Distribution - Admin Panel</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .card h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-box {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .stat-box .number {
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .stat-box .label {
+            font-size: 0.9em;
+            opacity: 0.9;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        input, select, textarea {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+            font-weight: bold;
+        }
+        button:hover {
+            transform: translateY(-2px);
+        }
+        button:active {
+            transform: translateY(0);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+        .btn-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        th {
+            background: #f5f5f5;
+            color: #667eea;
+            font-weight: bold;
+        }
+        tr:hover {
+            background: #f9f9f9;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        .badge-success {
+            background: #d4edda;
+            color: #155724;
+        }
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .badge-danger {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        .section {
+            display: none;
+        }
+        .section.active {
+            display: block;
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .nav-tab {
+            padding: 10px 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .nav-tab:hover, .nav-tab.active {
+            background: white;
+            color: #667eea;
+        }
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            h1 {
+                font-size: 1.8em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Gemini Distribution Admin</h1>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showSection('dashboard')">📊 Dashboard</button>
+            <button class="nav-tab" onclick="showSection('register')">➕ Register Reseller</button>
+            <button class="nav-tab" onclick="showSection('users')">👥 Users</button>
+            <button class="nav-tab" onclick="showSection('links')">🔗 Links</button>
+            <button class="nav-tab" onclick="showSection('credits')">💰 Credits</button>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard" class="section active">
+            <div class="card">
+                <h2>📊 Analytics Dashboard</h2>
+                <div class="stats-grid">
+                    <div class="stat-box">
+                        <div class="number" id="totalLinks">-</div>
+                        <div class="label">Total Links</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number" id="unusedLinks">-</div>
+                        <div class="label">Available Links</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number" id="usedLinks">-</div>
+                        <div class="label">Used Links</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number" id="activeUsers">-</div>
+                        <div class="label">Active Users</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="number" id="todayDispensed">-</div>
+                        <div class="label">Today Dispensed</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Reseller Section -->
+        <div id="register" class="section">
+            <div class="card">
+                <h2>➕ Register New Reseller</h2>
+                <div id="registerAlert" class="alert"></div>
+                <form id="registerForm">
+                    <input type="text" id="regPhone" placeholder="Phone Number (e.g., 919876543210)" required>
+                    <input type="text" id="regName" placeholder="Reseller Name (Optional)">
+                    <input type="number" id="regCredits" placeholder="Initial Credits" value="0" min="0" required>
+                    <input type="password" id="regPin" placeholder="4-Digit PIN for Reseller" maxlength="4" required>
+                    <button type="submit" class="btn-success">✅ Register Reseller</button>
+                </form>
+            </div>
+
+            <div class="card">
+                <h2>📋 Quick Actions</h2>
+                <div class="grid-2">
+                    <button onclick="quickAction('setPin')" class="btn-success">🔐 Change PIN</button>
+                    <button onclick="quickAction('addBulkCredits')" class="btn-success">💰 Bulk Add Credits</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Users Section -->
+        <div id="users" class="section">
+            <div class="card">
+                <h2>👥 All Users</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Phone</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Credits</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTable"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Links Section -->
+        <div id="links" class="section">
+            <div class="card">
+                <h2>🔗 Add Links</h2>
+                <div id="linksAlert" class="alert"></div>
+                <form id="linksForm">
+                    <textarea id="linkUrls" rows="8" placeholder="Paste Gemini invite URLs here (one per line)&#10;https://gemini.google.com/..." required></textarea>
+                    <button type="submit" class="btn-success">📥 Ingest Links</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Credits Section -->
+        <div id="credits" class="section">
+            <div class="card">
+                <h2>💰 Adjust Credits</h2>
+                <div id="creditsAlert" class="alert"></div>
+                <form id="creditsForm">
+                    <input type="text" id="creditsPhone" placeholder="Phone Number" required>
+                    <div class="grid-2">
+                        <input type="number" id="creditsDelta" placeholder="Credit Amount (positive to add, negative to deduct)" required>
+                        <select id="creditsAction">
+                            <option value="add">Add Credits</option>
+                            <option value="deduct">Deduct Credits</option>
+                            <option value="set">Set Exact Credits</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-success">💾 Update Credits</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (sectionId === 'dashboard') loadAnalytics();
+            if (sectionId === 'users') loadUsers();
+        }
+
+        function showAlert(id, message, type) {
+            const alert = document.getElementById(id);
+            alert.textContent = message;
+            alert.className = `alert alert-${type}`;
+            alert.style.display = 'block';
+            setTimeout(() => alert.style.display = 'none', 5000);
+        }
+
+        async function loadAnalytics() {
+            try {
+                const res = await fetch('/api/admin/analytics');
+                const data = await res.json();
+                document.getElementById('totalLinks').textContent = data.total_links;
+                document.getElementById('unusedLinks').textContent = data.unused_links;
+                document.getElementById('usedLinks').textContent = data.used_links;
+                document.getElementById('activeUsers').textContent = data.active_users;
+                document.getElementById('todayDispensed').textContent = data.today_dispensed;
+            } catch (e) {
+                console.error('Failed to load analytics:', e);
+            }
+        }
+
+        async function loadUsers() {
+            try {
+                const res = await fetch('/api/admin/users');
+                const users = await res.json();
+                const tbody = document.getElementById('usersTable');
+                tbody.innerHTML = users.map(u => `
+                    <tr>
+                        <td>${u.phone}</td>
+                        <td><span class="badge badge-${u.role === 'reseller' ? 'warning' : 'success'}">${u.role}</span></td>
+                        <td><span class="badge badge-${u.is_verified ? 'success' : 'danger'}">${u.is_verified ? 'Verified' : 'Unverified'}</span></td>
+                        <td>${u.credits}</td>
+                        <td>
+                            <button onclick="adjustCredits('${u.phone}')" class="btn-success" style="padding: 6px 12px; font-size: 0.85em;">💰 Credits</button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (e) {
+                console.error('Failed to load users:', e);
+            }
+        }
+
+        // Register Reseller
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const phone = document.getElementById('regPhone').value.trim();
+            const name = document.getElementById('regName').value.trim();
+            const credits = parseInt(document.getElementById('regCredits').value);
+            const pin = document.getElementById('regPin').value;
+
+            try {
+                const res = await fetch('/api/admin/register/reseller', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, name, credits, pin })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showAlert('registerAlert', '✅ Reseller registered successfully!', 'success');
+                    document.getElementById('registerForm').reset();
+                } else {
+                    showAlert('registerAlert', '❌ ' + data.message, 'error');
+                }
+            } catch (e) {
+                showAlert('registerAlert', '❌ Error: ' + e.message, 'error');
+            }
+        });
+
+        // Ingest Links
+        document.getElementById('linksForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const urls = document.getElementById('linkUrls').value.split('\n').filter(u => u.trim());
+
+            try {
+                const res = await fetch('/api/admin/links', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ urls })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    showAlert('linksAlert', `✅ Added ${data.added} links, skipped ${data.duplicates_skipped} duplicates`, 'success');
+                    document.getElementById('linkUrls').value = '';
+                } else {
+                    showAlert('linksAlert', '❌ Error: ' + data.message, 'error');
+                }
+            } catch (e) {
+                showAlert('linksAlert', '❌ Error: ' + e.message, 'error');
+            }
+        });
+
+        // Adjust Credits
+        document.getElementById('creditsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const phone = document.getElementById('creditsPhone').value.trim();
+            const action = document.getElementById('creditsAction').value;
+            const delta = parseInt(document.getElementById('creditsDelta').value);
+
+            if (action === 'set') {
+                const usersRes = await fetch('/api/admin/users');
+                const users = await usersRes.json();
+                const user = users.find(u => u.phone === phone);
+                const currentCredits = user ? user.credits : 0;
+                const actualDelta = delta - currentCredits;
+                await fetch('/api/admin/users/credits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, delta: actualDelta })
+                });
+            } else {
+                const actualDelta = action === 'deduct' ? -Math.abs(delta) : Math.abs(delta);
+                await fetch('/api/admin/users/credits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ phone, delta: actualDelta })
+                });
+            }
+
+            showAlert('creditsAlert', '✅ Credits updated successfully!', 'success');
+            document.getElementById('creditsForm').reset();
+        });
+
+        function adjustCredits(phone) {
+            document.getElementById('creditsPhone').value = phone;
+            showSection('credits');
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            event.target.closest('.nav-tab')?.classList.add('active');
+        }
+
+        function quickAction(action) {
+            if (action === 'setPin') {
+                const newPin = prompt('Enter new 4-digit PIN:');
+                if (newPin && newPin.length === 4) {
+                    fetch('/api/admin/settings/pin', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pin: newPin })
+                    }).then(r => r.json()).then(data => {
+                        alert(data.message);
+                    });
+                }
+            }
+        }
+
+        // Load dashboard on page load
+        loadAnalytics();
+    </script>
+</body>
+</html>
