@@ -72,15 +72,25 @@ export interface VReseller {
   id: number;
   name?: string;
   phone?: string;
-  whatsapp?: string;
-  credits?: number;
-  wallet?: number;
+  currency?: string;
+  credits_balance?: number;
   wallet_balance?: number;
-  locked?: boolean;
-  is_locked?: boolean;
+  balance_display?: string;
+  is_active?: boolean;
+  locked_until?: string | null;
+  failed_attempts?: number;
 }
 export interface VLink {
   id: number;
   is_used?: boolean;
   status?: string;
+}
+export interface VOrder {
+  id: string;
+  status?: string;
+  created_at?: string;
+  product_name?: string;
+  amount?: number;
+  total?: number;
+  phone?: string;
 }
