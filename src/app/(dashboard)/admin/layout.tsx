@@ -9,6 +9,7 @@ const nav = [
   { href: "/admin/tools", label: "Tools" },
   { href: "/admin/vendors", label: "Vendors" },
   { href: "/admin/payouts", label: "Resellers & payouts" },
+  { href: "/admin/bot", label: "WhatsApp Bot" },
   { href: "/admin/issues", label: "Guarantee claims" },
   { href: "/admin/settings", label: "Settings" },
   { href: "/admin/audit", label: "Audit log" },
