@@ -17,15 +17,10 @@ if [ -f deploy/.env ]; then
   docker compose --env-file deploy/.env up -d --build >> "$LOG" 2>&1
   echo "$(date) frontend done: $(git rev-parse --short HEAD)" >> "$LOG"
 
-  # Backend (bot) — its OWN compose project so a failure here can never affect
-  # the frontend above. Best-effort: never aborts the deploy.
-  if [ -f docker-compose.bot.yml ]; then
-    if docker compose -p shp-bot -f docker-compose.bot.yml --env-file deploy/.env up -d --build >> "$LOG" 2>&1; then
-      echo "$(date) backend done" >> "$LOG"
-    else
-      echo "$(date) backend deploy failed (frontend unaffected)" >> "$LOG"
-    fi
-  fi
+  # Let the site reach the WhatsApp/vending bot over its Docker network.
+  # Best-effort: a failure here never affects the frontend deploy above.
+  docker network connect vending-bot_default shp-shp-app-1 >/dev/null 2>&1 \
+    && echo "$(date) linked shp-app -> vending-bot_default" >> "$LOG" || true
 else
   echo "$(date) deploy/.env missing — run deploy/vps-docker.sh once first" >> "$LOG"
 fi

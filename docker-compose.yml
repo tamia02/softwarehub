@@ -42,6 +42,10 @@ services:
       # Demo mode — remove both when you add Razorpay + email/SMS keys.
       ALLOW_MOCK_GATEWAY: "true"
       ALLOW_DEV_OTP: "true"
+      # WhatsApp/vending bot (vending-deep-agent) — server-side only, never exposed
+      # to the browser. Reached over the vending-bot_default Docker network.
+      VENDING_API_URL: "${VENDING_API_URL:-http://vending-deep-agent:5000}"
+      VENDING_ADMIN_TOKEN: "${VENDING_ADMIN_TOKEN:-}"
     depends_on:
       - shp-db
     networks:

@@ -2,7 +2,6 @@ node_modules
 .next
 .git
 .data
-backend
 .env*
 npm-debug.log*
 coverage
