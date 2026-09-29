@@ -2,7 +2,19 @@
 
 import { useState, useTransition } from "react";
 import type { ActionResult } from "../../reseller/actions";
-import { adjustWalletAction, approveOrderAction, bulkUploadAction, createResellerAction, unlockResellerAction } from "./actions";
+import type { VProduct } from "@/lib/vending.server";
+import {
+  adjustWalletAction,
+  approveOrderAction,
+  bulkUploadAction,
+  cancelOrderAction,
+  createProductAction,
+  createResellerAction,
+  deleteProductAction,
+  setPinAction,
+  unlockResellerAction,
+  updateProductAction,
+} from "./actions";
 
 const input = "h-9 rounded-lg border border-line bg-bg-card px-3 text-sm focus:border-ink/40 focus:outline-none";
 const btn = "inline-flex h-9 items-center justify-center rounded-full border-2 border-ink-line bg-accent px-4 text-sm font-bold text-on-accent disabled:opacity-50";
@@ -121,5 +133,109 @@ export function BulkUpload({ products }: { products: { id: number; name: string 
         onChange={(e) => setText(e.target.value)}
       />
     </form>
+  );
+}
+
+export function SetPin({ id }: { id: number }) {
+  const { pending, res, run } = useRun();
+  const [pin, setPin] = useState("");
+  return (
+    <form
+      className="flex items-center gap-1.5"
+      onSubmit={(e) => {
+        e.preventDefault();
+        if (/^\d{4}$/.test(pin)) run(() => setPinAction(id, pin).then((r) => { if (r.ok) setPin(""); return r; }));
+      }}
+    >
+      <input className={`${input} w-20`} placeholder="PIN" inputMode="numeric" maxLength={4} value={pin} onChange={(e) => setPin(e.target.value)} />
+      <button className={btnGhost} disabled={pending}>{pending ? "…" : "Set PIN"}</button>
+      <Msg r={res} />
+    </form>
+  );
+}
+
+export function CancelButton({ orderId }: { orderId: string }) {
+  const { pending, res, run } = useRun();
+  return (
+    <span className="inline-flex items-center">
+      <button className={btnGhost} disabled={pending} onClick={() => run(() => cancelOrderAction(orderId))}>
+        {pending ? "…" : "Cancel"}
+      </button>
+      <Msg r={res} />
+    </span>
+  );
+}
+
+export function AddProduct() {
+  const { pending, res, run } = useRun();
+  const [f, setF] = useState({ name: "", category: "AI Tools", base_price: "", margin_percent: "30", credit_cost: "1" });
+  const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement>) => setF({ ...f, [k]: e.target.value });
+  return (
+    <form
+      className="flex flex-wrap items-end gap-2"
+      onSubmit={(e) => {
+        e.preventDefault();
+        run(() =>
+          createProductAction({
+            name: f.name,
+            category: f.category,
+            base_price: Number(f.base_price) || 0,
+            margin_percent: Number(f.margin_percent) || 0,
+            credit_cost: Number(f.credit_cost) || 1,
+          }).then((r) => {
+            if (r.ok) setF({ name: "", category: "AI Tools", base_price: "", margin_percent: "30", credit_cost: "1" });
+            return r;
+          }),
+        );
+      }}
+    >
+      <input className={`${input} w-44`} placeholder="Product name" value={f.name} onChange={set("name")} required />
+      <input className={`${input} w-32`} placeholder="Category" value={f.category} onChange={set("category")} />
+      <input className={`${input} w-28`} placeholder="Base ₹" inputMode="numeric" value={f.base_price} onChange={set("base_price")} />
+      <input className={`${input} w-24`} placeholder="Margin %" inputMode="numeric" value={f.margin_percent} onChange={set("margin_percent")} />
+      <input className={`${input} w-24`} placeholder="Credits" inputMode="numeric" value={f.credit_cost} onChange={set("credit_cost")} />
+      <button className={btn} disabled={pending}>{pending ? "Adding…" : "Add product"}</button>
+      <Msg r={res} />
+    </form>
+  );
+}
+
+export function EditProduct({ product }: { product: VProduct }) {
+  const { pending, res, run } = useRun();
+  const [base, setBase] = useState(String(product.base_price ?? ""));
+  const [margin, setMargin] = useState(String(product.margin_percent ?? ""));
+  const [credit, setCredit] = useState(String(product.credit_cost ?? 1));
+  return (
+    <span className="inline-flex flex-wrap items-center gap-1.5">
+      <input className={`${input} w-20`} title="Base ₹" inputMode="numeric" value={base} onChange={(e) => setBase(e.target.value)} />
+      <input className={`${input} w-16`} title="Margin %" inputMode="numeric" value={margin} onChange={(e) => setMargin(e.target.value)} />
+      <input className={`${input} w-14`} title="Credits" inputMode="numeric" value={credit} onChange={(e) => setCredit(e.target.value)} />
+      <button
+        className={btnGhost}
+        disabled={pending}
+        onClick={() =>
+          run(() => updateProductAction(product.id, { base_price: Number(base), margin_percent: Number(margin), credit_cost: Number(credit) || 1 }))
+        }
+      >
+        Save
+      </button>
+      <button
+        className={btnGhost}
+        disabled={pending}
+        onClick={() => run(() => updateProductAction(product.id, { is_active: product.is_active === false }))}
+      >
+        {product.is_active === false ? "Activate" : "Deactivate"}
+      </button>
+      <button
+        className="inline-flex h-9 items-center rounded-full border border-rose-300 px-3 text-sm font-semibold text-rose-600 hover:bg-rose-50 disabled:opacity-50"
+        disabled={pending}
+        onClick={() => {
+          if (confirm(`Delete "${product.name}"? This can't be undone.`)) run(() => deleteProductAction(product.id));
+        }}
+      >
+        Delete
+      </button>
+      <Msg r={res} />
+    </span>
   );
 }

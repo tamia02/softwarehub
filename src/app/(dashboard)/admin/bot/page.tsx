@@ -1,7 +1,7 @@
 import { Panel, StatCard } from "@/components/dashboard/Shell";
 import { vendingGet, type VHealth, type VProduct, type VReseller, type VLink, type VOrder } from "@/lib/vending.server";
 import { formatINR } from "@/lib/format";
-import { AddReseller, ApproveButton, BulkUpload, TopUp, UnlockButton } from "./Controls";
+import { AddProduct, AddReseller, ApproveButton, BulkUpload, CancelButton, EditProduct, SetPin, TopUp, UnlockButton } from "./Controls";
 
 export const metadata = { title: "WhatsApp Bot" };
 export const dynamic = "force-dynamic";
@@ -60,8 +60,10 @@ export default async function BotPage() {
         <StatCard label="Pending orders" value={String(pending.length)} sub={`${ords.length} total`} />
       </div>
 
-      {pending.length > 0 && (
-        <Panel title={`Orders awaiting approval (${pending.length})`}>
+      <Panel title={`Orders (${ords.length})`}>
+        {ords.length === 0 ? (
+          <p className="text-sm text-ink-faint">{orders.ok ? "No orders yet." : orders.error}</p>
+        ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
@@ -69,23 +71,37 @@ export default async function BotPage() {
                   <th className="py-2 pr-3 font-semibold">Order</th>
                   <th className="py-2 pr-3 font-semibold">Product</th>
                   <th className="py-2 pr-3 font-semibold">Amount</th>
-                  <th className="py-2 font-semibold">Action</th>
+                  <th className="py-2 pr-3 font-semibold">Status</th>
+                  <th className="py-2 font-semibold">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {pending.map((o) => (
-                  <tr key={o.id} className="border-t border-line">
-                    <td className="py-2 pr-3 font-code text-xs">{o.id}</td>
-                    <td className="py-2 pr-3">{o.product_name ?? "—"}</td>
-                    <td className="py-2 pr-3 tabular-nums">{rupees(o.amount ?? o.total)}</td>
-                    <td className="py-2"><ApproveButton orderId={o.id} /></td>
-                  </tr>
-                ))}
+                {ords.slice(0, 100).map((o) => {
+                  const st = (o.status ?? "").toLowerCase();
+                  const isPending = st.includes("pending") || st.includes("await");
+                  const canCancel = st !== "delivered" && st !== "cancelled";
+                  return (
+                    <tr key={o.id} className="border-t border-line">
+                      <td className="py-2 pr-3 font-code text-xs">{o.id}</td>
+                      <td className="py-2 pr-3">{o.product_name ?? "—"}</td>
+                      <td className="py-2 pr-3 tabular-nums">{rupees(o.amount ?? o.total)}</td>
+                      <td className="py-2 pr-3">
+                        <span className={`rounded-full px-2 py-0.5 text-xs font-bold ${st === "delivered" ? "bg-emerald-50 text-emerald-700" : isPending ? "bg-amber-50 text-amber-700" : "bg-ink/10 text-ink-muted"}`}>{o.status ?? "—"}</span>
+                      </td>
+                      <td className="py-2">
+                        <span className="flex flex-wrap items-center gap-1.5">
+                          {isPending && <ApproveButton orderId={o.id} />}
+                          {canCancel && <CancelButton orderId={o.id} />}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
-        </Panel>
-      )}
+        )}
+      </Panel>
 
       <Panel title="Add inventory (links / keys)">
         {prods.length === 0 ? (
@@ -93,6 +109,10 @@ export default async function BotPage() {
         ) : (
           <BulkUpload products={prods.map((p) => ({ id: p.id, name: p.name }))} />
         )}
+      </Panel>
+
+      <Panel title="Add product">
+        <AddProduct />
       </Panel>
 
       <Panel title={`Products (${prods.length})`}>
@@ -104,18 +124,22 @@ export default async function BotPage() {
               <thead>
                 <tr className="text-left text-ink-faint">
                   <th className="py-2 pr-3 font-semibold">Name</th>
-                  <th className="py-2 pr-3 font-semibold">Category</th>
                   <th className="py-2 pr-3 font-semibold">Customer</th>
-                  <th className="py-2 font-semibold">Credits</th>
+                  <th className="py-2 pr-3 font-semibold">Stock</th>
+                  <th className="py-2 font-semibold">Base ₹ · Margin % · Credits · actions</th>
                 </tr>
               </thead>
               <tbody>
                 {prods.map((p) => (
-                  <tr key={p.id} className="border-t border-line">
-                    <td className="py-2 pr-3 font-semibold text-ink">{p.name}</td>
-                    <td className="py-2 pr-3 text-ink-muted">{p.category ?? "—"}</td>
+                  <tr key={p.id} className="border-t border-line align-middle">
+                    <td className="py-2 pr-3">
+                      <span className="font-semibold text-ink">{p.name}</span>
+                      {p.is_active === false && <span className="ml-2 rounded-full bg-ink/10 px-2 py-0.5 text-xs text-ink-muted">inactive</span>}
+                      <span className="block text-xs text-ink-faint">{p.category ?? "—"}</span>
+                    </td>
                     <td className="py-2 pr-3 tabular-nums">{rupees(p.customer_price)}</td>
-                    <td className="py-2 tabular-nums">{p.credit_cost ?? "—"}</td>
+                    <td className="py-2 pr-3 tabular-nums">{p.available_stock ?? (typeof p.stock === "number" ? p.stock : "—")}</td>
+                    <td className="py-2"><EditProduct product={p} /></td>
                   </tr>
                 ))}
               </tbody>
@@ -140,7 +164,7 @@ export default async function BotPage() {
                   <th className="py-2 pr-3 font-semibold">WhatsApp</th>
                   <th className="py-2 pr-3 font-semibold">Balance</th>
                   <th className="py-2 pr-3 font-semibold">Status</th>
-                  <th className="py-2 font-semibold">Wallet</th>
+                  <th className="py-2 font-semibold">Wallet · PIN</th>
                 </tr>
               </thead>
               <tbody>
@@ -161,7 +185,12 @@ export default async function BotPage() {
                         </span>
                       )}
                     </td>
-                    <td className="py-2"><TopUp id={r.id} /></td>
+                    <td className="py-2">
+                      <div className="flex flex-wrap items-center gap-3">
+                        <TopUp id={r.id} />
+                        <SetPin id={r.id} />
+                      </div>
+                    </td>
                   </tr>
                 ))}
               </tbody>

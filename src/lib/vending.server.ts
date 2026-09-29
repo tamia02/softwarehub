@@ -62,11 +62,14 @@ export interface VProduct {
   name: string;
   category?: string;
   base_price?: number;
+  margin_percent?: number;
   customer_price?: number;
   reseller_price?: number;
   credit_cost?: number;
+  is_active?: boolean;
   in_stock?: boolean | number;
   stock?: number;
+  available_stock?: number;
 }
 export interface VReseller {
   id: number;
