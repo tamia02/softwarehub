@@ -22,16 +22,6 @@ if [ -f deploy/.env ]; then
   if [ -f docker-compose.bot.yml ]; then
     if docker compose -p shp-bot -f docker-compose.bot.yml --env-file deploy/.env up -d --build >> "$LOG" 2>&1; then
       echo "$(date) backend done" >> "$LOG"
-      # Put the bot on the same Docker network(s) as the Evolution API container
-      # so they can talk internally (evolution_api:8080 <-> shp-bot:5000).
-      if docker inspect evolution_api >/dev/null 2>&1; then
-        for net in $(docker inspect -f '{{range $k,$v := .NetworkSettings.Networks}}{{$k}} {{end}}' evolution_api 2>/dev/null); do
-          docker network connect "$net" shp-bot >/dev/null 2>&1 \
-            && echo "$(date) connected shp-bot to network $net" >> "$LOG" || true
-        done
-      else
-        echo "$(date) note: no 'evolution_api' container found — skipping network link" >> "$LOG"
-      fi
     else
       echo "$(date) backend deploy failed (frontend unaffected)" >> "$LOG"
     fi

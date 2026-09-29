@@ -35,6 +35,9 @@ services:
       web:
         aliases:
           - shp-bot
+      evo:
+        aliases:
+          - shp-bot
     labels:
       - "traefik.enable=false"
 
@@ -42,6 +45,11 @@ networks:
   web:
     external: true
     name: shp_web
+  # Evolution API's Docker network — so the bot reaches evolution_api:8080 and
+  # Evolution can POST the webhook to shp-bot:5000, all internally.
+  evo:
+    external: true
+    name: evolution-api_evolution_net
 
 volumes:
   shp-bot-data:
