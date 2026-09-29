@@ -11,6 +11,7 @@ services:
     build:
       context: ./backend
     image: shp-bot:latest
+    container_name: shp-bot
     restart: unless-stopped
     environment:
       # Its own SQLite DB in a persistent volume (schema untouched).
