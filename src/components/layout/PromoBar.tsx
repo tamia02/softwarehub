@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, X } from "lucide-react";
+import { ArrowRight, ShieldCheck, X } from "lucide-react";
 
-const KEY = "shp_promo_dismissed_v3";
+const KEY = "shp_promo_dismissed_v4";
 
-/** Full-width announcement strip: 44px, 2px bottom rule, 15px bold (measured from the reference). */
+/** Thin announcement strip above the header. Dismissal is remembered per browser. */
 export function PromoBar() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -18,14 +18,15 @@ export function PromoBar() {
   }, []);
   if (!open) return null;
   return (
-    <div className="anim-promo-in relative z-50 flex min-h-[44px] items-center justify-center border-b-2 border-ink-line bg-accent-soft px-12 text-center">
-      <Link href="/home#pool" className="group inline-flex items-center gap-1.5 text-[15px] font-bold leading-[1.05] text-ink hover:text-accent-2">
-        <span className="hidden sm:inline">Instant delivery —</span> escrow-protected on every order
-        <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
+    <div className="anim-promo-in relative z-50 flex min-h-[36px] items-center justify-center bg-accent px-12 text-center text-on-accent">
+      <Link href="/market#how" className="group inline-flex items-center gap-1.5 text-[13px] font-medium leading-tight">
+        <ShieldCheck size={14} className="shrink-0" />
+        <span className="hidden sm:inline">Instant delivery ·</span> Every order escrow-protected until you confirm it works
+        <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
       <button
         aria-label="Dismiss announcement"
-        className="absolute right-3 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-full text-ink-muted hover:bg-bg-card/60 hover:text-ink"
+        className="absolute right-3 top-1/2 grid h-7 w-7 -translate-y-1/2 place-items-center rounded-[6px] text-white/80 hover:bg-white/15 hover:text-white"
         onClick={() => {
           setOpen(false);
           try {
@@ -33,7 +34,7 @@ export function PromoBar() {
           } catch {}
         }}
       >
-        <X size={15} />
+        <X size={14} />
       </button>
     </div>
   );

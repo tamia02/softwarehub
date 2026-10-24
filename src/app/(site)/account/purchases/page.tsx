@@ -28,7 +28,7 @@ export default async function PurchasesPage() {
       ) : (
         <div className="mt-6 space-y-3">
           {purchases.map((p) => (
-            <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border-2 border-ink-line bg-bg-card p-4">
+            <div key={p.id} className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-ink-line bg-bg-card p-4">
               <div>
                 <p className="font-bold text-ink">{p.productName}</p>
                 <p className="text-[12px] text-ink-faint">{formatINR(p.pricePaise)} · code ending {p.last4 ?? "—"} · {new Date(p.createdAt).toLocaleDateString("en-IN")}</p>

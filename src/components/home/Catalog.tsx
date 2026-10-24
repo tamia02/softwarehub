@@ -32,9 +32,9 @@ export function Catalog({ core, pro }: { core: CatalogTool[]; pro: CatalogTool[]
               role="tab"
               aria-selected={active}
               onClick={() => setFilter(f)}
-              className={cn("relative h-10 cursor-pointer rounded-[100px] border-2 border-ink-line px-4 text-[16px] font-medium leading-none transition-colors", active ? "text-on-primary" : "bg-bg-card text-ink hover:bg-accent-soft")}
+              className={cn("relative h-10 cursor-pointer rounded-[8px] border border-ink-line px-4 text-[16px] font-medium leading-none transition-colors", active ? "text-on-primary" : "bg-bg-card text-ink hover:bg-accent-soft")}
             >
-              {active && <motion.span layoutId="chip-bg" className="absolute inset-[-2px] rounded-[100px] bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
+              {active && <motion.span layoutId="chip-bg" className="absolute inset-[-2px] rounded-[8px] bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
               <span className="relative">{f}</span>
             </button>
           );
@@ -81,7 +81,7 @@ function Grid({ items }: { items: CatalogTool[] }) {
           ))}
         </AnimatePresence>
       </motion.div>
-      {items.length === 0 && <p className="mt-8 rounded-[22px] border-2 border-dashed border-line-strong p-8 text-center text-[16px] text-ink-muted">No tools in this category here.</p>}
+      {items.length === 0 && <p className="mt-8 rounded-[12px] border border-dashed border-line-strong p-8 text-center text-[16px] text-ink-muted">No tools in this category here.</p>}
     </>
   );
 }

@@ -76,15 +76,15 @@ export function MarketHero() {
         <div className="anim-float" style={{ animationDuration: "7s" }}>
           <div className="card-3d card-3d-lg rotate-[-4deg]">
             <div className="card-3d-body relative overflow-hidden bg-[linear-gradient(165deg,#fff7e0,#fde9c0)] px-4 pb-4 pt-5 text-center md:px-5 md:pb-5 md:pt-6">
-              <span className="mx-auto grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent md:h-12 md:w-12">
+              <span className="mx-auto grid h-11 w-11 place-items-center rounded-full border border-ink-line bg-accent text-on-accent md:h-12 md:w-12">
                 <ShieldCheck size={22} />
               </span>
               <p className="mt-3 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-ink-muted md:text-[11px]">Escrow protected</p>
               <p className="font-display text-[22px] font-black uppercase leading-[0.95] tracking-[-0.02em] text-ink md:text-[28px]">Instant
                 <br />delivery</p>
-              <div className="relative mx-[-16px] my-3 border-t-2 border-dashed border-ink-line md:my-4">
-                <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
-                <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
+              <div className="relative mx-[-16px] my-3 border-t border-dashed border-ink-line md:my-4">
+                <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
+                <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
               </div>
               <p className="font-hand whitespace-nowrap text-[16px] leading-none text-accent-2 md:text-[20px]">your code, in seconds</p>
               <p className="font-code mt-2 whitespace-nowrap text-[8px] tracking-[0.2em] text-ink-faint md:text-[10px]">SHOP-••••-••••</p>

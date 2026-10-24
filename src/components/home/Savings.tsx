@@ -22,7 +22,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
 
   return (
     <section id="savings" className="scroll-mt-24 py-3 md:py-4">
-      <div className="panel border-2 border-ink-line bg-bg-dark text-on-primary">
+      <div className="panel border border-ink-line bg-bg-dark text-on-primary">
         <div className="panel-inner">
           <FadeUp className="mx-auto max-w-2xl text-center">
             <h2 className="t-h2 text-on-primary">What the same plans cost separately</h2>
@@ -32,10 +32,10 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
           </FadeUp>
 
           <div className="mt-6 flex justify-center md:mt-8">
-            <div role="tablist" className="relative inline-flex rounded-[100px] border-2 border-on-primary/30 p-1">
+            <div role="tablist" className="relative inline-flex rounded-[8px] border border-on-primary/30 p-1">
               {(["starter", "pro"] as TierSlug[]).map((t) => (
-                <button key={t} role="tab" aria-selected={tier === t} onClick={() => setTier(t)} className={cn("relative h-10 cursor-pointer rounded-[100px] px-5 text-[16px] font-bold leading-none transition-colors", tier === t ? "text-ink" : "text-on-primary/80 hover:text-on-primary")}>
-                  {tier === t && <motion.span layoutId="savings-toggle" className="absolute inset-0 rounded-[100px] bg-accent" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
+                <button key={t} role="tab" aria-selected={tier === t} onClick={() => setTier(t)} className={cn("relative h-10 cursor-pointer rounded-[8px] px-5 text-[16px] font-bold leading-none transition-colors", tier === t ? "text-ink" : "text-on-primary/80 hover:text-on-primary")}>
+                  {tier === t && <motion.span layoutId="savings-toggle" className="absolute inset-0 rounded-[8px] bg-accent" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
                   <span className="relative">{pricing[t].name}</span>
                 </button>
               ))}
@@ -49,7 +49,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
           </div>
 
           <div className="mt-8 text-center">
-            <button onClick={() => setExpanded((v) => !v)} aria-expanded={expanded} className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[100px] border-2 border-on-primary/40 px-5 text-[16px] font-bold text-on-primary hover:bg-on-primary/10">
+            <button onClick={() => setExpanded((v) => !v)} aria-expanded={expanded} className="inline-flex h-11 cursor-pointer items-center gap-2 rounded-[8px] border border-on-primary/40 px-5 text-[16px] font-bold text-on-primary hover:bg-on-primary/10">
               {expanded ? "Hide" : "Show"} the per-tool comparison
               <motion.span animate={{ rotate: expanded ? 180 : 0 }} transition={{ duration: 0.25 }}>
                 <ChevronDown size={16} />
@@ -60,7 +60,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
           <AnimatePresence initial={false}>
             {expanded && (
               <motion.div key="table" initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} className="overflow-hidden">
-                <div className="mt-6 max-h-[520px] overflow-auto rounded-[22px] border-2 border-on-primary/20">
+                <div className="mt-6 max-h-[520px] overflow-auto rounded-[12px] border border-on-primary/20">
                   <table className="w-full min-w-[560px] text-left text-[15px]">
                     <thead className="sticky top-0 bg-bg-soft text-[12px] font-bold uppercase tracking-wider text-on-primary/70">
                       <tr>
@@ -98,8 +98,8 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
             )}
           </AnimatePresence>
 
-          <FadeUp className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-5 rounded-[22px] border-2 border-on-primary/25 bg-on-primary/5 p-6 md:mt-12 md:flex-row md:items-center md:p-7">
-            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent">
+          <FadeUp className="mx-auto mt-10 flex max-w-3xl flex-col items-start gap-5 rounded-[12px] border border-on-primary/25 bg-on-primary/5 p-6 md:mt-12 md:flex-row md:items-center md:p-7">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-full border border-ink-line bg-accent text-on-accent">
               <ShieldCheck size={26} />
             </span>
             <div className="flex-1">
@@ -120,7 +120,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
 
 function Stat({ label, sub, value, accent }: { label: string; sub: string; value: number; accent?: boolean }) {
   return (
-    <FadeUp className={cn("rounded-[22px] border-2 p-6 md:p-7", accent ? "border-ink-line bg-accent text-on-accent" : "border-on-primary/25 bg-on-primary/5")}>
+    <FadeUp className={cn("rounded-[12px] border p-6 md:p-7", accent ? "border-ink-line bg-accent text-on-accent" : "border-on-primary/25 bg-on-primary/5")}>
       <p className={cn("text-[13px] font-bold uppercase tracking-wider", accent ? "text-ink-line/70" : "text-on-primary/60")}>{label}</p>
       <p className="mt-2 text-[36px] font-bold leading-none tabular-nums md:text-[44px]">
         ₹<CountUp value={value} format={(n) => formatINRNumber(n)} />

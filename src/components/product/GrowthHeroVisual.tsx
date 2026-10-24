@@ -47,7 +47,7 @@ export function GrowthHeroVisual() {
   }, [reduce]);
 
   return (
-    <div ref={ref} className="anim-fade-scale relative rounded-[var(--r-card-lg)] border-2 border-ink-line bg-bg-card p-5 shadow-[7px_7px_0_var(--offset-card)] sm:p-6" style={{ animationDelay: "0.15s" }}>
+    <div ref={ref} className="anim-fade-scale relative rounded-[var(--r-card-lg)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)] sm:p-6" style={{ animationDelay: "0.15s" }}>
       {/* header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ export function GrowthHeroVisual() {
       </div>
 
       {/* animated bar chart */}
-      <div className="mt-5 flex h-28 items-end gap-2 rounded-[16px] border-2 border-ink-line/70 bg-bg-soft/50 p-3">
+      <div className="mt-5 flex h-28 items-end gap-2 rounded-[16px] border border-ink-line/70 bg-bg-soft/50 p-3">
         {bars.map((h, i) => (
           <motion.span
             key={i}
@@ -106,7 +106,7 @@ export function GrowthHeroVisual() {
       </div>
 
       {/* live order ticker */}
-      <div className="mt-4 flex items-center gap-2 overflow-hidden rounded-full border-2 border-ink-line bg-accent-soft px-3 py-2">
+      <div className="mt-4 flex items-center gap-2 overflow-hidden rounded-full border border-ink-line bg-accent-soft px-3 py-2">
         <Zap size={14} className="shrink-0 fill-accent text-accent" />
         <AnimatePresence mode="wait">
           <motion.span

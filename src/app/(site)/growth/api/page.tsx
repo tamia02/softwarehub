@@ -21,14 +21,14 @@ export default function ApiDocsPage() {
       <p className="mt-3 max-w-[60ch] text-[16px] text-ink-muted">Integrate our SMM services into your own website or app. Standard SMM-panel API — one endpoint, form-encoded or JSON.</p>
 
       <div className="mt-6 grid gap-3 sm:grid-cols-2">
-        <div className="rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Endpoint</p><p className="mt-1 font-code text-[14px]">POST {base}/api/v2</p></div>
-        <div className="rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Auth</p><p className="mt-1 font-code text-[14px]">key = your API key</p><p className="text-[12px] text-ink-faint">Generate it in your Growth panel.</p></div>
+        <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Endpoint</p><p className="mt-1 font-code text-[14px]">POST {base}/api/v2</p></div>
+        <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Auth</p><p className="mt-1 font-code text-[14px]">key = your API key</p><p className="text-[12px] text-ink-faint">Generate it in your Growth panel.</p></div>
       </div>
 
       <div className="mt-6 space-y-4">
         {rows.map((r) => (
-          <div key={r.action} className="overflow-hidden rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card">
-            <div className="border-b-2 border-ink-line bg-accent-soft px-4 py-2.5"><span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-bold text-on-accent">POST</span> <span className="ml-2 font-code text-[14px] font-bold">action = {r.action}</span></div>
+          <div key={r.action} className="overflow-hidden rounded-[var(--r-card)] border border-ink-line bg-bg-card">
+            <div className="border-b border-ink-line bg-accent-soft px-4 py-2.5"><span className="rounded-full bg-accent px-2 py-0.5 text-[11px] font-bold text-on-accent">POST</span> <span className="ml-2 font-code text-[14px] font-bold">action = {r.action}</span></div>
             <div className="p-4">
               <p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Parameters</p>
               <p className="mt-1 font-code text-[13px] text-ink">{r.params}</p>

@@ -1,39 +1,40 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Brand tokens — Warm Cream palette (#92400E · #D97706 · #F59E0B · #FEF3C7 ·
-   #FFFBEB) applied to the outlined-pill design system. Swap to re-theme.
+   Brand tokens — marketplace palette: cool-grey page, white cards, deep
+   navy chrome (header / footer / dark panels) and a red-coral action
+   colour. Hairline borders, 8–14px radii, soft shadows. Swap to re-theme.
    ------------------------------------------------------------------ */
 :root {
-  --brand-primary: #92400e;        /* deep brown: dark fills, offsets behind CTAs, active chips */
-  --brand-primary-600: #78350f;
-  --brand-primary-soft: #fde8c8;
-  --brand-accent: #f59e0b;         /* amber: primary CTA fill, highlights */
-  --brand-accent-2: #d97706;       /* amber-600: links, hand-script accents */
-  --brand-accent-soft: #fef3c7;    /* section panels */
-  --offset-card: #f3d08a;          /* offset layer behind cards */
-  --offset-card-hover: #f5c76a;
+  --brand-primary: #0f1523;        /* deep navy: header, dark fills, active chips */
+  --brand-primary-600: #0a0f1a;
+  --brand-primary-soft: #e9edf6;
+  --brand-accent: #ef4136;         /* red-coral: primary CTA fill, highlights */
+  --brand-accent-2: #d93a2f;       /* accent-600: links, emphasis on light */
+  --brand-accent-soft: #fff1ef;    /* tinted section panels / chips */
+  --offset-card: transparent;      /* legacy offset layer — retired */
+  --offset-card-hover: transparent;
 
-  --bg: #fffbeb;                   /* page */
-  --bg-soft: #fef3c7;
+  --bg: #f4f5f8;                   /* page */
+  --bg-soft: #eceef3;
   --bg-card: #ffffff;              /* card / input surface */
-  --bg-dark: #2a1508;
-  --ink: #2f2f2f;                  /* text */
-  --ink-line: #1c1917;             /* 2px outlines */
-  --ink-muted: #565656;
-  --ink-faint: #817c77;
-  --line: #eadfc4;
-  --line-strong: #d9c79b;
-  --on-accent: #1c1917;            /* text on amber fills */
-  --on-primary: #fffbeb;           /* text on brown fills */
+  --bg-dark: #0f1523;
+  --ink: #111827;                  /* text */
+  --ink-line: #e2e5eb;             /* card / control borders */
+  --ink-muted: #4b5565;
+  --ink-faint: #8b93a1;
+  --line: #e7e9ee;
+  --line-strong: #d3d8e0;
+  --on-accent: #ffffff;            /* text on accent fills */
+  --on-primary: #ffffff;           /* text on navy fills */
 
-  --r-card: 22px;
-  --r-card-lg: 30px;
+  --r-card: 12px;
+  --r-card-lg: 16px;
   --r-pill: 100px;
-  --shadow-card: 0 1px 2px rgba(47, 47, 47, 0.04);
-  --shadow-hover: 0 10px 24px rgba(146, 64, 14, 0.12);
+  --shadow-card: 0 1px 2px rgba(16, 24, 40, 0.05);
+  --shadow-hover: 0 12px 28px rgba(16, 24, 40, 0.10);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --panel-w: calc(100% - clamp(24px, 7.5vw, 144px));
+  --panel-w: 100%;
 }
 
 @theme inline {
@@ -57,8 +58,8 @@
   --color-on-primary: var(--on-primary);
 
   --font-display: var(--font-display), system-ui, sans-serif;
-  --font-body: var(--font-display), system-ui, sans-serif;
-  --font-hand: var(--font-hand), cursive;
+  --font-body: var(--font-body), system-ui, sans-serif;
+  --font-hand: var(--font-display), system-ui, sans-serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 
   --ease-spring: var(--ease-out);
@@ -69,48 +70,47 @@ html {
   -webkit-text-size-adjust: 100%;
 }
 
-/* One family for everything, like the reference (Degular ⇒ Bricolage Grotesque). */
+/* Inter for body/UI, Plus Jakarta Sans for headings. */
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 16px;
-  line-height: 1.4;
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  letter-spacing: -0.006em;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  font-variation-settings: "opsz" 14, "wdth" 100;
 }
 
 h1, h2, h3, h4, .font-display {
   font-family: var(--font-display), system-ui, sans-serif;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  font-variation-settings: "opsz" 96, "wdth" 100;
+  letter-spacing: -0.02em;
 }
 
-/* Hand-script accent (value tags, badges) */
+/* Former hand-script accent: now a quiet semibold emphasis in the heading face. */
 .font-hand {
-  font-family: var(--font-hand), cursive;
-  font-weight: 700;
-  letter-spacing: 0;
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 .font-code {
   font-family: var(--font-mono), ui-monospace, monospace;
 }
 
-/* Measured type scale */
-.t-h1 { font-size: 29px; line-height: 1.08; font-weight: 700; }
-.t-h2 { font-size: 26px; line-height: 1; font-weight: 700; }
-.t-lead { font-size: 16px; line-height: 1.4; }
-.t-body { font-size: 16px; line-height: 1.4; }
-.t-card-title { font-size: 16px; line-height: 1.12; font-weight: 700; }
-.t-price { font-size: 44px; line-height: 1.1; font-weight: 400; }
+/* Type scale */
+.t-h1 { font-size: 28px; line-height: 1.15; font-weight: 800; }
+.t-h2 { font-size: 22px; line-height: 1.2; font-weight: 700; }
+.t-lead { font-size: 15px; line-height: 1.55; }
+.t-body { font-size: 15px; line-height: 1.55; }
+.t-card-title { font-size: 15px; line-height: 1.3; font-weight: 600; }
+.t-price { font-size: 36px; line-height: 1.1; font-weight: 800; }
 @media (min-width: 768px) {
-  .t-h1 { font-size: clamp(42px, 3.06vw, 50px); line-height: 1.05; }
-  .t-h2 { font-size: clamp(28px, 6.25vw, 64px); }
-  .t-lead { font-size: 20px; }
-  .t-card-title { font-size: 20px; line-height: 1.2; }
-  .t-price { font-size: 52px; }
+  .t-h1 { font-size: clamp(34px, 3vw, 44px); line-height: 1.1; }
+  .t-h2 { font-size: clamp(24px, 2.2vw, 30px); }
+  .t-lead { font-size: 17px; }
+  .t-card-title { font-size: 16px; }
+  .t-price { font-size: 40px; }
 }
 
 ::selection {
@@ -123,70 +123,62 @@ h1, h2, h3, h4, .font-display {
    ------------------------------------------------------------------ */
 @utility container-page {
   width: 100%;
-  max-width: 1520px;
+  max-width: 1320px;
   margin-inline: auto;
-  padding-inline: 20px;
+  padding-inline: 16px;
   @media (min-width: 768px) {
-    padding-inline: 40px;
+    padding-inline: 32px;
   }
 }
 
-/* Full-width cream section panel (reference: 22px → 30px radius, 24/36/48 padding) */
+/* Section panel: a white bordered surface inside the page container. */
 @utility panel {
-  width: var(--panel-w);
-  max-width: 1776px;
+  width: 100%;
+  max-width: 1320px;
   margin-inline: auto;
-  border-radius: var(--r-card);
-  background: var(--brand-accent-soft);
+  border-radius: var(--r-card-lg);
+  border: 1px solid var(--ink-line);
+  background: var(--bg-card);
   padding-block: 24px;
   @media (min-width: 768px) {
-    padding-block: 36px;
-  }
-  @media (min-width: 1024px) {
-    border-radius: var(--r-card-lg);
-    padding-block: 48px;
+    padding-block: 32px;
   }
 }
 
 @utility panel-inner {
   width: 100%;
   margin-inline: auto;
-  padding-inline: 12px;
-  @media (min-width: 480px) { padding-inline: 20px; }
-  @media (min-width: 768px) { padding-inline: 40px; }
-  @media (min-width: 1024px) { padding-inline: 60px; }
+  padding-inline: 16px;
+  @media (min-width: 768px) { padding-inline: 32px; }
 }
 
-/* Offset layer behind an outlined card; the face lifts on hover (reference: top 8px → 10px). */
+/* Flat bordered card; lifts with a soft shadow on hover. (Name kept from the old offset-card system.) */
 @utility card-3d {
   position: relative;
   border-radius: var(--r-card);
-  &::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 8px;
-    bottom: -8px;
-    border-radius: inherit;
-    border: 2px solid var(--ink-line);
-    background: var(--offset-card);
-  }
   & > .card-3d-body {
     position: relative;
     border-radius: inherit;
-    border: 2px solid var(--ink-line);
-    transition: transform 0.2s var(--ease-out), background-color 0.2s var(--ease-out);
+    border: 1px solid var(--ink-line);
+    box-shadow: var(--shadow-card);
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s var(--ease-out), border-color 0.2s var(--ease-out);
   }
   &:hover > .card-3d-body {
-    transform: translateY(-4px);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--line-strong);
   }
 }
 @utility card-3d-lg {
-  @media (min-width: 1024px) {
-    border-radius: var(--r-card-lg);
-    &::before { top: 10px; bottom: -10px; }
-  }
+  border-radius: var(--r-card-lg);
+}
+
+/* Plain card surface. */
+.card {
+  border-radius: var(--r-card);
+  border: 1px solid var(--ink-line);
+  background: var(--bg-card);
+  box-shadow: var(--shadow-card);
 }
 
 @utility mask-fade-x {
@@ -241,7 +233,7 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 .anim-promo-in { animation: promo-in 0.45s var(--ease-out) both; }
 
 .skeleton {
-  background: linear-gradient(90deg, #f3e9d0 0%, #fbf5e6 50%, #f3e9d0 100%);
+  background: linear-gradient(90deg, #eceef3 0%, #f6f7f9 50%, #eceef3 100%);
   background-size: 1200px 100%;
   animation: shimmer 1.6s linear infinite;
   border-radius: 12px;
@@ -323,10 +315,10 @@ html:not(.hydrated) [data-motion] { opacity: 1 !important; transform: none !impo
 
 /* Pulsing glow behind a CTA (amber). Applied to the button wrapper. */
 @keyframes ctaPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0); }
-  50% { box-shadow: 0 0 22px 2px rgba(245,158,11,0.38); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(239,65,54,0); }
+  50% { box-shadow: 0 0 22px 2px rgba(239,65,54,0.32); }
 }
-.anim-cta-glow { border-radius: 100px; animation: ctaPulse 2.8s ease-in-out infinite; }
+.anim-cta-glow { border-radius: 10px; animation: ctaPulse 2.8s ease-in-out infinite; }
 
 /* Diagonal light sweep across a button/element on hover. Needs overflow-hidden + relative on host. */
 @keyframes sheenSweep { from { transform: translateX(-160%) skewX(-18deg); } to { transform: translateX(260%) skewX(-18deg); } }

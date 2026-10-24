@@ -53,20 +53,20 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
       <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_1.2fr]">
         {/* Wallet + new order */}
         <div className="space-y-5">
-          <div className="rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-5 shadow-[4px_4px_0_var(--offset-card)]">
+          <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)]">
             <p className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-ink-faint"><Wallet size={15} /> Wallet</p>
             <p className="mt-2 font-display text-[32px] font-black text-ink">{formatINR(balancePaise)}</p>
             <div className="mt-3 flex flex-wrap gap-2">
               {[100, 500, 1000].map((a) => (
                 <button key={a} disabled={busy !== null} onClick={() => call("/api/wallet/topup", { method: "POST", body: JSON.stringify({ amount: a }) }, `topup-${a}`, `Added ${formatINR(a * 100)} to your wallet.`)}
-                  className="inline-flex items-center gap-1 rounded-full border-2 border-ink-line bg-bg-card px-3 py-1.5 text-[13px] font-bold hover:bg-primary-soft disabled:opacity-60">
+                  className="inline-flex items-center gap-1 rounded-full border border-ink-line bg-bg-card px-3 py-1.5 text-[13px] font-bold hover:bg-primary-soft disabled:opacity-60">
                   {busy === `topup-${a}` ? <Loader2 size={13} className="animate-spin" /> : <Plus size={13} />} ₹{a}
                 </button>
               ))}
             </div>
           </div>
 
-          <div className="rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-5 shadow-[4px_4px_0_var(--offset-card)]">
+          <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)]">
             <p className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-ink-faint"><Send size={15} /> New order</p>
             <label className="mt-3 block text-sm font-semibold">Service
               <select className={input} value={serviceId} onChange={(e) => { const id = Number(e.target.value); setServiceId(id); const s = allServices.find((x) => x.id === id); if (s) setQty(s.min); }}>
@@ -86,7 +86,7 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
             <div className="mt-4 flex items-center justify-between">
               <span className="text-sm text-ink-muted">Charge <b className="text-ink">{formatINR(charge)}</b></span>
               <button disabled={busy !== null || !link} onClick={() => call("/api/smm/order", { method: "POST", body: JSON.stringify({ service: serviceId, link, quantity: qty }) }, "order", "Order placed — watch it progress below.")}
-                className="inline-flex items-center gap-2 rounded-full border-2 border-ink-line bg-accent px-5 py-2 text-sm font-bold text-on-accent disabled:opacity-60">
+                className="inline-flex items-center gap-2 rounded-full border border-ink-line bg-accent px-5 py-2 text-sm font-bold text-on-accent disabled:opacity-60">
                 {busy === "order" ? <Loader2 size={15} className="animate-spin" /> : <Send size={15} />} Place order
               </button>
             </div>
@@ -95,8 +95,8 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
 
         {/* Orders + API */}
         <div className="space-y-5">
-          <div className="overflow-hidden rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card">
-            <div className="flex items-center justify-between border-b-2 border-ink-line bg-accent-soft px-4 py-2.5">
+          <div className="overflow-hidden rounded-[var(--r-card)] border border-ink-line bg-bg-card">
+            <div className="flex items-center justify-between border-b border-ink-line bg-accent-soft px-4 py-2.5">
               <h2 className="text-[15px] font-black text-ink">Your orders</h2>
               <button onClick={() => router.refresh()} className="inline-flex items-center gap-1 text-[12px] font-bold text-ink-muted hover:text-ink"><RefreshCw size={12} /> Refresh</button>
             </div>
@@ -119,7 +119,7 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
             )}
           </div>
 
-          <div className="rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-5 shadow-[4px_4px_0_var(--offset-card)]">
+          <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)]">
             <p className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-ink-faint"><KeyRound size={15} /> API access</p>
             <p className="mt-2 text-[13px] text-ink-muted">Connect our services to your own panel or app. Endpoint: <code className="font-code text-[12px]">POST /api/v2</code> · <a href="/growth/api" className="font-bold text-accent-2 hover:underline">read the docs</a></p>
             {newKey && <p className="mt-3 break-all rounded-xl bg-bg-soft p-3 font-code text-[12px]">Your new key (shown once): <b>{newKey}</b></p>}
@@ -132,7 +132,7 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
               ))}
             </div>
             <button disabled={busy !== null} onClick={() => call("/api/apikeys", { method: "POST", body: "{}" }, "newkey", "New API key created.")}
-              className="mt-3 inline-flex items-center gap-1.5 rounded-full border-2 border-ink-line bg-bg-card px-4 py-2 text-sm font-bold hover:bg-primary-soft disabled:opacity-60">
+              className="mt-3 inline-flex items-center gap-1.5 rounded-full border border-ink-line bg-bg-card px-4 py-2 text-sm font-bold hover:bg-primary-soft disabled:opacity-60">
               {busy === "newkey" ? <Loader2 size={14} className="animate-spin" /> : <Plus size={14} />} Generate API key
             </button>
           </div>

@@ -32,15 +32,15 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
         </h2>
         <Hand>One code. Every plan. Twelve months.</Hand>
 
-        <div role="tablist" aria-label="Purchase mode" className="relative mt-2 inline-flex rounded-[100px] border-2 border-ink-line bg-bg-card p-1">
+        <div role="tablist" aria-label="Purchase mode" className="relative mt-2 inline-flex rounded-[8px] border border-ink-line bg-bg-card p-1">
           {(
             [
               { id: "bundle", label: "Buy a pass" },
               { id: "pool", label: `Join a pool of ${settings.poolSeatsDefault}` },
             ] as { id: Mode; label: string }[]
           ).map((m) => (
-            <button key={m.id} role="tab" aria-selected={mode === m.id} onClick={() => setMode(m.id)} className={cn("relative h-10 cursor-pointer rounded-[100px] px-5 text-[16px] font-bold leading-none transition-colors", mode === m.id ? "text-on-primary" : "text-ink")}>
-              {mode === m.id && <motion.span layoutId="pricing-mode" className="absolute inset-0 rounded-[100px] bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
+            <button key={m.id} role="tab" aria-selected={mode === m.id} onClick={() => setMode(m.id)} className={cn("relative h-10 cursor-pointer rounded-[8px] px-5 text-[16px] font-bold leading-none transition-colors", mode === m.id ? "text-on-primary" : "text-ink")}>
+              {mode === m.id && <motion.span layoutId="pricing-mode" className="absolute inset-0 rounded-[8px] bg-primary" transition={{ type: "spring", stiffness: 400, damping: 34 }} />}
               <span className="relative">{m.label}</span>
             </button>
           ))}
@@ -56,7 +56,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
             <FadeUp key={tier.slug} index={i} className="h-full">
               <Card3D className="h-full" bodyClassName={cn("relative flex h-full flex-col p-7 md:p-8", tier.bestValue && "bg-accent-soft")}>
                 {tier.bestValue && (
-                  <span className="font-hand absolute -top-4 right-6 rotate-[-4deg] rounded-[100px] border-2 border-ink-line bg-accent px-3 py-0.5 text-[22px] leading-none text-on-accent">Best value</span>
+                  <span className="absolute -top-3 right-6 rounded-[6px] bg-accent px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide leading-none text-on-accent">Best value</span>
                 )}
                 <p className="text-[32px] font-bold leading-none text-ink md:text-[36px]">{tier.name}</p>
                 <p className="mt-2 text-[16px] leading-[1.4] text-ink-muted">{tier.headline}</p>
@@ -83,7 +83,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
                 <ul className="mt-6 space-y-3">
                   {tier.benefits.map((b) => (
                     <li key={b} className="flex items-start gap-2.5 text-[16px] leading-[1.1] text-ink">
-                      <span className="mt-[1px] grid h-5 w-5 shrink-0 place-items-center rounded-full border-2 border-ink-line bg-accent">
+                      <span className="mt-[1px] grid h-5 w-5 shrink-0 place-items-center rounded-full border border-ink-line bg-accent">
                         <Check size={11} strokeWidth={3.5} />
                       </span>
                       {b}
@@ -102,7 +102,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
         })}
       </div>
 
-      <FadeUp className="mx-auto mt-12 flex max-w-[900px] flex-col items-center justify-between gap-5 rounded-[22px] border-2 border-ink-line bg-bg-card px-6 py-6 text-center md:mt-16 md:flex-row md:text-left">
+      <FadeUp className="mx-auto mt-12 flex max-w-[900px] flex-col items-center justify-between gap-5 rounded-[12px] border border-ink-line bg-bg-card px-6 py-6 text-center md:mt-16 md:flex-row md:text-left">
         <div>
           <h3 className="text-[24px] font-bold leading-none text-ink md:text-[28px]">Plans for teams</h3>
           <p className="mt-1.5 text-[16px] text-ink-muted">

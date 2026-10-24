@@ -3,8 +3,8 @@
  * (or in the `settings` table once the DB exists) — never hard-coded in UI.
  */
 export const site = {
-  name: "Software Hub",
-  shortName: "SHP",
+  name: "Online Sallutions",
+  shortName: "OS",
   tagline: "Premium software, subscriptions and game top-ups, activated instantly with a code.",
   supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@softwarehubpool.example",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "918120291167",

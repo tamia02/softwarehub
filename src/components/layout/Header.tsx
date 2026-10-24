@@ -1,18 +1,23 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, Store, UserRound, X } from "lucide-react";
 import { nav } from "@/config/site";
 import { LogoLockup } from "@/components/brand/Logo";
-import { Button } from "@/components/ui/Button";
 import { DemoQuickLogin } from "@/components/auth/DemoQuickLogin";
 import { cn } from "@/lib/utils";
 
-/** Sticky header. Nav links 20px medium (24px on wide screens), CTA pill 18px bold — measured from the reference. */
+/** Marketplace categories shown in the header strip (match `products.category`). */
+const CATEGORIES = ["AI Tools", "Subscriptions", "Game Top-Up", "Game Accounts", "Gift Cards", "Software"];
+
+/**
+ * Two-tier marketplace header: a navy bar with logo, product search and
+ * account actions, and a slimmer strip below with categories + sections.
+ */
 export function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [me, setMe] = useState<{ signedIn: boolean; role: string | null }>({ signedIn: false, role: null });
 
@@ -28,13 +33,6 @@ export function Header() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {
       document.body.style.overflow = "";
@@ -42,59 +40,150 @@ export function Header() {
   }, [open]);
 
   const role = me.role;
-  const resellerHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
-  const resellerLabel = role === "reseller" ? "Dashboard" : role === "admin" ? "Admin" : "Resellers";
-  const links = [...nav, { label: resellerLabel, href: resellerHref }, me.signedIn ? { label: "My account", href: "/account" } : { label: "Sign in", href: "/login" }];
+  const sellHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
+  const sellLabel = role === "reseller" ? "Seller dashboard" : role === "admin" ? "Admin" : "Sell with us";
+  const accountHref = me.signedIn ? "/account" : "/login";
+  const accountLabel = me.signedIn ? "My account" : "Sign in";
 
   return (
-    <header className={cn("sticky top-0 z-40 transition-[background-color,box-shadow] duration-300", scrolled ? "bg-[rgba(255,251,235,0.9)] shadow-[0_2px_0_rgba(28,25,23,0.06)] backdrop-blur-[12px]" : "bg-transparent")}>
-      <div className="container-page flex h-[68px] items-center justify-between gap-6 md:h-[76px]">
-        <Link href="/market" aria-label="Software Hub home" className="shrink-0">
-          <LogoLockup />
+    <header className="sticky top-0 z-40 bg-primary text-on-primary shadow-[0_1px_0_rgba(255,255,255,0.06)]">
+      <div className="container-page flex h-[60px] items-center gap-4 md:h-[64px] md:gap-6">
+        <Link href="/market" aria-label="Online Sallutions home" className="shrink-0">
+          <LogoLockup tone="light" />
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex xl:gap-7" aria-label="Primary">
-          {links.map((n) => (
-            <Link key={n.href} href={n.href} className="text-[16px] font-medium leading-none text-ink transition-colors duration-150 hover:text-accent-2">
-              {n.label}
-            </Link>
-          ))}
-        </nav>
+        <Suspense fallback={<div className="hidden h-10 flex-1 md:block" />}>
+          <HeaderSearch className="hidden max-w-[640px] flex-1 md:flex" />
+        </Suspense>
 
-        <div className="hidden items-center gap-3 lg:flex">
+        <div className="ml-auto hidden items-center gap-1 lg:flex">
           <DemoQuickLogin />
-          <Button href="/market" size="sm">Browse marketplace</Button>
+          <Link href={sellHref} className="inline-flex h-10 items-center gap-2 rounded-[8px] px-3 text-[14px] font-medium text-white/80 transition-colors hover:bg-white/[0.07] hover:text-white">
+            <Store size={17} /> {sellLabel}
+          </Link>
+          <Link
+            href={accountHref}
+            className={cn(
+              "inline-flex h-10 items-center gap-2 rounded-[8px] px-4 text-[14px] font-semibold transition-colors",
+              me.signedIn ? "text-white hover:bg-white/[0.07]" : "bg-accent text-on-accent hover:bg-accent-2",
+            )}
+          >
+            <UserRound size={17} /> {accountLabel}
+          </Link>
         </div>
 
-        <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-bg-card lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
-          <Menu />
+        <button className="ml-auto grid h-10 w-10 place-items-center rounded-[8px] text-white hover:bg-white/[0.08] lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
+          <Menu size={22} />
         </button>
+      </div>
+
+      {/* Mobile search */}
+      <div className="container-page pb-3 md:hidden">
+        <Suspense fallback={<div className="h-10" />}>
+          <HeaderSearch className="flex" />
+        </Suspense>
+      </div>
+
+      {/* Category + section strip */}
+      <div className="border-t border-white/[0.07] bg-[#0b101b]">
+        <nav className="container-page flex h-11 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Categories">
+          <Suspense fallback={null}>
+            <CategoryLinks />
+          </Suspense>
+          <span className="mx-2 h-4 w-px shrink-0 bg-white/15" aria-hidden />
+          {nav
+            .filter((n) => n.href !== "/market")
+            .map((n) => (
+              <Link key={n.href} href={n.href} className="shrink-0 rounded-[6px] px-3 py-1.5 text-[13px] font-medium text-white/65 transition-colors hover:bg-white/[0.06] hover:text-white">
+                {n.label}
+              </Link>
+            ))}
+        </nav>
       </div>
 
       <AnimatePresence>
         {open && (
-          <motion.div className="fixed inset-0 z-50 flex flex-col bg-bg lg:hidden" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 300, damping: 32 }} role="dialog" aria-modal="true">
-            <div className="container-page flex h-[76px] items-center justify-between">
-              <LogoLockup />
-              <button className="grid h-11 w-11 place-items-center rounded-full border-2 border-ink-line bg-bg-card" aria-label="Close menu" onClick={() => setOpen(false)}>
-                <X />
+          <motion.div className="fixed inset-0 z-50 flex flex-col bg-primary text-on-primary lg:hidden" initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }} transition={{ type: "spring", stiffness: 320, damping: 34 }} role="dialog" aria-modal="true">
+            <div className="container-page flex h-[60px] items-center justify-between">
+              <LogoLockup tone="light" />
+              <button className="grid h-10 w-10 place-items-center rounded-[8px] hover:bg-white/[0.08]" aria-label="Close menu" onClick={() => setOpen(false)}>
+                <X size={22} />
               </button>
             </div>
-            <nav className="container-page flex flex-1 flex-col gap-1 pt-4" aria-label="Mobile">
-              {links.map((n, i) => (
-                <motion.div key={n.href} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.06 + i * 0.05 }}>
-                  <Link href={n.href} onClick={() => setOpen(false)} className="block border-b-2 border-line px-1 py-4 text-[26px] font-bold text-ink">
-                    {n.label}
-                  </Link>
-                </motion.div>
+            <nav className="container-page flex flex-1 flex-col overflow-y-auto pt-2" aria-label="Mobile">
+              <p className="px-1 pb-2 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">Browse</p>
+              {[{ label: "All products", href: "/market#products" }, ...CATEGORIES.map((c) => ({ label: c, href: `/market?cat=${encodeURIComponent(c)}#products` })), ...nav.filter((n) => n.href !== "/market")].map((n) => (
+                <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="border-b border-white/[0.07] px-1 py-3.5 text-[16px] font-medium text-white/90">
+                  {n.label}
+                </Link>
               ))}
-              <div className="mt-auto pb-10">
-                <Button href="/market" size="lg" className="w-full">Browse marketplace</Button>
+              <div className="mt-auto flex flex-col gap-2 pb-8 pt-6">
+                <Link href={accountHref} onClick={() => setOpen(false)} className="grid h-12 place-items-center rounded-[8px] bg-accent text-[15px] font-semibold text-on-accent">
+                  {accountLabel}
+                </Link>
+                <Link href={sellHref} onClick={() => setOpen(false)} className="grid h-12 place-items-center rounded-[8px] border border-white/15 text-[15px] font-medium text-white/85">
+                  {sellLabel}
+                </Link>
               </div>
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
     </header>
+  );
+}
+
+/** Search box that sends the query to the marketplace (`/market?q=`). */
+function HeaderSearch({ className }: { className?: string }) {
+  const router = useRouter();
+  const params = useSearchParams();
+  const [q, setQ] = useState(params.get("q") ?? "");
+
+  return (
+    <form
+      role="search"
+      className={cn("relative h-10 items-center", className)}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const term = q.trim();
+        router.push(term ? `/market?q=${encodeURIComponent(term)}#products` : "/market#products");
+      }}
+    >
+      <Search size={17} className="pointer-events-none absolute left-3.5 text-ink-faint" aria-hidden />
+      <input
+        type="search"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+        placeholder="Search Netflix, Valorant points, ChatGPT…"
+        aria-label="Search products"
+        className="h-full w-full rounded-[8px] border border-transparent bg-white pl-10 pr-24 text-[14px] text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/20"
+      />
+      <button type="submit" className="absolute right-1 h-8 rounded-[6px] bg-accent px-4 text-[13px] font-semibold text-on-accent hover:bg-accent-2">
+        Search
+      </button>
+    </form>
+  );
+}
+
+function CategoryLinks() {
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const active = pathname === "/market" ? params.get("cat") ?? (params.get("q") ? null : "All") : null;
+  const items = [{ label: "All products", value: "All", href: "/market#products" }, ...CATEGORIES.map((c) => ({ label: c, value: c, href: `/market?cat=${encodeURIComponent(c)}#products` }))];
+  return (
+    <>
+      {items.map((c) => (
+        <Link
+          key={c.value}
+          href={c.href}
+          className={cn(
+            "shrink-0 rounded-[6px] px-3 py-1.5 text-[13px] font-medium transition-colors",
+            active === c.value ? "bg-white/[0.1] text-white" : "text-white/65 hover:bg-white/[0.06] hover:text-white",
+          )}
+        >
+          {c.label}
+        </Link>
+      ))}
+    </>
   );
 }

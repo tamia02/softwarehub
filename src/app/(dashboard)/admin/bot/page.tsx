@@ -46,7 +46,7 @@ export default async function BotPage() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-black">WhatsApp Bot</h1>
-        <span className={`inline-flex items-center gap-2 rounded-full border-2 border-ink-line px-3 py-1 text-xs font-bold ${h?.status === "online" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}`}>
+        <span className={`inline-flex items-center gap-2 rounded-full border border-ink-line px-3 py-1 text-xs font-bold ${h?.status === "online" ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}`}>
           <span className={`h-2 w-2 rounded-full ${h?.status === "online" ? "bg-emerald-500" : "bg-rose-500"}`} />
           {h?.status === "online" ? "Online" : "Unknown"}
           {h?.model ? ` · ${h.model}` : ""}

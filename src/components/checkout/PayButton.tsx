@@ -101,7 +101,7 @@ export function PayButton({
         key: data.keyId,
         amount: data.amountPaise,
         currency: "INR",
-        name: "Software Hub",
+        name: "Online Sallutions",
         order_id: data.gatewayOrderId,
         prefill: data.prefill ?? {},
         theme: { color: "#92400e" },

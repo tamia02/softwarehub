@@ -29,7 +29,7 @@ export function ProductLanding({
         eyebrow: "font-code text-[13px] uppercase tracking-[0.2em] text-[#34d399]",
         head: "text-[#f2fbf6]",
         hl: "text-[#34d399]",
-        hand: "font-code text-[#5eead4]",
+        hand: "font-code text-[24px] text-[#5eead4]",
         sub: "text-[#9fb6ac]",
         card: "border border-[#1f2a25] bg-[#111815]",
         cardTitle: "text-[#e7f6ef]",
@@ -44,9 +44,9 @@ export function ProductLanding({
         eyebrow: "text-[15px] font-bold uppercase tracking-wider text-accent-2",
         head: "text-ink",
         hl: "text-accent-2",
-        hand: "font-hand text-accent-2",
+        hand: "text-[18px] font-semibold text-accent-2",
         sub: "text-ink-muted",
-        card: "border-2 border-ink-line bg-bg-card shadow-[5px_5px_0_var(--offset-card)]",
+        card: "border border-ink-line bg-bg-card shadow-[var(--shadow-card)]",
         cardTitle: "text-ink",
         cardBody: "text-ink-muted",
         statValue: "text-ink",
@@ -98,7 +98,7 @@ export function ProductLanding({
         {product.how.map((h) => (
           <StaggerItem key={h.step} className="h-full">
             <div className={`group h-full rounded-[var(--r-card)] p-6 transition-transform duration-200 hover:-translate-y-1 ${t.card}`}>
-              <span className={`grid h-11 w-11 place-items-center rounded-full border-2 font-display text-[16px] font-black transition-transform duration-300 group-hover:scale-110 ${t.step}`}>
+              <span className={`grid h-11 w-11 place-items-center rounded-full border font-display text-[16px] font-black transition-transform duration-300 group-hover:scale-110 ${t.step}`}>
                 {h.step}
               </span>
               <h3 className={`t-card-title mt-4 text-[18px] ${t.cardTitle}`}>{h.title}</h3>
@@ -118,7 +118,7 @@ export function ProductLanding({
         <div>
           <p className={`anim-fade-up ${t.eyebrow}`} style={{ animationDelay: "0.05s" }}>{product.eyebrow}</p>
           <h1 className={`anim-fade-up t-h1 mt-4 max-w-[16ch] text-balance ${t.head}`} style={{ animationDelay: "0.12s" }}>{highlight(product.headline)}</h1>
-          <p className={`anim-fade-up mt-3 text-[24px] leading-none ${t.hand}`} style={{ animationDelay: "0.25s" }}>{product.hand}</p>
+          <p className={`anim-fade-up mt-3 leading-none ${t.hand}`} style={{ animationDelay: "0.25s" }}>{product.hand}</p>
           <p className={`anim-fade-up mt-5 max-w-[60ch] text-[16px] leading-[1.5] ${t.sub}`} style={{ animationDelay: "0.32s" }}>{product.sub}</p>
           <div className="anim-fade-up mt-7 flex flex-wrap gap-3" style={{ animationDelay: "0.4s" }}>
             <Button href={product.primary.href} size="lg" variant="primary" className={dark ? undefined : "anim-cta-glow"}>

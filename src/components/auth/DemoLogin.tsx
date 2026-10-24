@@ -39,7 +39,7 @@ export function DemoLogin({ next }: { next?: string }) {
   }
 
   return (
-    <div className="rounded-[var(--r-card)] border-2 border-dashed border-line-strong bg-bg-soft p-4">
+    <div className="rounded-[var(--r-card)] border border-dashed border-line-strong bg-bg-soft p-4">
       <p className="text-[13px] font-bold uppercase tracking-wider text-ink-faint">Demo — one click, no code</p>
       <div className="mt-3 grid gap-2.5">
         {ROLES.map(({ role, label, hint, icon: Icon }) => (
@@ -47,9 +47,9 @@ export function DemoLogin({ next }: { next?: string }) {
             key={role}
             onClick={() => signIn(role)}
             disabled={busy !== null}
-            className="group flex items-center gap-3 rounded-2xl border-2 border-ink-line bg-bg-card px-4 py-3 text-left transition-colors hover:bg-primary-soft disabled:opacity-60"
+            className="group flex items-center gap-3 rounded-2xl border border-ink-line bg-bg-card px-4 py-3 text-left transition-colors hover:bg-primary-soft disabled:opacity-60"
           >
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border-2 border-ink-line bg-accent-soft text-ink">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-line bg-accent-soft text-ink">
               {busy === role ? <Loader2 className="animate-spin" size={16} /> : <Icon size={16} />}
             </span>
             <span className="min-w-0">

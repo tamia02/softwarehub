@@ -17,7 +17,7 @@ import {
 } from "./actions";
 
 const input = "h-9 rounded-lg border border-line bg-bg-card px-3 text-sm focus:border-ink/40 focus:outline-none";
-const btn = "inline-flex h-9 items-center justify-center rounded-full border-2 border-ink-line bg-accent px-4 text-sm font-bold text-on-accent disabled:opacity-50";
+const btn = "inline-flex h-9 items-center justify-center rounded-full border border-ink-line bg-accent px-4 text-sm font-bold text-on-accent disabled:opacity-50";
 const btnGhost = "inline-flex h-9 items-center justify-center rounded-full border border-line px-3 text-sm font-semibold hover:bg-bg-soft disabled:opacity-50";
 
 function Msg({ r }: { r: ActionResult | null }) {

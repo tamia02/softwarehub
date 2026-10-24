@@ -31,13 +31,13 @@ export default async function AdminProductsPage() {
               <td className="px-4 py-2.5">
                 <form action={async (fd) => { "use server"; await setCommissionAction(p.id, Number(fd.get("pct"))); }} className="flex items-center gap-1">
                   <input name="pct" type="number" min="0" max="90" defaultValue={p.commissionPct} className="h-8 w-16 rounded-lg border border-line bg-bg-soft px-2 text-sm" />
-                  <button className="h-8 rounded-lg border-2 border-ink-line bg-bg-card px-2 text-xs font-bold">Set</button>
+                  <button className="h-8 rounded-lg border border-ink-line bg-bg-card px-2 text-xs font-bold">Set</button>
                 </form>
               </td>
               <td className="px-4 py-2.5 tabular-nums text-sm">{p.stock} / {p.sold}</td>
               <td className="px-4 py-2.5">
                 <form action={async () => { "use server"; await setProductActiveAction(p.id, !p.active); }}>
-                  <button className={`rounded-full px-2.5 py-1 text-xs font-bold ${p.active ? "bg-emerald-50 text-emerald-700" : "border-2 border-ink-line bg-bg-card"}`}>{p.active ? "Live" : "Hidden"}</button>
+                  <button className={`rounded-full px-2.5 py-1 text-xs font-bold ${p.active ? "bg-emerald-50 text-emerald-700" : "border border-ink-line bg-bg-card"}`}>{p.active ? "Live" : "Hidden"}</button>
                 </form>
               </td>
             </tr>

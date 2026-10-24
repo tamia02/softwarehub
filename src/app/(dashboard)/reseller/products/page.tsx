@@ -31,7 +31,7 @@ export default async function ResellerProductsPage() {
           </label>
           <label className="text-sm font-semibold">Your price (₹)<input name="price" type="number" min="1" required className={input} placeholder="900" /></label>
           <label className="text-sm font-semibold sm:col-span-2">Short description<input name="blurb" className={input} placeholder="1 year of NordVPN — instant code." /></label>
-          <div className="sm:col-span-2"><button className="rounded-full border-2 border-ink-line bg-accent px-5 py-2 text-sm font-bold text-on-accent">Add product</button>
+          <div className="sm:col-span-2"><button className="rounded-full border border-ink-line bg-accent px-5 py-2 text-sm font-bold text-on-accent">Add product</button>
             <span className="ml-3 text-xs text-ink-faint">We add 20% on top → shown to customers. It goes live once you add codes and activate it.</span></div>
         </form>
       </Panel>
@@ -51,10 +51,10 @@ export default async function ResellerProductsPage() {
                   <label className="text-xs font-semibold">Add codes (one per line)
                     <textarea name="codes" rows={1} className="mt-1 block h-9 w-48 rounded-lg border border-line bg-bg-soft px-2 py-1 text-xs" placeholder="CODE-1&#10;CODE-2" />
                   </label>
-                  <button className="h-9 rounded-lg border-2 border-ink-line bg-bg-card px-3 text-xs font-bold">Upload</button>
+                  <button className="h-9 rounded-lg border border-ink-line bg-bg-card px-3 text-xs font-bold">Upload</button>
                 </form>
                 <form action={async () => { "use server"; await toggleProductAction(p.id, !p.active); }}>
-                  <button className={`h-9 rounded-full px-3 text-xs font-bold ${p.active ? "bg-emerald-50 text-emerald-700" : "border-2 border-ink-line bg-bg-card text-ink"}`}>
+                  <button className={`h-9 rounded-full px-3 text-xs font-bold ${p.active ? "bg-emerald-50 text-emerald-700" : "border border-ink-line bg-bg-card text-ink"}`}>
                     {p.active ? "Live · click to hide" : "Hidden · click to go live"}
                   </button>
                 </form>

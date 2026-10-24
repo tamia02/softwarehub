@@ -66,10 +66,10 @@ function Stepper() {
       </div>
       {steps.map((s, i) => (
         <FadeUp key={s.title} index={i} className="relative flex flex-col items-center text-center md:px-4">
-          <motion.span className="relative z-10 grid h-14 w-14 place-items-center rounded-full border-2 border-ink-line bg-accent text-on-accent" initial={reduce ? false : { scale: 0.6 }} animate={inView ? { scale: 1 } : undefined} transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.3 + i * 0.35 }}>
+          <motion.span className="relative z-10 grid h-14 w-14 place-items-center rounded-full border border-ink-line bg-accent text-on-accent" initial={reduce ? false : { scale: 0.6 }} animate={inView ? { scale: 1 } : undefined} transition={{ type: "spring", stiffness: 300, damping: 18, delay: 0.3 + i * 0.35 }}>
             {s.icon}
           </motion.span>
-          <span className="font-hand mt-4 text-[24px] leading-none text-accent-2">Step {i + 1}</span>
+          <span className="mt-4 text-[12px] font-semibold uppercase tracking-[0.08em] text-accent-2">Step {i + 1}</span>
           <h3 className="mt-1.5 text-[20px] font-bold leading-[1.2] text-ink">{s.title}</h3>
           <p className="mt-2 max-w-xs text-[16px] leading-[1.4] text-ink-muted">{s.desc}</p>
         </FadeUp>
@@ -89,10 +89,10 @@ function PoolCarousel({ pools, usdInrRate }: { pools: PoolSummary[]; usdInrRate:
         ))}
       </div>
       <div className="mt-2 hidden justify-end gap-2 md:flex">
-        <button onClick={() => scrollBy(-1)} aria-label="Previous pools" className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border-2 border-ink-line bg-bg-card hover:bg-accent-soft">
+        <button onClick={() => scrollBy(-1)} aria-label="Previous pools" className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-ink-line bg-bg-card hover:bg-accent-soft">
           <ChevronLeft size={18} />
         </button>
-        <button onClick={() => scrollBy(1)} aria-label="Next pools" className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border-2 border-ink-line bg-bg-card hover:bg-accent-soft">
+        <button onClick={() => scrollBy(1)} aria-label="Next pools" className="grid h-11 w-11 cursor-pointer place-items-center rounded-full border border-ink-line bg-bg-card hover:bg-accent-soft">
           <ChevronRight size={18} />
         </button>
       </div>

@@ -47,15 +47,15 @@ export function ToolCard({ tool, index = 0 }: { tool: CatalogTool; index?: numbe
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-2">
           <span className="flex flex-col" title="Listed annual retail value">
-            <span className="font-hand whitespace-nowrap text-[26px] leading-[0.85] text-accent-2 md:text-[28px]">{formatINR(tool.retailPaise)} value</span>
+            <span className="whitespace-nowrap text-[14px] font-semibold text-accent-2">{formatINR(tool.retailPaise)} value</span>
             <span className="mt-1 text-[13px] font-medium leading-none text-ink-faint">{formatUSD(tool.valueUsd)} at list price</span>
           </span>
           {proOnly ? (
-            <span className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[100px] border-2 border-ink-line bg-accent-soft px-4 text-[16px] font-medium text-ink">
+            <span className="inline-flex h-10 shrink-0 items-center gap-1.5 rounded-[8px] border border-ink-line bg-accent-soft px-4 text-[16px] font-medium text-ink">
               <Lock size={14} /> Pro only
             </span>
           ) : (
-            <span className="inline-flex h-10 shrink-0 items-center rounded-[100px] border-2 border-ink-line bg-bg-card px-4 text-[16px] font-medium text-ink">Included</span>
+            <span className="inline-flex h-10 shrink-0 items-center rounded-[8px] border border-ink-line bg-bg-card px-4 text-[16px] font-medium text-ink">Included</span>
           )}
         </div>
       </div>

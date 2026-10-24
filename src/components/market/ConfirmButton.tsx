@@ -18,7 +18,7 @@ export function ConfirmButton({ marketOrderId }: { marketOrderId: string }) {
   }
   return (
     <div>
-      <button onClick={confirm} disabled={busy} className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink-line bg-accent px-4 py-1.5 text-[13px] font-bold text-on-accent disabled:opacity-60">
+      <button onClick={confirm} disabled={busy} className="inline-flex items-center gap-1.5 rounded-full border border-ink-line bg-accent px-4 py-1.5 text-[13px] font-bold text-on-accent disabled:opacity-60">
         {busy && <Loader2 size={13} className="animate-spin" />} Confirm it works
       </button>
       {err && <p className="mt-1 text-xs text-rose-600">{err}</p>}

@@ -30,7 +30,7 @@ export function Hero({ toolCount }: { toolCount: number }) {
             <HeroEmailForm />
           </div>
           <p className="anim-fade-up mt-5 text-[20px] leading-[1.1] text-ink md:text-[24px]" style={at(0.6)}>
-            Codes are limited — <span className="font-hand text-[28px] text-accent-2 md:text-[32px]">claim yours now!</span>
+            Codes are limited — <span className="font-semibold text-accent-2">claim yours now!</span>
           </p>
         </div>
         <div className="anim-fade-scale order-1 md:order-2" style={at(0.15)}>

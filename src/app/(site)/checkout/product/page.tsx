@@ -37,7 +37,7 @@ export default async function ProductCheckoutPage({ searchParams }: { searchPara
               user ? (
                 <PayButton createUrl="/api/market/buy" body={{ slug: product.slug }} label={`Pay ${formatINR(product.pricePaise)}`} successHref="/checkout/success?order={orderId}" size="lg" event="market_purchase" />
               ) : (
-                <Link href={`/login?next=${encodeURIComponent(`/checkout/product?slug=${product.slug}`)}`} className="block rounded-full border-2 border-ink-line bg-accent py-3 text-center font-bold text-on-accent">Sign in to buy</Link>
+                <Link href={`/login?next=${encodeURIComponent(`/checkout/product?slug=${product.slug}`)}`} className="block rounded-full border border-ink-line bg-accent py-3 text-center font-bold text-on-accent">Sign in to buy</Link>
               )
             ) : (
               <p className="rounded-2xl bg-bg-soft p-4 text-center text-sm font-semibold text-rose-600">Out of stock</p>

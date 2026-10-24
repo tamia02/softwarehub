@@ -42,14 +42,14 @@ export function DemoQuickLogin({ className }: { className?: string }) {
 
   return (
     <div className={`relative ${className ?? ""}`}>
-      <button onClick={() => setOpen((o) => !o)} className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink-line bg-bg-card px-3.5 py-1.5 text-[14px] font-bold text-ink hover:bg-primary-soft">
-        <Zap size={14} className="text-accent-2" /> Demo login
+      <button onClick={() => setOpen((o) => !o)} className="inline-flex h-10 items-center gap-1.5 rounded-[8px] px-3 text-[14px] font-medium text-white/80 hover:bg-white/[0.07] hover:text-white">
+        <Zap size={15} className="text-accent" /> Demo login
       </button>
       {open && (
-        <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-48 rounded-2xl border-2 border-ink-line bg-bg-card p-2 shadow-[4px_4px_0_var(--offset-card)]">
+        <div className="absolute right-0 top-[calc(100%+8px)] z-50 w-48 rounded-[10px] border border-ink-line bg-bg-card p-1.5 text-ink shadow-[var(--shadow-hover)]">
           <p className="px-2 pb-1 pt-1 text-[11px] font-bold uppercase tracking-wider text-ink-faint">Enter as</p>
           {ROLES.map((r) => (
-            <button key={r.role} onClick={() => signIn(r.role)} disabled={busy !== null} className="flex w-full items-center gap-2 rounded-xl px-2 py-2 text-left text-[14px] font-semibold text-ink hover:bg-primary-soft disabled:opacity-60">
+            <button key={r.role} onClick={() => signIn(r.role)} disabled={busy !== null} className="flex w-full items-center gap-2 rounded-[6px] px-2 py-2 text-left text-[14px] font-semibold text-ink hover:bg-primary-soft disabled:opacity-60">
               {busy === r.role ? <Loader2 size={14} className="animate-spin" /> : <span className="h-1.5 w-1.5 rounded-full bg-accent-2" />} {r.label}
             </button>
           ))}

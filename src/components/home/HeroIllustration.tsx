@@ -87,27 +87,27 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
           <div className="card-3d card-3d-lg rotate-[-4deg]">
             <div className="card-3d-body relative overflow-hidden bg-[linear-gradient(165deg,#fff7e0,#fde9c0)] px-3 pb-4 pt-5 text-center md:px-4 md:pb-4 md:pt-5">
               {/* punched hole */}
-              <span className="absolute left-1/2 top-2.5 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-ink-line bg-bg" />
+              <span className="absolute left-1/2 top-2.5 h-4 w-4 -translate-x-1/2 rounded-full border border-ink-line bg-bg" />
               <div className="mt-3 flex justify-center">
                 <Logo size={compact ? 30 : 38} />
               </div>
-              <p className="mt-3 whitespace-nowrap text-[8px] font-bold uppercase tracking-[0.18em] text-ink-muted md:text-[9px] md:tracking-[0.2em]">Software Hub</p>
+              <p className="mt-3 whitespace-nowrap text-[8px] font-bold uppercase tracking-[0.18em] text-ink-muted md:text-[9px] md:tracking-[0.2em]">Online Sallutions</p>
               <p className={`font-display font-bold uppercase leading-[0.9] tracking-[-0.02em] text-ink ${compact ? "text-[26px]" : "text-[26px] md:text-[32px]"}`}>
                 Pro
                 <br />
                 Pass
               </p>
               {/* tear line with side notches */}
-              <div className="relative mx-[-20px] my-3 border-t-2 border-dashed md:my-4 border-ink-line">
-                <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
-                <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
+              <div className="relative mx-[-20px] my-3 border-t border-dashed md:my-4 border-ink-line">
+                <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
+                <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
               </div>
-              <p className="font-hand whitespace-nowrap text-[16px] leading-none text-accent-2 md:text-[21px]">35 tools · 1 year</p>
+              <p className="whitespace-nowrap text-[13px] font-semibold leading-none text-accent-2 md:text-[15px]">35 tools · 1 year</p>
               <p className="font-code mt-2 whitespace-nowrap text-[8px] tracking-[0.2em] text-ink-faint md:text-[10px] md:tracking-[0.25em]">SHP-P-••••-••••</p>
             </div>
           </div>
           {/* "save 90%" sticker on the corner */}
-          <div className="absolute -right-6 -top-5 z-20 grid h-[62px] w-[62px] rotate-[10deg] place-items-center rounded-full border-2 border-ink-line bg-accent text-center shadow-[3px_3px_0_var(--ink-line)] md:-right-8 md:-top-6 md:h-[72px] md:w-[72px]">
+          <div className="absolute -right-6 -top-5 z-20 grid h-[62px] w-[62px] rotate-[10deg] place-items-center rounded-full border border-ink-line bg-accent text-center shadow-[3px_3px_0_var(--ink-line)] md:-right-8 md:-top-6 md:h-[72px] md:w-[72px]">
             <span className="font-hand text-[15px] leading-[0.9] text-on-accent md:text-[18px]">
               save
               <br />
@@ -115,7 +115,7 @@ export function HeroIllustration({ interactive = true, compact = false }: { inte
             </span>
           </div>
           {/* count chip */}
-          <div className="absolute -bottom-9 -left-16 z-20 hidden rotate-[-6deg] items-center gap-2 rounded-full border-2 border-ink-line bg-bg-card px-3 py-1.5 shadow-[3px_3px_0_var(--ink-line)] md:flex">
+          <div className="absolute -bottom-9 -left-16 z-20 hidden rotate-[-6deg] items-center gap-2 rounded-full border border-ink-line bg-bg-card px-3 py-1.5 shadow-[3px_3px_0_var(--ink-line)] md:flex">
             <span className="flex -space-x-1.5">
               {["cursor", "notion", "linear"].map((slug) => (
                 <ToolLogo key={slug} slug={slug} name={slug} logoUrl={tools.find((t) => t.slug === slug)?.logoUrl} size={18} className="border border-ink-line/30 bg-bg-card" />

@@ -5,7 +5,7 @@ import { formatDual } from "@/lib/format";
 export function ClosingCTA({ proPricePaise, seatPricePaise, toolCount, usdInrRate }: { proPricePaise: number; seatPricePaise: number; toolCount: number; usdInrRate: number }) {
   return (
     <section className="py-3 md:py-4">
-      <div className="panel border-2 border-ink-line bg-accent">
+      <div className="panel border border-ink-line bg-accent">
         <div className="panel-inner text-center">
           <FadeUp>
             <h2 className="t-h2 mx-auto max-w-3xl text-balance text-ink">

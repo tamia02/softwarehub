@@ -33,7 +33,7 @@ function demoCode(body: string) {
 export async function seed(db: Db) {
   const now = new Date();
   const day = 86_400_000;
-  const lines: string[] = ["Software Hub — demo credentials (dev only)", ""];
+  const lines: string[] = ["Online Sallutions — demo credentials (dev only)", ""];
 
   // Tiers — reseller prices are the §13 defaults; edit in /admin/settings.
   await db.insert(schema.tiers).values([

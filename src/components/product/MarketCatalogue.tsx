@@ -27,7 +27,7 @@ export function MarketCatalogue() {
       <div className="mt-5 flex flex-wrap gap-2">
         <button
           onClick={() => setCat("all")}
-          className={`rounded-full border-2 px-3.5 py-1.5 text-[13px] font-bold ${cat === "all" ? "border-ink-line bg-accent text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"}`}
+          className={`rounded-full border px-3.5 py-1.5 text-[13px] font-bold ${cat === "all" ? "border-ink-line bg-accent text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"}`}
         >
           All
         </button>
@@ -35,7 +35,7 @@ export function MarketCatalogue() {
           <button
             key={c.key}
             onClick={() => setCat(c.key)}
-            className={`rounded-full border-2 px-3.5 py-1.5 text-[13px] font-bold ${cat === c.key ? "border-ink-line bg-accent text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"}`}
+            className={`rounded-full border px-3.5 py-1.5 text-[13px] font-bold ${cat === c.key ? "border-ink-line bg-accent text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"}`}
           >
             {c.name}
           </button>
@@ -44,7 +44,7 @@ export function MarketCatalogue() {
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {listings.map((l) => (
-          <div key={l.id} className="flex flex-col rounded-[var(--r-card)] border-2 border-ink-line bg-bg-card p-4 shadow-[4px_4px_0_var(--offset-card)]">
+          <div key={l.id} className="flex flex-col rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4 shadow-[var(--shadow-card)]">
             <div className="flex items-center justify-between">
               <span className="rounded-full bg-bg-soft px-2.5 py-0.5 text-[11px] font-bold text-ink-muted">{l.brand}</span>
               <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${rankTone[l.sellerRank]}`}>{l.sellerRank}</span>
@@ -58,7 +58,7 @@ export function MarketCatalogue() {
               <span className="text-[13px] text-ink-faint">
                 from <span className="text-[18px] font-black text-ink">{formatINR(l.fromInr * 100)}</span>
               </span>
-              <a href="/login" className="rounded-full border-2 border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent hover:brightness-105">
+              <a href="/login" className="rounded-full border border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent hover:brightness-105">
                 Buy
               </a>
             </div>

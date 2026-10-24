@@ -102,27 +102,27 @@ export function ProPassCard3D() {
             <div className="anim-float [transform-style:preserve-3d]" style={{ animationDuration: "7s" }}>
               <div className="card-3d card-3d-lg rotate-[-4deg] [transform-style:preserve-3d]">
                 <div className="card-3d-body relative overflow-hidden bg-[linear-gradient(165deg,#fff7e0,#fde9c0)] px-4 pb-4 pt-5 text-center [transform-style:preserve-3d]">
-                  <span className="absolute left-1/2 top-2.5 h-4 w-4 -translate-x-1/2 rounded-full border-2 border-ink-line bg-bg" />
+                  <span className="absolute left-1/2 top-2.5 h-4 w-4 -translate-x-1/2 rounded-full border border-ink-line bg-bg" />
                   <div className="mt-3 flex justify-center [transform:translateZ(26px)]">
                     <Logo size={38} />
                   </div>
-                  <p className="mt-3 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-ink-muted [transform:translateZ(20px)]">Software Hub</p>
+                  <p className="mt-3 whitespace-nowrap text-[9px] font-bold uppercase tracking-[0.2em] text-ink-muted [transform:translateZ(20px)]">Online Sallutions</p>
                   <p className="font-display text-[30px] font-bold uppercase leading-[0.9] tracking-[-0.02em] text-ink [transform:translateZ(44px)] md:text-[34px]">
                     Pro
                     <br />
                     Pass
                   </p>
-                  <div className="relative mx-[-20px] my-4 border-t-2 border-dashed border-ink-line">
-                    <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
-                    <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border-2 border-ink-line bg-bg" />
+                  <div className="relative mx-[-20px] my-4 border-t border-dashed border-ink-line">
+                    <span className="absolute -left-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
+                    <span className="absolute -right-2 -top-2 h-4 w-4 rounded-full border border-ink-line bg-bg" />
                   </div>
-                  <p className="whitespace-nowrap font-hand text-[19px] leading-none text-accent-2 [transform:translateZ(34px)] md:text-[23px]">35 tools · 1 year</p>
+                  <p className="whitespace-nowrap text-[14px] font-semibold leading-none text-accent-2 [transform:translateZ(34px)] md:text-[16px]">35 tools · 1 year</p>
                   <p className="mt-2 whitespace-nowrap font-code text-[9px] tracking-[0.22em] text-ink-faint [transform:translateZ(16px)] md:text-[10px]">SHP-P-••••-••••</p>
                 </div>
               </div>
 
               {/* "save 90%" sticker, popped forward */}
-              <div className="absolute -right-6 -top-5 grid h-[64px] w-[64px] place-items-center rounded-full border-2 border-ink-line bg-accent text-center shadow-[3px_3px_0_var(--ink-line)] [transform:translateZ(80px)_rotate(10deg)] md:-right-8 md:-top-6 md:h-[74px] md:w-[74px]">
+              <div className="absolute -right-6 -top-5 grid h-[64px] w-[64px] place-items-center rounded-full border border-ink-line bg-accent text-center shadow-[3px_3px_0_var(--ink-line)] [transform:translateZ(80px)_rotate(10deg)] md:-right-8 md:-top-6 md:h-[74px] md:w-[74px]">
                 <span className="font-hand text-[16px] leading-[0.9] text-on-accent md:text-[19px]">
                   save
                   <br />
@@ -131,7 +131,7 @@ export function ProPassCard3D() {
               </div>
 
               {/* count chip, floating forward-left */}
-              <div className="absolute -bottom-9 -left-14 hidden items-center gap-2 rounded-full border-2 border-ink-line bg-bg-card px-3 py-1.5 shadow-[3px_3px_0_var(--ink-line)] [transform:translateZ(64px)_rotate(-6deg)] md:flex">
+              <div className="absolute -bottom-9 -left-14 hidden items-center gap-2 rounded-full border border-ink-line bg-bg-card px-3 py-1.5 shadow-[3px_3px_0_var(--ink-line)] [transform:translateZ(64px)_rotate(-6deg)] md:flex">
                 <span className="flex -space-x-1.5">
                   {["cursor", "notion", "linear"].map((slug) => (
                     <ToolLogo key={slug} slug={slug} name={slug} logoUrl={tools.find((t) => t.slug === slug)?.logoUrl} size={18} className="border border-ink-line/30 bg-bg-card" />

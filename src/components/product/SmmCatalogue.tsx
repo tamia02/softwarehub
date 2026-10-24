@@ -37,7 +37,7 @@ export function SmmCatalogue() {
     <section id="services" className="container-page scroll-mt-24 py-10 md:py-14">
       <Reveal className="flex flex-col items-center gap-2 text-center">
         <h2 className="t-h2 text-ink">Services catalogue</h2>
-        <p className="font-hand text-[24px] text-accent-2 md:text-[28px]">real growth, wholesale rates</p>
+        <p className="text-[15px] text-ink-muted">real growth, wholesale rates</p>
         <p className="t-lead max-w-2xl text-ink-muted">
           {smmStats.services} services · {smmStats.categories} categories · {smmStats.platforms} platforms · rates per 1,000
         </p>
@@ -50,7 +50,7 @@ export function SmmCatalogue() {
             <button
               key={p}
               onClick={() => setPlatform(p)}
-              className={`relative inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-1.5 text-[13px] font-bold transition-colors ${
+              className={`relative inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-bold transition-colors ${
                 active ? "border-ink-line text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"
               }`}
             >
@@ -70,9 +70,9 @@ export function SmmCatalogue() {
         {groups.map((c) => (
           <StaggerItem key={c.platform + c.category} className="h-full">
             <Tilt max={4} className="h-full rounded-[var(--r-card-lg)] [transform-style:preserve-3d]">
-              <div className="h-full overflow-hidden rounded-[var(--r-card-lg)] border-2 border-ink-line bg-bg-card shadow-[5px_5px_0_var(--offset-card)]">
-                <div className="flex items-center gap-2.5 border-b-2 border-ink-line bg-accent-soft px-4 py-3 [transform:translateZ(24px)]">
-                  <span className="grid h-8 w-8 place-items-center rounded-full border-2 border-ink-line bg-bg-card">
+              <div className="h-full overflow-hidden rounded-[var(--r-card-lg)] border border-ink-line bg-bg-card shadow-[var(--shadow-card)]">
+                <div className="flex items-center gap-2.5 border-b border-ink-line bg-accent-soft px-4 py-3 [transform:translateZ(24px)]">
+                  <span className="grid h-8 w-8 place-items-center rounded-full border border-ink-line bg-bg-card">
                     <BrandIcon platform={c.platform} />
                   </span>
                   <div className="min-w-0 flex-1">
@@ -97,7 +97,7 @@ export function SmmCatalogue() {
                         <span className="font-black tabular-nums text-ink">{formatINR(sv.ratePer1k * 100)}</span>
                         <span className="block text-[10px] font-medium text-ink-faint">/ 1K</span>
                       </div>
-                      <a href="/account/growth" className="sheen shrink-0 rounded-full border-2 border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent transition-transform duration-150 hover:-translate-y-0.5 hover:brightness-105 active:scale-95">Order</a>
+                      <a href="/account/growth" className="sheen shrink-0 rounded-full border border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent transition-transform duration-150 hover:-translate-y-0.5 hover:brightness-105 active:scale-95">Order</a>
                     </div>
                   ))}
                 </div>
