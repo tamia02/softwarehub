@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, ChevronRight, Gamepad2, Gift, KeyRound, ShieldCheck, Sparkles, Tv, UserRound, Zap, type LucideIcon } from "lucide-react";
+import { SectionShowcase } from "@/components/home/SectionShowcase";
 import { Testimonials } from "@/components/home/Testimonials";
 import { MarketGrid } from "@/components/market/MarketGrid";
 import { ToolLogo } from "@/components/brand/ToolLogo";
@@ -103,6 +104,8 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
           </div>
         </div>
       </section>
+
+      <SectionShowcase />
 
       {/* Categories */}
       <section className="container-page pt-8 md:pt-10">

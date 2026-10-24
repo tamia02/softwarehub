@@ -20,7 +20,7 @@ export default async function AccountPage() {
         <p className="mt-2 text-sm text-ink-muted">Redeem an activation code, or buy a pass to unlock every tool for a year.</p>
         <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
           <Button href="/account/redeem">Redeem a code</Button>
-          <Button href="/home#pricing" variant="secondary">See pricing</Button>
+          <Button href="/market" variant="secondary">Browse marketplace</Button>
         </div>
       </div>
     );

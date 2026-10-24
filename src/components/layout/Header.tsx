@@ -4,18 +4,21 @@ import { Suspense, useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, Search, Store, UserRound, X } from "lucide-react";
-import { nav } from "@/config/site";
+import { Menu, Search, Store, Terminal, TrendingUp, UserRound, X, type LucideIcon } from "lucide-react";
 import { LogoLockup } from "@/components/brand/Logo";
 import { DemoQuickLogin } from "@/components/auth/DemoQuickLogin";
 import { cn } from "@/lib/utils";
 
-/** Marketplace categories shown in the header strip (match `products.category`). */
-const CATEGORIES = ["AI Tools", "Subscriptions", "Game Top-Up", "Game Accounts", "Gift Cards", "Software"];
+/** The three storefront sections, shown as tabs in the header's second row. */
+const SECTIONS: { label: string; href: string; icon: LucideIcon; tag?: string }[] = [
+  { label: "Marketplace", href: "/market", icon: Store },
+  { label: "Grow", href: "/growth", icon: TrendingUp, tag: "SMM" },
+  { label: "Methods", href: "/methods", icon: Terminal, tag: "Free" },
+];
 
 /**
  * Two-tier marketplace header: a navy bar with logo, product search and
- * account actions, and a slimmer strip below with categories + sections.
+ * account actions, and a row of section tabs below (Marketplace / Grow / Methods).
  */
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -84,21 +87,9 @@ export function Header() {
         </Suspense>
       </div>
 
-      {/* Category + section strip */}
+      {/* Section tabs */}
       <div className="border-t border-white/[0.07] bg-[#0b101b]">
-        <nav className="container-page flex h-11 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Categories">
-          <Suspense fallback={null}>
-            <CategoryLinks />
-          </Suspense>
-          <span className="mx-2 h-4 w-px shrink-0 bg-white/15" aria-hidden />
-          {nav
-            .filter((n) => n.href !== "/market")
-            .map((n) => (
-              <Link key={n.href} href={n.href} className="shrink-0 rounded-[6px] px-3 py-1.5 text-[13px] font-medium text-white/65 transition-colors hover:bg-white/[0.06] hover:text-white">
-                {n.label}
-              </Link>
-            ))}
-        </nav>
+        <SectionTabs />
       </div>
 
       <AnimatePresence>
@@ -112,9 +103,10 @@ export function Header() {
             </div>
             <nav className="container-page flex flex-1 flex-col overflow-y-auto pt-2" aria-label="Mobile">
               <p className="px-1 pb-2 pt-3 text-[11px] font-semibold uppercase tracking-[0.1em] text-white/40">Browse</p>
-              {[{ label: "All products", href: "/market#products" }, ...CATEGORIES.map((c) => ({ label: c, href: `/market?cat=${encodeURIComponent(c)}#products` })), ...nav.filter((n) => n.href !== "/market")].map((n) => (
-                <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="border-b border-white/[0.07] px-1 py-3.5 text-[16px] font-medium text-white/90">
-                  {n.label}
+              {SECTIONS.map((n) => (
+                <Link key={n.href} href={n.href} onClick={() => setOpen(false)} className="flex items-center gap-3 border-b border-white/[0.07] px-1 py-3.5 text-[16px] font-medium text-white/90">
+                  <n.icon size={18} className="text-accent" /> {n.label}
+                  {n.tag && <span className="rounded-[5px] bg-white/10 px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-white/70">{n.tag}</span>}
                 </Link>
               ))}
               <div className="mt-auto flex flex-col gap-2 pb-8 pt-6">
@@ -165,25 +157,29 @@ function HeaderSearch({ className }: { className?: string }) {
   );
 }
 
-function CategoryLinks() {
+function SectionTabs() {
   const pathname = usePathname();
-  const params = useSearchParams();
-  const active = pathname === "/market" ? params.get("cat") ?? (params.get("q") ? null : "All") : null;
-  const items = [{ label: "All products", value: "All", href: "/market#products" }, ...CATEGORIES.map((c) => ({ label: c, value: c, href: `/market?cat=${encodeURIComponent(c)}#products` }))];
   return (
-    <>
-      {items.map((c) => (
-        <Link
-          key={c.value}
-          href={c.href}
-          className={cn(
-            "shrink-0 rounded-[6px] px-3 py-1.5 text-[13px] font-medium transition-colors",
-            active === c.value ? "bg-white/[0.1] text-white" : "text-white/65 hover:bg-white/[0.06] hover:text-white",
-          )}
-        >
-          {c.label}
-        </Link>
-      ))}
-    </>
+    <nav className="container-page flex h-12 items-stretch gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" aria-label="Sections">
+      {SECTIONS.map((t) => {
+        const active = pathname === t.href || pathname.startsWith(`${t.href}/`);
+        return (
+          <Link
+            key={t.href}
+            href={t.href}
+            aria-current={active ? "page" : undefined}
+            className={cn(
+              "relative inline-flex shrink-0 items-center gap-2 px-3.5 text-[14px] font-semibold transition-colors",
+              active ? "text-white" : "text-white/65 hover:text-white",
+            )}
+          >
+            <t.icon size={16} className={active ? "text-accent" : "text-white/45"} />
+            {t.label}
+            {t.tag && <span className="rounded-[5px] bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white/60">{t.tag}</span>}
+            {active && <span className="absolute inset-x-3 bottom-0 h-[2px] rounded-full bg-accent" />}
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
