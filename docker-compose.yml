@@ -58,6 +58,19 @@ services:
       - "traefik.http.routers.shp.entrypoints=${TRAEFIK_ENTRYPOINT}"
       - "traefik.http.routers.shp.tls=true"
       - "traefik.http.routers.shp.tls.certresolver=${CERT_RESOLVER}"
+      - "traefik.http.routers.shp.service=shp"
+      # www and the legacy host get their own routers (and certificates), so a
+      # host whose DNS isn't pointed here yet can never break the main cert.
+      - "traefik.http.routers.shp-www.rule=Host(`www.${DOMAIN}`)"
+      - "traefik.http.routers.shp-www.entrypoints=${TRAEFIK_ENTRYPOINT}"
+      - "traefik.http.routers.shp-www.tls=true"
+      - "traefik.http.routers.shp-www.tls.certresolver=${CERT_RESOLVER}"
+      - "traefik.http.routers.shp-www.service=shp"
+      - "traefik.http.routers.shp-legacy.rule=Host(`${LEGACY_DOMAIN:-pool.softwarehub.tech}`)"
+      - "traefik.http.routers.shp-legacy.entrypoints=${TRAEFIK_ENTRYPOINT}"
+      - "traefik.http.routers.shp-legacy.tls=true"
+      - "traefik.http.routers.shp-legacy.tls.certresolver=${CERT_RESOLVER}"
+      - "traefik.http.routers.shp-legacy.service=shp"
       - "traefik.http.services.shp.loadbalancer.server.port=3000"
 
 networks:
