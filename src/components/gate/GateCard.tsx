@@ -94,7 +94,7 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
             {selected === null ? (
               <motion.div
                 key="tiles"
-                className="grid gap-3 sm:grid-cols-2"
+                className="grid grid-cols-1 gap-3 sm:grid-cols-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0, transition: { duration: 0.15 } }}

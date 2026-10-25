@@ -50,7 +50,7 @@ export function SmmCatalogue() {
             <button
               key={p}
               onClick={() => setPlatform(p)}
-              className={`relative inline-flex items-center gap-2 rounded-full border px-3.5 py-1.5 text-[13px] font-bold transition-colors ${
+              className={`relative inline-flex items-center gap-2 rounded-[8px] border px-3.5 py-2.5 text-[13px] font-bold transition-colors md:py-1.5 ${
                 active ? "border-ink-line text-on-accent" : "border-line-strong bg-bg-card text-ink hover:border-ink/40"
               }`}
             >
@@ -66,7 +66,7 @@ export function SmmCatalogue() {
         })}
       </div>
 
-      <Stagger key={platform} className="mt-8 grid gap-5 lg:grid-cols-2" gap={0.08}>
+      <Stagger key={platform} className="mt-8 grid grid-cols-1 gap-5 lg:grid-cols-2" gap={0.08}>
         {groups.map((c) => (
           <StaggerItem key={c.platform + c.category} className="h-full">
             <Tilt max={4} className="h-full rounded-[var(--r-card-lg)] [transform-style:preserve-3d]">
@@ -88,16 +88,16 @@ export function SmmCatalogue() {
                         <p className="truncate text-[14px] font-semibold leading-tight text-ink">{sv.name}</p>
                         <div className="mt-1 flex flex-wrap items-center gap-1.5">
                           {sv.tags.slice(0, 3).map((tag) => (
-                            <span key={tag} className="rounded-full bg-primary-soft px-2 py-0.5 text-[10px] font-bold text-primary">{tag}</span>
+                            <span key={tag} className="rounded-[5px] bg-primary-soft px-1.5 py-0.5 text-[11px] font-bold text-primary">{tag}</span>
                           ))}
                           <span className="text-[11px] text-ink-faint">{sv.min.toLocaleString("en-IN")}–{sv.max.toLocaleString("en-IN")} · {sv.avgTime}</span>
                         </div>
                       </div>
                       <div className="text-right">
                         <span className="font-black tabular-nums text-ink">{formatINR(sv.ratePer1k * 100)}</span>
-                        <span className="block text-[10px] font-medium text-ink-faint">/ 1K</span>
+                        <span className="block text-[11px] font-medium text-ink-faint">/ 1K</span>
                       </div>
-                      <a href="/account/growth" className="sheen shrink-0 rounded-full border border-ink-line bg-accent px-3.5 py-1.5 text-[12px] font-bold text-on-accent transition-transform duration-150 hover:-translate-y-0.5 hover:brightness-105 active:scale-95">Order</a>
+                      <a href="/account/growth" className="sheen inline-flex h-10 shrink-0 items-center rounded-[8px] bg-accent px-4 text-[13px] font-bold text-on-accent transition-colors duration-150 hover:bg-accent-2 active:scale-95 md:h-8 md:px-3.5 md:text-[12px]">Order</a>
                     </div>
                   ))}
                 </div>

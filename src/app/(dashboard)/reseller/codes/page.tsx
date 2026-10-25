@@ -20,7 +20,7 @@ export default async function ResellerCodesPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Codes</h1>
-      <div className="grid gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
         <StatCard label="Unassigned" value={String(counts.unassigned)} />
         <StatCard label="Assigned" value={String(counts.assigned)} />
         <StatCard label="Redeemed" value={String(counts.redeemed)} />
@@ -28,7 +28,7 @@ export default async function ResellerCodesPage() {
       </div>
 
       <Panel title="Buy codes at reseller price" className="scroll-mt-24">
-        <div id="buy" className="grid gap-4 sm:grid-cols-2">
+        <div id="buy" className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {tiers.map((t) => (
             <div key={t.id} className="rounded-2xl border border-line p-4">
               <p className="font-bold">{t.name}</p>

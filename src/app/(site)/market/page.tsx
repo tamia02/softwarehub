@@ -42,8 +42,8 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
     <div className="pb-6">
       {/* Hero banner */}
       <section className="container-page pt-5 md:pt-6">
-        <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
-          <div className="relative overflow-hidden rounded-[var(--r-card-lg)] bg-primary px-6 py-9 text-on-primary md:px-10 md:py-12">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_380px]">
+          <div className="relative overflow-hidden rounded-[var(--r-card-lg)] bg-primary px-5 py-7 text-on-primary md:px-10 md:py-12">
             <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_80%_at_100%_0%,rgba(239,65,54,0.35),transparent_60%),radial-gradient(50%_60%_at_0%_100%,rgba(80,110,255,0.18),transparent_60%)]" />
             <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.07] [background-image:linear-gradient(rgba(255,255,255,0.6)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.6)_1px,transparent_1px)] [background-size:32px_32px] [mask-image:linear-gradient(to_left,black,transparent_70%)]" />
             <div className="relative max-w-[600px]">
@@ -53,23 +53,23 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
               <h1 className="t-h1 mt-4 text-balance text-white">
                 Premium AI tools, subscriptions &amp; digital services — <span className="text-accent">one wallet, one tap.</span>
               </h1>
-              <p className="mt-4 max-w-[520px] text-[15px] leading-relaxed text-white/65 md:text-[16px]">
+              <p className="mt-3 max-w-[520px] text-[14px] leading-relaxed text-white/65 md:mt-4 md:text-[16px]">
                 ChatGPT, Gemini, Canva, Netflix and hundreds more. Log in with Telegram, pay from your Lucifer wallet, and get delivery on Telegram.
               </p>
-              <div className="mt-7 flex flex-wrap gap-3">
-                <Button href="#products" size="lg">
-                  Browse products <ArrowRight size={17} />
+              <div className="mt-5 grid grid-cols-2 gap-2.5 sm:flex sm:flex-wrap sm:gap-3 md:mt-7">
+                <Button href="#products" size="lg" className="px-3 text-[14px] sm:px-6 sm:text-[16px]">
+                  Browse <span className="hidden sm:inline">products</span> <ArrowRight size={17} />
                 </Button>
-                <Link href="/login" className="inline-flex h-12 items-center gap-2 rounded-[8px] border border-white/20 px-5 text-[15px] font-semibold text-white transition-colors hover:bg-white/[0.07]">
-                  <Send size={16} /> Log in with Telegram
+                <Link href="/login" className="inline-flex h-12 items-center justify-center gap-2 rounded-[8px] border border-white/20 px-3 text-[14px] font-semibold text-white transition-colors hover:bg-white/[0.07] sm:px-5 sm:text-[15px]">
+                  <Send size={16} /> <span className="sm:hidden">Telegram login</span><span className="hidden sm:inline">Log in with Telegram</span>
                 </Link>
               </div>
-              <dl className="mt-9 flex flex-wrap gap-x-10 gap-y-4">
+              <dl className="mt-6 grid grid-cols-3 gap-3 sm:flex sm:flex-wrap sm:gap-x-10 sm:gap-y-4 md:mt-9">
                 {stats.map((s) => (
                   <div key={s.label}>
                     <dt className="sr-only">{s.label}</dt>
-                    <dd className="font-display text-[22px] font-extrabold leading-none text-white">{s.value}</dd>
-                    <dd className="mt-1 text-[12.5px] text-white/50">{s.label}</dd>
+                    <dd className="font-display text-[17px] font-extrabold leading-none text-white sm:text-[22px]">{s.value}</dd>
+                    <dd className="mt-1 text-[11.5px] text-white/50 sm:text-[12.5px]">{s.label}</dd>
                   </div>
                 ))}
               </dl>
@@ -115,21 +115,21 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
       {/* Categories */}
       <section className="container-page pt-8 md:pt-10">
         <h2 className="t-h2 text-ink">Popular categories</h2>
-        <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
+        <ul className="mt-4 grid grid-cols-3 gap-2 sm:gap-3 lg:grid-cols-6">
           {SECTIONS.map((s) => {
             const Icon = SECTION_ICONS[s.id] ?? Package;
             return (
               <li key={s.id}>
                 <Link
                   href={`/market?cat=${s.id}#products`}
-                  className="group flex h-full flex-col gap-3 rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-200 hover:border-accent/40 hover:shadow-[var(--shadow-hover)]"
+                  className="group flex h-full flex-col gap-2 rounded-[var(--r-card)] border border-ink-line bg-bg-card p-3 shadow-[var(--shadow-card)] transition-[box-shadow,border-color] duration-200 hover:border-accent/40 hover:shadow-[var(--shadow-hover)] sm:gap-3 sm:p-4"
                 >
-                  <span className="grid h-10 w-10 place-items-center rounded-[10px] bg-accent-soft text-accent-2 transition-colors group-hover:bg-accent group-hover:text-white">
-                    <Icon size={19} />
+                  <span className="grid h-9 w-9 place-items-center rounded-[10px] bg-accent-soft text-accent-2 transition-colors group-hover:bg-accent group-hover:text-white sm:h-10 sm:w-10">
+                    <Icon size={18} />
                   </span>
                   <span>
-                    <span className="block text-[14px] font-semibold text-ink">{s.name}</span>
-                    <span className="block text-[12px] text-ink-faint">{counts.get(s.id) ?? 0} products</span>
+                    <span className="block text-[12.5px] font-semibold leading-tight text-ink sm:text-[14px]">{s.name}</span>
+                    <span className="mt-0.5 block text-[11.5px] text-ink-faint sm:text-[12px]">{counts.get(s.id) ?? 0} products</span>
                   </span>
                 </Link>
               </li>
@@ -167,7 +167,7 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
               </div>
               <p className="max-w-md text-[14px] text-ink-muted">Your website account and the Telegram bot share one wallet — top up anywhere, buy anywhere.</p>
             </div>
-            <ol className="mt-6 grid gap-3 md:grid-cols-3">
+            <ol className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-3">
               {steps.map((s, i) => (
                 <li key={s.title} className="relative rounded-[var(--r-card)] border border-line bg-bg p-5">
                   <div className="flex items-center gap-3">

@@ -13,7 +13,7 @@ export function Hero({ toolCount }: { toolCount: number }) {
   return (
     <section className="relative overflow-hidden">
       <FloatingDecor />
-      <div className="container-page grid items-center gap-10 pb-10 pt-6 md:grid-cols-[minmax(0,720px)_minmax(0,1fr)] md:gap-12 md:pb-20 md:pt-12">
+      <div className="container-page grid grid-cols-1 items-center gap-10 pb-10 pt-6 md:grid-cols-[minmax(0,720px)_minmax(0,1fr)] md:gap-12 md:pb-20 md:pt-12">
         <div className="order-2 md:order-1">
           <StaggerWords
             as="h1"

@@ -31,7 +31,7 @@ export function Footer() {
   return (
     <footer className="mt-12 bg-primary text-on-primary">
       <div className="border-b border-white/[0.07]">
-        <ul className="container-page grid grid-cols-2 gap-x-6 gap-y-5 py-7 md:grid-cols-4">
+        <ul className="container-page grid grid-cols-2 gap-x-4 gap-y-5 py-6 md:grid-cols-4 md:gap-x-6 md:py-7">
           {promises.map((p) => (
             <li key={p.title} className="flex items-center gap-3">
               <span className="grid h-10 w-10 shrink-0 place-items-center rounded-[10px] bg-white/[0.06] text-accent">
@@ -46,8 +46,8 @@ export function Footer() {
         </ul>
       </div>
 
-      <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
-        <div>
+      <div className="container-page grid grid-cols-2 gap-x-6 gap-y-8 py-10 lg:grid-cols-[1.5fr_1fr_1fr_1fr] lg:gap-10 lg:py-12">
+        <div className="col-span-2 lg:col-span-1">
           <LogoLockup tone="light" />
           <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-white/55">Premium AI tools, subscriptions and digital services — powered by the Lucifer bot. Log in with Telegram and pay from one wallet.</p>
           <a className="mt-4 inline-flex items-center gap-2 text-[14px] font-medium text-white/85 hover:text-white" href={luciferBotUrl} target="_blank" rel="noreferrer">
@@ -60,9 +60,9 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/[0.07]">
-        <div className="container-page flex flex-col items-start justify-between gap-2 py-5 text-[12.5px] text-white/40 sm:flex-row sm:items-center">
+        <div className="container-page flex flex-col items-start justify-between gap-2 py-5 pb-8 text-[12.5px] text-white/40 sm:flex-row sm:items-center sm:pb-5">
           <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
-          <span className="flex items-center gap-4">
+          <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span>Tool names and logos belong to their respective owners.</span>
             <a href="/api/gate/switch" className="hover:text-white/70">Switch role</a>
           </span>
@@ -76,10 +76,10 @@ function FooterCol({ title, links }: { title: string; links: { label: string; hr
   return (
     <div>
       <h4 className="text-[12px] font-semibold uppercase tracking-[0.1em] text-white/40">{title}</h4>
-      <ul className="mt-4 space-y-2.5 text-[14px]">
+      <ul className="mt-3 text-[14px] md:mt-4 md:space-y-2.5">
         {links.map((n) => (
           <li key={n.href}>
-            <Link href={n.href} className="text-white/75 transition-colors hover:text-white">
+            <Link href={n.href} className="inline-block py-2 text-white/75 transition-colors hover:text-white md:py-0">
               {n.label}
             </Link>
           </li>

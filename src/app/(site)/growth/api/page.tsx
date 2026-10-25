@@ -20,7 +20,7 @@ export default function ApiDocsPage() {
       <h1 className="t-h1 mt-3 text-ink">API v2</h1>
       <p className="mt-3 max-w-[60ch] text-[16px] text-ink-muted">Integrate our SMM services into your own website or app. Standard SMM-panel API — one endpoint, form-encoded or JSON.</p>
 
-      <div className="mt-6 grid gap-3 sm:grid-cols-2">
+      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Endpoint</p><p className="mt-1 font-code text-[14px]">POST {base}/api/v2</p></div>
         <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4"><p className="text-[12px] font-bold uppercase tracking-wider text-ink-faint">Auth</p><p className="mt-1 font-code text-[14px]">key = your API key</p><p className="text-[12px] text-ink-faint">Generate it in your Growth panel.</p></div>
       </div>

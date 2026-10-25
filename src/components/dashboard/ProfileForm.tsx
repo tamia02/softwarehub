@@ -26,7 +26,7 @@ export function ProfileForm({ initial, kycStatus }: { initial: Form; kycStatus: 
           setMsg(r.ok ? r.message ?? "Saved." : r.error);
         });
       }}
-      className="grid gap-4 sm:grid-cols-2"
+      className="grid grid-cols-1 gap-4 sm:grid-cols-2"
     >
       <div className="sm:col-span-2">{field("businessName", "Business name", "Your trading name")}</div>
       {field("accountName", "Account holder name")}

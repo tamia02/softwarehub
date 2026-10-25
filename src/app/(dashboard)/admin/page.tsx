@@ -10,13 +10,13 @@ export default async function AdminPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Overview</h1>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Revenue this month" value={formatINR(o.revenueMonthPaise)} sub={`${o.ordersMonth} paid orders`} accent />
         <StatCard label="Platform inventory" value={`${o.inventory.starter} / ${o.inventory.pro}`} sub="starter / pro codes unassigned" />
         <StatCard label="Pools" value={`${o.openPools} open`} sub={`${o.fulfilledPools} fulfilled`} />
         <StatCard label="Users" value={String(o.users)} />
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <Panel title="Needs attention">
           <ul className="space-y-2 text-sm">
             <li className="flex justify-between"><span>Orders awaiting inventory</span><Link href="/admin/orders" className={`font-bold ${o.awaitingInventory ? "text-rose-600" : "text-ink-faint"}`}>{o.awaitingInventory}</Link></li>

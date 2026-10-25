@@ -53,7 +53,7 @@ export default async function AccountPage() {
   const spent = account.orders.filter((o) => o.status === "paid" || o.status === "completed").reduce((n, o) => n + o.totalPaise, 0);
 
   return (
-    <div className="grid items-start gap-4 lg:grid-cols-[340px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[340px_minmax(0,1fr)]">
       <div className="flex flex-col gap-4">
         <section className="relative overflow-hidden rounded-[var(--r-card-lg)] bg-primary p-6 text-white">
           <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(70%_90%_at_100%_0%,rgba(239,65,54,0.35),transparent_60%)]" />

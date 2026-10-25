@@ -40,7 +40,7 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
 
   return (
     <section className="relative overflow-hidden">
-      <div className="container-page grid items-center gap-10 pb-10 pt-10 md:grid-cols-[1.05fr_0.95fr] md:pb-16 md:pt-16">
+      <div className="container-page grid grid-cols-1 items-center gap-10 pb-10 pt-10 md:grid-cols-[1.05fr_0.95fr] md:pb-16 md:pt-16">
         <div>
           <div className="flex flex-wrap items-center gap-2 font-term text-[12px]">
             <span className="inline-flex items-center gap-1.5 rounded-sm border border-[#233029] bg-[#0e1512] px-2 py-1 text-[#34d399]">

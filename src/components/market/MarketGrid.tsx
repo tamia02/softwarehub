@@ -53,7 +53,7 @@ export function MarketGrid({
   const allCats = [{ name: "All", n: products.length }, ...categories.map((c) => ({ name: c, n: counts.get(c) ?? 0 }))];
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
       {/* Sidebar (desktop) */}
       <aside className="hidden lg:block">
         <div className="card sticky top-[132px] p-2">

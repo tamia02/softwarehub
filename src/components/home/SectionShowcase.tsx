@@ -17,7 +17,7 @@ export function SectionShowcase() {
   const preview = methods.slice(0, 4);
   return (
     <section className="container-page pt-4" aria-label="Grow and Methods">
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
         {/* Grow */}
         <Link
           href="/growth"
@@ -54,7 +54,7 @@ export function SectionShowcase() {
             <p className="text-[13px] text-ink-faint">
               <span className="font-semibold text-ink">{smmStats.services}+ services</span> across {smmStats.platforms} platforms
             </p>
-            <span className="inline-flex items-center gap-1.5 rounded-[8px] bg-accent px-4 py-2 text-[14px] font-semibold text-white transition-colors group-hover:bg-accent-2">
+            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] bg-accent px-4 py-2.5 text-[14px] font-semibold text-white transition-colors group-hover:bg-accent-2">
               Open Grow <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </span>
           </div>
@@ -96,7 +96,7 @@ export function SectionShowcase() {
             <p className="text-[13px] text-[#7f948b]">
               <span className="font-semibold text-[#e7f6ef]">{methods.length} guides</span> · step by step · tools run in your browser
             </p>
-            <span className="inline-flex items-center gap-1.5 rounded-[8px] bg-[#34d399] px-4 py-2 text-[14px] font-semibold text-[#04120c] transition-colors group-hover:bg-[#5eead4]">
+            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] bg-[#34d399] px-4 py-2.5 text-[14px] font-semibold text-[#04120c] transition-colors group-hover:bg-[#5eead4]">
               Explore <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </span>
           </div>

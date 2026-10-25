@@ -24,7 +24,7 @@ function Choice<T extends string>({ legend, value, onChange, options }: { legend
   return (
     <fieldset>
       <legend className="text-sm font-semibold">{legend}</legend>
-      <div className="mt-2 grid gap-2 sm:grid-cols-2">
+      <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
         {options.map(([v, t, d]) => (
           <label key={v} className={`cursor-pointer rounded-xl border p-3 text-sm ${value === v ? "border-primary bg-primary-soft" : "border-line"}`}>
             <input type="radio" className="sr-only" checked={value === v} onChange={() => onChange(v)} />

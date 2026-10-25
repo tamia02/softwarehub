@@ -65,13 +65,13 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
         <Badge tone={pool.status === "fulfilled" ? "new" : pool.status === "expired" ? "limited" : "success"}>{pool.status}</Badge>
       </div>
 
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Paid seats" value={`${paidSeats}/${pool.seats}`} />
         <StatCard label="Collected" value={formatINR(paidSeats * pool.seatPricePaise)} />
         <StatCard label="Your projected share" value={projected ? formatINR(projected.resellerSharePaise) : "—"} accent />
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Panel title="Members">
           {members.length === 0 ? (
             <p className="text-sm text-ink-muted">No one has joined yet. Share the link →</p>
@@ -132,7 +132,7 @@ export default async function ResellerPoolDetail({ params }: { params: Promise<{
           {!projected ? (
             <p className="text-sm text-rose-600">The split cannot be computed (negative margin). Check the reseller price and seat count.</p>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <dl className="space-y-2 text-sm">
                 {[
                   ["Gross (member payments)", projected.grossPaise],

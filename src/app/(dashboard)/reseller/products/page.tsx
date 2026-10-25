@@ -16,14 +16,14 @@ export default async function ResellerProductsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">My products</h1>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <StatCard label="Live products" value={String(products.filter((p) => p.active).length)} sub={`${products.length} total`} />
         <StatCard label="In escrow (held)" value={formatINR(sales.held)} sub={`${sales.orders} orders`} />
         <StatCard label="Earned (released)" value={formatINR(sales.earned)} accent />
       </div>
 
       <Panel title="Add a product">
-        <form action={async (fd) => { "use server"; await addProductAction(fd); }} className="grid gap-3 sm:grid-cols-2">
+        <form action={async (fd) => { "use server"; await addProductAction(fd); }} className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           <label className="text-sm font-semibold">Name<input name="name" required className={input} placeholder="e.g. NordVPN · 1 Year" /></label>
           <label className="text-sm font-semibold">Brand<input name="vendor" className={input} placeholder="NordVPN" /></label>
           <label className="text-sm font-semibold">Category

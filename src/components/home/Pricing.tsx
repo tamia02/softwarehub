@@ -47,7 +47,7 @@ export function Pricing({ pricing }: { pricing: Record<TierSlug, TierPricing> })
         </div>
       </div>
 
-      <div className="mx-auto mt-10 grid max-w-[900px] items-stretch gap-8 md:mt-14 md:grid-cols-2">
+      <div className="mx-auto mt-10 grid grid-cols-1 max-w-[900px] items-stretch gap-8 md:mt-14 md:grid-cols-2">
         {tierList.map((tier, i) => {
           const p = pricing[tier.slug];
           const price = mode === "bundle" ? p.pricePaise : p.seatPricePaise;

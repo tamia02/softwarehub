@@ -60,7 +60,7 @@ export function LuciferGrid({
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[240px_minmax(0,1fr)]">
       <aside className="hidden lg:block">
         <div className="card sticky top-[132px] p-2">
           <p className="px-3 pb-2 pt-2 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">Categories</p>
@@ -125,7 +125,7 @@ export function LuciferGrid({
               key={c.id}
               onClick={() => pick(c.id)}
               className={cn(
-                "shrink-0 rounded-[8px] border px-3 py-1.5 text-[13px] font-medium transition-colors",
+                "shrink-0 rounded-[8px] border px-3.5 py-2.5 text-[13px] font-medium transition-colors",
                 sec === c.id ? "border-accent bg-accent-soft text-accent-2" : "border-line-strong bg-bg-card text-ink-muted",
               )}
             >
@@ -150,7 +150,7 @@ export function LuciferGrid({
           </div>
         ) : (
           <>
-            <ul className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-3">
+            <ul className="mt-3 grid grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-3">
               {visible.map((p) => (
                 <li key={p.ref}>
                   <LuciferCard p={p} />
@@ -192,29 +192,31 @@ export function LuciferCard({ p }: { p: LuciferProduct }) {
   return (
     <Link
       href={`/market/${p.ref}`}
-      className="group flex h-full flex-col rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4 shadow-[var(--shadow-card)] transition-[box-shadow,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-hover)]"
+      className="group flex h-full flex-col rounded-[var(--r-card)] border border-ink-line bg-bg-card p-3 shadow-[var(--shadow-card)] transition-[box-shadow,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-hover)] sm:p-4"
     >
-      <div className="flex items-start gap-3">
-        <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={44} />
+      {/* Phones: compact 2-up tile (logo above name). sm+: logo beside name. */}
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:gap-3">
+        <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={40} className="sm:hidden" />
+        <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={44} className="hidden sm:grid" />
         <div className="min-w-0 flex-1">
-          <p className="truncate text-[12px] text-ink-faint">{p.sectionName}</p>
-          <h3 className="mt-0.5 line-clamp-2 text-[14.5px] font-semibold leading-snug text-ink group-hover:text-accent-2">{p.name}</h3>
+          <p className="truncate text-[11.5px] text-ink-faint sm:text-[12px]">{p.sectionName}</p>
+          <h3 className="mt-0.5 line-clamp-2 text-[13.5px] font-semibold leading-snug text-ink group-hover:text-accent-2 sm:text-[14.5px]">{p.name}</h3>
         </div>
       </div>
 
-      <div className="mb-4 mt-3 flex flex-wrap gap-1.5">
-        <span className="inline-flex items-center gap-1 rounded-[5px] bg-emerald-50 px-1.5 py-0.5 text-[11px] font-medium text-emerald-700">
+      <div className="mb-3 mt-2 flex flex-wrap gap-1.5 sm:mb-4 sm:mt-3">
+        <span className="hidden items-center gap-1 rounded-[5px] bg-emerald-50 px-1.5 py-0.5 text-[11px] font-medium text-emerald-700 sm:inline-flex">
           <Zap size={11} /> Wallet checkout
         </span>
         <WarrantyTag w={p.warranty} />
       </div>
 
-      <div className="mt-auto flex items-end justify-between border-t border-line pt-3">
+      <div className="mt-auto flex flex-col gap-1 border-t border-line pt-2.5 sm:flex-row sm:items-end sm:justify-between sm:pt-3">
         <div>
-          <p className="text-[11px] text-ink-faint">Price</p>
-          <p className="font-display text-[19px] font-extrabold leading-tight text-ink">{formatINRPrecise(p.pricePaise)}</p>
+          <p className="hidden text-[11px] text-ink-faint sm:block">Price</p>
+          <p className="font-display text-[17px] font-extrabold leading-tight text-ink sm:text-[19px]">{formatINRPrecise(p.pricePaise)}</p>
         </div>
-        <span className={cn("inline-flex items-center gap-1 text-[12px] font-medium", out ? "text-rose-600" : "text-ink-muted")}>
+        <span className={cn("inline-flex items-center gap-1 text-[11.5px] font-medium sm:text-[12px]", out ? "text-rose-600" : "text-ink-muted")}>
           {out ? <Clock size={12} /> : <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />}
           {out ? "Sold out" : p.stock === null ? "Available" : `${p.stock} in stock`}
         </span>

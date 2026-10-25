@@ -42,7 +42,7 @@ export function Savings({ pricing, tools }: { pricing: Record<TierSlug, TierPric
             </div>
           </div>
 
-          <div className="mt-8 grid gap-5 md:mt-10 md:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-5 md:mt-10 md:grid-cols-3">
             <Stat label="Retail value" sub={`${p.toolCount} tools · ${formatUSD(p.retailUsd)}`} value={p.retailPaise} />
             <Stat label="Your price" sub={`${formatUSDFromPaise(p.pricePaise, p.usdInrRate)} · one activation code`} value={p.pricePaise} accent />
             <Stat label="You save" sub={`${formatUSDFromPaise(p.savingsPaise, p.usdInrRate)} · ${p.savingsPct.toFixed(1)}% off retail`} value={p.savingsPaise} />

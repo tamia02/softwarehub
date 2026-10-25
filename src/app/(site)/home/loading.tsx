@@ -4,7 +4,7 @@ import { Skeleton } from "@/components/ui/Skeleton";
 export default function HomeLoading() {
   return (
     <div className="container-page py-16">
-      <div className="grid items-center gap-12 md:grid-cols-2">
+      <div className="grid grid-cols-1 items-center gap-12 md:grid-cols-2">
         <div className="space-y-4">
           <Skeleton className="h-7 w-48 rounded-full" />
           <Skeleton className="h-14 w-full" />

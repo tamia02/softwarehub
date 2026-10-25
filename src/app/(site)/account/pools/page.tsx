@@ -26,7 +26,7 @@ export default async function AccountPoolsPage() {
       {!all.length ? (
         <p className="mt-4 rounded-2xl border border-dashed border-line p-8 text-center text-sm text-ink-muted">You have not joined any pool yet.</p>
       ) : (
-        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <ul className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {all.map((p) => {
             const m = memberships.find((x) => x.poolId === p.id);
             return (

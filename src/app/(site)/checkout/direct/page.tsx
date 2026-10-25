@@ -18,7 +18,7 @@ export default async function DirectCheckoutPage({ searchParams }: { searchParam
 
   return (
     <div className="container-page py-12 md:py-16">
-      <div className="mx-auto grid max-w-4xl gap-8 md:grid-cols-[1fr_380px]">
+      <div className="mx-auto grid grid-cols-1 max-w-4xl gap-8 md:grid-cols-[1fr_380px]">
         <div>
           <h1 className="text-[32px] font-black leading-tight">Buy {p.name}</h1>
           <p className="mt-2 text-ink-muted">Pay once, get your activation code instantly on screen and by email/SMS.</p>

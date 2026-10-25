@@ -29,7 +29,7 @@ export function Testimonials() {
         <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-accent-2">Reviews</p>
         <h2 className="t-h2 text-ink">What buyers and sellers say</h2>
       </Reveal>
-      <Stagger className="mt-5 grid gap-3 md:grid-cols-3">
+      <Stagger className="mt-5 grid grid-cols-1 gap-3 md:grid-cols-3">
         {quotes.map((q) => (
           <StaggerItem key={q.name} className="h-full">
             <figure className="card flex h-full flex-col p-5">

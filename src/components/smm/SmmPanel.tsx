@@ -50,7 +50,7 @@ export function SmmPanel({ balancePaise, services, orders, apiKeys }: { balanceP
 
       {msg && <p className={`mt-4 rounded-xl px-4 py-2 text-sm font-semibold ${msg.ok ? "bg-emerald-50 text-emerald-700" : "bg-rose-50 text-rose-700"}`}>{msg.text}</p>}
 
-      <div className="mt-6 grid gap-5 lg:grid-cols-[1fr_1.2fr]">
+      <div className="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-[1fr_1.2fr]">
         {/* Wallet + new order */}
         <div className="space-y-5">
           <div className="rounded-[var(--r-card)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)]">

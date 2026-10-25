@@ -49,6 +49,7 @@ export function Header() {
   const accountLabel = me.signedIn ? "My account" : "Sign in";
 
   return (
+    <>
     <header className="sticky top-0 z-40 bg-primary text-on-primary shadow-[0_1px_0_rgba(255,255,255,0.06)]">
       <div className="container-page flex h-[60px] items-center gap-4 md:h-[64px] md:gap-6">
         <Link href="/market" aria-label="Online Sallutions home" className="shrink-0">
@@ -75,20 +76,18 @@ export function Header() {
           </Link>
         </div>
 
-        <button className="ml-auto grid h-10 w-10 place-items-center rounded-[8px] text-white hover:bg-white/[0.08] lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
-          <Menu size={22} />
-        </button>
+        <div className="ml-auto flex items-center gap-1 lg:hidden">
+          <Link href={accountHref} aria-label={accountLabel} className="grid h-11 w-11 place-items-center rounded-[8px] text-white hover:bg-white/[0.08]">
+            <UserRound size={21} />
+          </Link>
+          <button className="grid h-11 w-11 place-items-center rounded-[8px] text-white hover:bg-white/[0.08]" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>
+            <Menu size={22} />
+          </button>
+        </div>
       </div>
 
-      {/* Mobile search */}
-      <div className="container-page pb-3 md:hidden">
-        <Suspense fallback={<div className="h-10" />}>
-          <HeaderSearch className="flex" />
-        </Suspense>
-      </div>
-
-      {/* Section tabs */}
-      <div className="border-t border-white/[0.07] bg-[#0b101b]">
+      {/* Section tabs — sticky with the bar from tablet up */}
+      <div className="hidden border-t border-white/[0.07] bg-[#0b101b] md:block">
         <SectionTabs />
       </div>
 
@@ -122,6 +121,19 @@ export function Header() {
         )}
       </AnimatePresence>
     </header>
+
+    {/* Phones: search + section tabs scroll away so the sticky bar stays one row */}
+    <div className="bg-primary text-on-primary md:hidden">
+      <div className="container-page pb-3">
+        <Suspense fallback={<div className="h-10" />}>
+          <HeaderSearch className="flex" />
+        </Suspense>
+      </div>
+      <div className="border-t border-white/[0.07] bg-[#0b101b]">
+        <SectionTabs />
+      </div>
+    </div>
+    </>
   );
 }
 
@@ -134,7 +146,7 @@ function HeaderSearch({ className }: { className?: string }) {
   return (
     <form
       role="search"
-      className={cn("relative h-10 items-center", className)}
+      className={cn("relative h-11 items-center md:h-10", className)}
       onSubmit={(e) => {
         e.preventDefault();
         const term = q.trim();
@@ -150,7 +162,7 @@ function HeaderSearch({ className }: { className?: string }) {
         aria-label="Search products"
         className="h-full w-full rounded-[8px] border border-transparent bg-white pl-10 pr-24 text-[14px] text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/20"
       />
-      <button type="submit" className="absolute right-1 h-8 rounded-[6px] bg-accent px-4 text-[13px] font-semibold text-on-accent hover:bg-accent-2">
+      <button type="submit" className="absolute right-1 h-9 rounded-[6px] md:h-8 bg-accent px-4 text-[13px] font-semibold text-on-accent hover:bg-accent-2">
         Search
       </button>
     </form>
@@ -169,13 +181,13 @@ function SectionTabs() {
             href={t.href}
             aria-current={active ? "page" : undefined}
             className={cn(
-              "relative inline-flex shrink-0 items-center gap-2 px-3.5 text-[14px] font-semibold transition-colors",
+              "relative inline-flex flex-1 shrink-0 items-center justify-center gap-1.5 px-2 text-[14px] font-semibold transition-colors md:flex-none md:justify-start md:gap-2 md:px-3.5",
               active ? "text-white" : "text-white/65 hover:text-white",
             )}
           >
             <t.icon size={16} className={active ? "text-accent" : "text-white/45"} />
             {t.label}
-            {t.tag && <span className="rounded-[5px] bg-white/[0.08] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-white/60">{t.tag}</span>}
+            {t.tag && <span className="hidden rounded-[5px] bg-white/[0.08] px-1.5 py-0.5 text-[10.5px] font-semibold uppercase tracking-wide text-white/60 min-[400px]:inline">{t.tag}</span>}
             {active && <span className="absolute inset-x-3 bottom-0 h-[2px] rounded-full bg-accent" />}
           </Link>
         );

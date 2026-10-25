@@ -6,6 +6,7 @@ import { LuciferBuyBox } from "@/components/market/LuciferBuyBox";
 import { LuciferCard, WarrantyTag } from "@/components/market/LuciferGrid";
 import { getSessionUser } from "@/lib/auth.server";
 import { getLuciferAccount, getLuciferCatalog, getLuciferProduct, luciferBotUrl } from "@/lib/lucifer.server";
+import { formatINRPrecise } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -37,7 +38,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   ];
 
   return (
-    <div className="container-page pb-6 pt-5 md:pt-6">
+    <div className="container-page pb-28 pt-5 md:pt-6 lg:pb-6">
       <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1 text-[13px] text-ink-faint">
         <Link href="/market" className="hover:text-ink">Marketplace</Link>
         <ChevronRight size={13} />
@@ -46,7 +47,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <span className="truncate text-ink-muted">{p.name}</span>
       </nav>
 
-      <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div className="mt-4 grid grid-cols-1 items-start gap-4 lg:grid-cols-[minmax(0,1fr)_360px]">
         <div className="flex min-w-0 flex-col gap-4">
           <section className="card p-5 md:p-6">
             <div className="flex items-start gap-4">
@@ -80,7 +81,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
           <section className="card p-5 md:p-6">
             <h2 className="text-[16px] font-bold text-ink">How delivery works</h2>
-            <ul className="mt-4 grid gap-3 text-[14px] text-ink-muted md:grid-cols-2">
+            <ul className="mt-4 grid grid-cols-1 gap-3 text-[14px] text-ink-muted md:grid-cols-2">
               {[
                 "Pay from your Lucifer wallet — the amount is debited instantly.",
                 "You get a Telegram message with your order details right away.",
@@ -96,7 +97,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </section>
         </div>
 
-        <aside className="flex flex-col gap-4 lg:sticky lg:top-[132px]">
+        <aside id="buy" className="flex scroll-mt-20 flex-col gap-4 lg:sticky lg:top-[132px]">
           <LuciferBuyBox
             productRef={p.ref}
             unitPaise={p.pricePaise}
@@ -118,6 +119,19 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         </aside>
       </div>
 
+      {/* Phones: the buy box sits below the details, so keep price + Buy within thumb reach */}
+      <div className="fixed inset-x-0 bottom-0 z-30 border-t border-ink-line bg-bg-card/95 px-4 pb-[max(12px,env(safe-area-inset-bottom))] pt-3 shadow-[0_-8px_24px_rgba(16,24,40,0.08)] backdrop-blur lg:hidden">
+        <div className="mx-auto flex max-w-[640px] items-center gap-3">
+          <div className="min-w-0 flex-1">
+            <p className="truncate text-[12px] text-ink-faint">{p.name}</p>
+            <p className="font-display text-[20px] font-extrabold leading-tight text-ink">{formatINRPrecise(p.pricePaise)}</p>
+          </div>
+          <a href="#buy" className="inline-flex h-12 shrink-0 items-center rounded-[8px] bg-accent px-6 text-[15px] font-semibold text-white hover:bg-accent-2">
+            {inStock ? "Buy now" : "Details"}
+          </a>
+        </div>
+      </div>
+
       {similar.length > 0 && (
         <section className="pt-10">
           <div className="flex items-end justify-between">
@@ -126,7 +140,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               View all <ChevronRight size={14} />
             </Link>
           </div>
-          <ul className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:gap-3 xl:grid-cols-4">
             {similar.map((x) => (
               <li key={x.ref}>
                 <LuciferCard p={x} />

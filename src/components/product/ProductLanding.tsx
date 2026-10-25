@@ -74,7 +74,7 @@ export function ProductLanding({
       <Reveal>
         <h2 className={`t-h2 ${t.head}`}>What you get</h2>
       </Reveal>
-      <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+      <Stagger className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
         {product.features.map((f) => (
           <StaggerItem key={f.title} className="h-full">
             <Tilt max={6} className="h-full rounded-[var(--r-card)] [transform-style:preserve-3d]">
@@ -94,7 +94,7 @@ export function ProductLanding({
       <Reveal>
         <h2 className={`t-h2 ${t.head}`}>How it works</h2>
       </Reveal>
-      <Stagger className="mt-6 grid gap-4 md:grid-cols-3 md:gap-5">
+      <Stagger className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-3 md:gap-5">
         {product.how.map((h) => (
           <StaggerItem key={h.step} className="h-full">
             <div className={`group h-full rounded-[var(--r-card)] p-6 transition-transform duration-200 hover:-translate-y-1 ${t.card}`}>
@@ -113,7 +113,7 @@ export function ProductLanding({
   return (
     <main className={t.wrap}>
       {/* Hero */}
-      <section className="relative grid items-center gap-10 overflow-hidden pb-12 pt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:pb-16 md:pt-16 container-page">
+      <section className="relative grid grid-cols-1 items-center gap-10 overflow-hidden pb-12 pt-10 md:grid-cols-[1.1fr_0.9fr] md:gap-12 md:pb-16 md:pt-16 container-page">
         {!dark && <FloatingDecor />}
         <div>
           <p className={`anim-fade-up ${t.eyebrow}`} style={{ animationDelay: "0.05s" }}>{product.eyebrow}</p>

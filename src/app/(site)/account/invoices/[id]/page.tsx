@@ -41,7 +41,7 @@ export default async function InvoicePage({ params }: { params: Promise<{ id: st
           </div>
         </header>
 
-        <section className="mt-8 grid gap-6 sm:grid-cols-2">
+        <section className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
           <div>
             <p className="text-xs font-bold uppercase tracking-wider text-ink-faint">Billed to</p>
             <p className="mt-1 font-semibold">{inv.buyerName ?? buyer?.name ?? "Customer"}</p>

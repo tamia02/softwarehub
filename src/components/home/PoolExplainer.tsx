@@ -60,7 +60,7 @@ function Stepper() {
   const inView = useInView(ref, { once: true, margin: "-80px" });
   const reduce = useReducedMotion();
   return (
-    <ol ref={ref} className="relative mt-10 grid gap-8 md:mt-14 md:grid-cols-3 md:gap-6">
+    <ol ref={ref} className="relative mt-10 grid grid-cols-1 gap-8 md:mt-14 md:grid-cols-3 md:gap-6">
       <div className="pointer-events-none absolute left-[16.6%] right-[16.6%] top-7 hidden h-[3px] rounded-full bg-line-strong md:block" aria-hidden>
         <motion.div className="h-full origin-left rounded-full bg-ink-line" initial={reduce ? { scaleX: 1 } : { scaleX: 0 }} animate={inView ? { scaleX: 1 } : undefined} transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.2 }} />
       </div>

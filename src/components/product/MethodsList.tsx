@@ -13,7 +13,7 @@ export function MethodsList() {
         <h2 className="font-hack text-[30px] font-normal uppercase tracking-[0.02em] text-[#f2fbf6] text-neon md:text-[40px]">{"> "}Methods — learn, step by step</h2>
         <p className="mt-2 font-hack text-[13px] text-[#9fb6ac]">{methods.length} guides · free to read · each links the tools you need</p>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-2">
+        <div className="mt-8 grid grid-cols-1 gap-4 md:grid-cols-2">
           {methods.map((m) => (
             <details key={m.slug} className="group rounded-[16px] border border-[#1f2a25] bg-[#111815] p-5 transition-colors duration-200 open:bg-[#141c18] hover:border-[#34d399]/40">
               <summary className="flex cursor-pointer list-none items-start justify-between gap-3">

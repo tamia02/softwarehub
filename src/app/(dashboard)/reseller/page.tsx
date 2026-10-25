@@ -14,14 +14,14 @@ export default async function ResellerOverviewPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Overview</h1>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard label="Active pools" value={String(o.activePools)} sub={`${o.totalPools} total`} />
         <StatCard label="Members" value={String(o.members)} sub="paid seats" />
         <StatCard label="Codes in inventory" value={String(o.codesInInventory)} sub="unassigned" />
         <StatCard label="Revenue this month" value={formatINR(o.revenueThisMonthPaise)} accent />
         <StatCard label="Pending payout" value={formatINR(o.pendingPayoutPaise)} sub={`${formatINR(o.availablePaise)} available`} />
       </div>
-      <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr]">
         <Panel title="Revenue — last 12 weeks">
           <RevenueChart data={o.weeks} />
         </Panel>
