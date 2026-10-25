@@ -171,10 +171,6 @@ export function LuciferGrid({
   );
 }
 
-export function logoUrlFor(p: Pick<LuciferProduct, "logoSlug">): string | null {
-  return p.logoSlug ? `https://cdn.simpleicons.org/${p.logoSlug}` : null;
-}
-
 export function WarrantyTag({ w, className }: { w: LuciferProduct["warranty"]; className?: string }) {
   if (w === "warranty")
     return (
@@ -199,7 +195,7 @@ export function LuciferCard({ p }: { p: LuciferProduct }) {
       className="group flex h-full flex-col rounded-[var(--r-card)] border border-ink-line bg-bg-card p-4 shadow-[var(--shadow-card)] transition-[box-shadow,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-line-strong hover:shadow-[var(--shadow-hover)]"
     >
       <div className="flex items-start gap-3">
-        <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={logoUrlFor(p)} size={44} />
+        <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={44} />
         <div className="min-w-0 flex-1">
           <p className="truncate text-[12px] text-ink-faint">{p.sectionName}</p>
           <h3 className="mt-0.5 line-clamp-2 text-[14.5px] font-semibold leading-snug text-ink group-hover:text-accent-2">{p.name}</h3>

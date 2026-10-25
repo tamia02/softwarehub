@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, ChevronRight, GraduationCap, LogIn, Music, Package, Palette, Send, Sparkles, Wallet, Zap, type LucideIcon } from "lucide-react";
 import { SectionShowcase } from "@/components/home/SectionShowcase";
-import { LuciferGrid, logoUrlFor } from "@/components/market/LuciferGrid";
+import { LuciferGrid } from "@/components/market/LuciferGrid";
 import { ToolLogo } from "@/components/brand/ToolLogo";
 import { Button } from "@/components/ui/Button";
 import { SECTIONS, getLuciferCatalogSafe, luciferBotUrl } from "@/lib/lucifer.server";
@@ -90,7 +90,7 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
                   <li key={p.ref}>
                     <Link href={`/market/${p.ref}`} className="flex items-center gap-3 rounded-[10px] p-2 transition-colors hover:bg-bg">
                       <span className="w-4 text-center font-display text-[13px] font-bold text-ink-faint">{i + 1}</span>
-                      <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={logoUrlFor(p)} size={38} />
+                      <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={38} />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-[13.5px] font-semibold text-ink">{p.name}</span>
                         <span className="block truncate text-[12px] text-ink-faint">{p.sectionName}</span>

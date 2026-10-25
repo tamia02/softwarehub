@@ -3,7 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { Check, ChevronRight, Clock, Headphones, Send, Wallet, Zap } from "lucide-react";
 import { ToolLogo } from "@/components/brand/ToolLogo";
 import { LuciferBuyBox } from "@/components/market/LuciferBuyBox";
-import { LuciferCard, WarrantyTag, logoUrlFor } from "@/components/market/LuciferGrid";
+import { LuciferCard, WarrantyTag } from "@/components/market/LuciferGrid";
 import { getSessionUser } from "@/lib/auth.server";
 import { getLuciferAccount, getLuciferCatalog, getLuciferProduct, luciferBotUrl } from "@/lib/lucifer.server";
 
@@ -50,7 +50,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
         <div className="flex min-w-0 flex-col gap-4">
           <section className="card p-5 md:p-6">
             <div className="flex items-start gap-4">
-              <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={logoUrlFor(p)} size={72} />
+              <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={72} />
               <div className="min-w-0">
                 <p className="text-[13px] text-ink-faint">{p.sectionName}</p>
                 <h1 className="mt-1 text-[22px] font-extrabold leading-tight text-ink md:text-[28px]">{p.name}</h1>

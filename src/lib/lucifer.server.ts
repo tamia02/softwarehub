@@ -46,6 +46,8 @@ export interface LuciferProduct {
   /** Read from the title the way the bot does (FW / NW / warranty). */
   warranty: "warranty" | "none" | "unknown";
   logoSlug: string | null;
+  /** Brand glyph from simple-icons' CDN, when the name matches a known brand. */
+  logoUrl: string | null;
 }
 
 export interface LuciferOrder {
@@ -108,40 +110,28 @@ function warrantyOf(name: string): LuciferProduct["warranty"] {
   return "unknown";
 }
 
-/** Brand keyword → simple-icons slug in data/logos (or a CDN-resolvable slug). */
+/** Brand keyword → simple-icons CDN slug. Only slugs verified to exist on cdn.simpleicons.org (2026-10-25); others fall back to a letter tile. */
 const LOGO_HINTS: [RegExp, string][] = [
-  [/chat\s*gpt|openai|codex/i, "openai"],
   [/gemini|google\s*ai|google\s*one/i, "googlegemini"],
   [/claude|anthropic/i, "anthropic"],
   [/perplexity/i, "perplexity"],
   [/grok|x\.ai|xai/i, "x"],
   [/cursor/i, "cursor"],
   [/notion/i, "notion"],
-  [/canva/i, "canva"],
-  [/cap\s*cut/i, "capcut"],
-  [/adobe|photoshop|premiere|acrobat/i, "adobe"],
   [/figma/i, "figma"],
   [/netflix/i, "netflix"],
   [/spotify/i, "spotify"],
   [/youtube/i, "youtube"],
-  [/disney/i, "disneyplus"],
-  [/prime\s*video|amazon/i, "primevideo"],
   [/telegram|stars/i, "telegram"],
   [/duolingo/i, "duolingo"],
   [/coursera/i, "coursera"],
   [/udemy/i, "udemy"],
-  [/linkedin/i, "linkedin"],
-  [/microsoft|office|windows|copilot/i, "microsoft"],
   [/elevenlabs|eleven\s*labs/i, "elevenlabs"],
-  [/gamma/i, "gamma"],
-  [/scribd/i, "scribd"],
   [/quizlet/i, "quizlet"],
   [/nord\s*vpn/i, "nordvpn"],
   [/express\s*vpn/i, "expressvpn"],
   [/github/i, "github"],
   [/replit/i, "replit"],
-  [/lovable/i, "lovable"],
-  [/heygen/i, "heygen"],
   [/suno/i, "suno"],
 ];
 
@@ -165,6 +155,10 @@ function toProduct(p: Record<string, unknown>): LuciferProduct {
     maxQty: typeof p.max_qty === "number" ? p.max_qty : null,
     warranty: warrantyOf(name),
     logoSlug: logoFor(name),
+    logoUrl: (() => {
+      const slug = logoFor(name);
+      return slug ? `https://cdn.simpleicons.org/${slug}` : null;
+    })(),
   };
 }
 
