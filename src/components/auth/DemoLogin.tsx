@@ -41,18 +41,18 @@ export function DemoLogin({ next }: { next?: string }) {
   return (
     <div className="rounded-[var(--r-card)] border border-dashed border-line-strong bg-bg-soft p-4">
       <p className="text-[13px] font-bold uppercase tracking-wider text-ink-faint">Demo — one click, no code</p>
-      <div className="mt-3 grid gap-2.5">
+      <div className="mt-3 grid grid-cols-1 gap-2.5">
         {ROLES.map(({ role, label, hint, icon: Icon }) => (
           <button
             key={role}
             onClick={() => signIn(role)}
             disabled={busy !== null}
-            className="group flex items-center gap-3 rounded-2xl border border-ink-line bg-bg-card px-4 py-3 text-left transition-colors hover:bg-primary-soft disabled:opacity-60"
+            className="group flex min-w-0 items-center gap-3 rounded-[10px] border border-ink-line bg-bg-card px-4 py-3 text-left transition-colors hover:bg-primary-soft disabled:opacity-60"
           >
             <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-ink-line bg-accent-soft text-ink">
               {busy === role ? <Loader2 className="animate-spin" size={16} /> : <Icon size={16} />}
             </span>
-            <span className="min-w-0">
+            <span className="min-w-0 flex-1">
               <span className="block font-bold leading-tight text-ink">Enter as {label}</span>
               <span className="block truncate text-[13px] text-ink-muted">{hint}</span>
             </span>

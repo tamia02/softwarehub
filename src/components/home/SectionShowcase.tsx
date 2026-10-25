@@ -63,40 +63,33 @@ export function SectionShowcase() {
         {/* Methods */}
         <Link
           href="/methods"
-          className="group relative flex flex-col overflow-hidden rounded-[var(--r-card-lg)] border border-[#1c2a24] bg-[#08100d] p-6 text-[#c7d6cf] transition-[border-color,box-shadow] duration-200 hover:border-[#34d399]/50 hover:shadow-[0_12px_32px_rgba(52,211,153,0.10)] md:p-7"
+          className="group relative flex flex-col overflow-hidden rounded-[var(--r-card-lg)] bg-primary p-6 text-on-primary transition-shadow duration-200 hover:shadow-[var(--shadow-hover)] md:p-7"
         >
-          <div aria-hidden className="pointer-events-none absolute inset-0 opacity-50 [background-image:linear-gradient(rgba(52,211,153,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(52,211,153,0.05)_1px,transparent_1px)] [background-size:28px_28px]" />
+          <div aria-hidden className="pointer-events-none absolute inset-0 bg-[radial-gradient(60%_70%_at_100%_0%,rgba(239,65,54,0.28),transparent_60%)]" />
           <div className="relative flex items-center gap-3">
-            <span className="grid h-11 w-11 place-items-center rounded-[12px] border border-[#34d399]/30 bg-[#34d399]/10 text-[#34d399]">
+            <span className="grid h-11 w-11 place-items-center rounded-[12px] bg-white/10 text-accent ring-1 ring-inset ring-white/15">
               <Terminal size={21} />
             </span>
             <div>
-              <p className="font-term text-[12px] uppercase tracking-[0.12em] text-[#34d399]">Methods · free playbooks</p>
-              <h2 className="text-[20px] font-extrabold leading-tight text-[#f2fbf6] md:text-[22px]">Learn the method, then run the tools</h2>
+              <p className="text-[12px] font-semibold uppercase tracking-[0.1em] text-accent">Methods · free playbooks</p>
+              <h2 className="text-[20px] font-extrabold leading-tight text-white md:text-[22px]">Learn the method, then run the tools</h2>
             </div>
           </div>
 
-          <div className="relative mb-6 mt-5 rounded-[10px] border border-[#1c2a24] bg-black/40 p-3 font-term text-[12.5px]">
-            <p className="text-[#5f746b]">
-              <span className="text-[#34d399]">$</span> methods --list
-            </p>
-            <ul className="mt-2 space-y-1.5">
-              {preview.map((m) => (
-                <li key={m.slug} className="flex items-center justify-between gap-3">
-                  <span className="truncate text-[#c7d6cf]">
-                    <span className="text-[#3f5249]">›</span> {m.title}
-                  </span>
-                  <span className={`shrink-0 text-[11px] ${m.tier === "Free" ? "text-[#34d399]" : "text-[#f5c542]"}`}>{m.tier}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <ul className="relative mb-6 mt-5 divide-y divide-white/10 rounded-[10px] bg-white/[0.05] ring-1 ring-inset ring-white/10">
+            {preview.map((m) => (
+              <li key={m.slug} className="flex items-center justify-between gap-3 px-3.5 py-2.5">
+                <span className="truncate text-[13.5px] text-white/85">{m.title}</span>
+                <span className={`shrink-0 rounded-[5px] px-1.5 py-0.5 text-[11px] font-semibold ${m.tier === "Free" ? "bg-emerald-400/15 text-emerald-300" : "bg-amber-400/15 text-amber-300"}`}>{m.tier}</span>
+              </li>
+            ))}
+          </ul>
 
-          <div className="relative mt-auto flex items-center justify-between gap-3 border-t border-[#1c2a24] pt-4">
-            <p className="text-[13px] text-[#7f948b]">
-              <span className="font-semibold text-[#e7f6ef]">{methods.length} guides</span> · step by step · tools run in your browser
+          <div className="relative mt-auto flex items-center justify-between gap-3 border-t border-white/10 pt-4">
+            <p className="text-[13px] text-white/55">
+              <span className="font-semibold text-white">{methods.length} guides</span> · step by step · free tools
             </p>
-            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] bg-[#34d399] px-4 py-2.5 text-[14px] font-semibold text-[#04120c] transition-colors group-hover:bg-[#5eead4]">
+            <span className="inline-flex shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[8px] bg-accent px-4 py-2.5 text-[14px] font-semibold text-white transition-colors group-hover:bg-accent-2">
               Explore <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
             </span>
           </div>

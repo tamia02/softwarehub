@@ -16,7 +16,7 @@ const tiles: Array<{ role: RoleChoice; title: string; desc: string; icon: React.
   {
     role: "customer",
     title: "I’m a customer",
-    desc: "Browse the marketplace, grab a pass, order growth services.",
+    desc: "Browse the marketplace and order — no code needed.",
     icon: <ShoppingBag size={22} />,
   },
   {
@@ -105,6 +105,8 @@ export function GateCard({ initialRole }: { initialRole?: RoleChoice }) {
                     layoutId={`tile-${t.role}`}
                     type="button"
                     onClick={() => {
+                      // Customers don't need a code — the storefront is open to everyone.
+                      if (t.role === "customer") return router.push("/market");
                       setSelected(t.role);
                       setError(null);
                     }}

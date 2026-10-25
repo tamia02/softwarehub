@@ -95,10 +95,10 @@ export const products: Product[] = [
     primary: { label: "Browse services", href: "/growth#services" },
     secondary: { label: "See how it works", href: "/growth#how" },
     stats: [
-      { value: "1,400+", label: "services" },
-      { value: "0-5 min", label: "typical start" },
-      { value: "99.9%", label: "order success" },
-      { value: "30-55%", label: "reseller margin" },
+      { value: "40+", label: "services" },
+      { value: "8", label: "platforms" },
+      { value: "Auto", label: "dispatch" },
+      { value: "Wallet + API", label: "to order" },
     ],
     features: [
       { title: "Real, non-drop growth", body: "High-quality engagement with automatic refill so your counts hold, not evaporate." },

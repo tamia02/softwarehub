@@ -16,7 +16,9 @@ export function Reveal({
   className,
   delay = 0,
   y = 20,
-  amount = 0.25,
+  // A fraction of a tall element (e.g. a whole catalogue) can be taller than a phone
+  // screen and would never be "in view" — so trigger as soon as any part shows.
+  amount = 0,
 }: {
   children: ReactNode;
   className?: string;
@@ -31,7 +33,7 @@ export function Reveal({
       className={className}
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount, margin: "0px 0px -8% 0px" }}
+      viewport={{ once: true, amount, margin: "0px 0px -40px 0px" }}
       transition={{ duration: 0.6, ease: EASE, delay }}
     >
       {children}
@@ -53,7 +55,7 @@ export function Stagger({
   children,
   className,
   gap = 0.07,
-  amount = 0.15,
+  amount = 0,
 }: {
   children: ReactNode;
   className?: string;
@@ -67,7 +69,7 @@ export function Stagger({
       className={className}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount, margin: "0px 0px -8% 0px" }}
+      viewport={{ once: true, amount, margin: "0px 0px -40px 0px" }}
       variants={{ show: { transition: { staggerChildren: gap } } }}
     >
       {children}

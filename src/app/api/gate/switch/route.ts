@@ -6,7 +6,10 @@ export async function GET(req: NextRequest) {
   const url = new URL("/?switch=1", req.url);
   const host = req.headers.get("x-forwarded-host");
   const proto = req.headers.get("x-forwarded-proto");
-  if (host) url.host = host;
+  if (host) {
+    url.port = "";
+    url.host = host;
+  }
   if (proto) url.protocol = `${proto}:`;
   const res = NextResponse.redirect(url);
   res.cookies.delete(cookieNames.role);

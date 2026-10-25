@@ -52,6 +52,10 @@ services:
       LUCIFER_INTERNAL_KEY: "${LUCIFER_INTERNAL_KEY:-}"
       LUCIFER_BOT_TOKEN: "${LUCIFER_BOT_TOKEN:-}"
       LUCIFER_BOT_USERNAME: "${LUCIFER_BOT_USERNAME:-DevilLucifer777_bot}"
+      # "Continue with Google" — set both to enable the button (Google Cloud → OAuth client,
+      # redirect URI https://<domain>/api/auth/google/callback).
+      GOOGLE_CLIENT_ID: "${GOOGLE_CLIENT_ID:-}"
+      GOOGLE_CLIENT_SECRET: "${GOOGLE_CLIENT_SECRET:-}"
     depends_on:
       - shp-db
     networks:

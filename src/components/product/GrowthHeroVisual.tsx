@@ -1,126 +1,65 @@
-"use client";
+import { ClipboardPaste, MousePointerClick, Rocket } from "lucide-react";
+import { smmCatalog, smmPlatforms, smmStats } from "@/data/smm";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { TrendingUp, Zap } from "lucide-react";
+/** simple-icons slug per platform. */
+const ICON: Record<string, string> = {
+  Instagram: "instagram",
+  YouTube: "youtube",
+  TikTok: "tiktok",
+  Telegram: "telegram",
+  Facebook: "facebook",
+  "Twitter / X": "x",
+  Spotify: "spotify",
+  "Website Traffic": "googlechrome",
+};
 
-const bars = [38, 52, 45, 66, 58, 79, 72, 92];
-const brands = ["instagram", "youtube", "tiktok", "telegram", "spotify", "x"];
-const feed = [
-  "5,000 IG followers → @studio.rae",
-  "20K YouTube views → /watch?v=…",
-  "1,000 TikTok likes → @kabir.codes",
-  "10K Telegram members → t.me/grow",
-  "2,500 Spotify plays → track/7cf",
+const steps = [
+  { icon: MousePointerClick, title: "Pick a service", body: "Followers, likes, views or watch-time" },
+  { icon: ClipboardPaste, title: "Paste your link", body: "Profile, post or video URL" },
+  { icon: Rocket, title: "Watch it grow", body: "Starts automatically, tracked live" },
 ];
 
-/** Small count-up that respects reduced motion. */
-function useCountUp(target: number, ms = 1400) {
-  const reduce = useReducedMotion();
-  const [n, setN] = useState(reduce ? target : 0);
-  useEffect(() => {
-    if (reduce) return;
-    let raf = 0;
-    const start = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min((t - start) / ms, 1);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setN(Math.round(target * eased));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [target, ms, reduce]);
-  return n;
-}
-
+/**
+ * Grow hero card: real catalogue counts per platform plus the three ordering
+ * steps. (Replaces a decorative "live dispatch" counter whose numbers weren't real.)
+ */
 export function GrowthHeroVisual() {
-  const reduce = useReducedMotion();
-  const delivered = useCountUp(48210);
-  const ref = useRef<HTMLDivElement>(null);
-  const [tick, setTick] = useState(0);
-
-  useEffect(() => {
-    if (reduce) return;
-    const id = setInterval(() => setTick((t) => (t + 1) % feed.length), 2600);
-    return () => clearInterval(id);
-  }, [reduce]);
+  const perPlatform = new Map<string, number>();
+  for (const c of smmCatalog) perPlatform.set(c.platform, (perPlatform.get(c.platform) ?? 0) + c.services.length);
 
   return (
-    <div ref={ref} className="anim-fade-scale relative rounded-[var(--r-card-lg)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)] sm:p-6" style={{ animationDelay: "0.15s" }}>
-      {/* header */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2.5 w-2.5">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-70" />
-            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
-          </span>
-          <span className="text-[13px] font-bold text-ink">Live dispatch</span>
-        </div>
-        <span className="inline-flex items-center gap-1 rounded-full bg-accent-soft px-2.5 py-1 text-[12px] font-black text-accent-2">
-          <TrendingUp size={13} /> +12.4%
-        </span>
+    <div className="anim-fade-scale rounded-[var(--r-card-lg)] border border-ink-line bg-bg-card p-5 shadow-[var(--shadow-card)] sm:p-6" style={{ animationDelay: "0.15s" }}>
+      <div className="flex items-center justify-between gap-3">
+        <p className="text-[14px] font-bold text-ink">Platforms we grow</p>
+        <span className="rounded-[6px] bg-accent-soft px-2 py-1 text-[12px] font-semibold text-accent-2">{smmStats.services}+ services</span>
       </div>
 
-      {/* big counter */}
-      <div className="mt-4">
-        <p className="font-display text-[38px] font-black leading-none tabular-nums text-ink">{delivered.toLocaleString("en-IN")}</p>
-        <p className="mt-1 text-[13px] font-medium text-ink-muted">orders delivered today</p>
-      </div>
-
-      {/* animated bar chart */}
-      <div className="mt-5 flex h-28 items-end gap-2 rounded-[16px] border border-ink-line/70 bg-bg-soft/50 p-3">
-        {bars.map((h, i) => (
-          <motion.span
-            key={i}
-            className="flex-1 rounded-t-[4px] bg-accent"
-            style={{ transformOrigin: "bottom" }}
-            initial={reduce ? false : { scaleY: 0, opacity: 0.4 }}
-            animate={reduce ? undefined : { scaleY: 1, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 + i * 0.07, ease: [0.22, 1, 0.36, 1] }}
-          >
-            <span className="block w-full" style={{ height: `${h}%`, minHeight: 6 }} />
-          </motion.span>
+      <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-4">
+        {smmPlatforms.map((p) => (
+          <li key={p} className="flex items-center gap-2 rounded-[10px] border border-line bg-bg px-2.5 py-2">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={`https://cdn.simpleicons.org/${ICON[p] ?? "googlechrome"}`} alt="" width={18} height={18} className="shrink-0 object-contain" loading="lazy" />
+            <span className="min-w-0">
+              <span className="block truncate text-[12.5px] font-semibold text-ink">{p}</span>
+              <span className="block text-[11px] text-ink-faint">{perPlatform.get(p) ?? 0} services</span>
+            </span>
+          </li>
         ))}
-      </div>
+      </ul>
 
-      {/* platforms */}
-      <div className="mt-4 flex items-center justify-between">
-        <span className="text-[12px] font-medium text-ink-faint">across</span>
-        <div className="flex items-center gap-2.5">
-          {brands.map((b, i) => (
-            <motion.img
-              key={b}
-              src={`https://cdn.simpleicons.org/${b}`}
-              alt=""
-              width={20}
-              height={20}
-              loading="lazy"
-              className="object-contain"
-              initial={reduce ? false : { y: 8, opacity: 0 }}
-              animate={reduce ? undefined : { y: 0, opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.6 + i * 0.06 }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {/* live order ticker */}
-      <div className="mt-4 flex items-center gap-2 overflow-hidden rounded-full border border-ink-line bg-accent-soft px-3 py-2">
-        <Zap size={14} className="shrink-0 fill-accent text-accent" />
-        <AnimatePresence mode="wait">
-          <motion.span
-            key={tick}
-            initial={reduce ? false : { y: 10, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={reduce ? undefined : { y: -10, opacity: 0 }}
-            transition={{ duration: 0.35 }}
-            className="truncate text-[12px] font-semibold text-ink"
-          >
-            {feed[tick]}
-          </motion.span>
-        </AnimatePresence>
-      </div>
+      <ol className="mt-5 grid grid-cols-1 gap-2 border-t border-line pt-4 sm:grid-cols-3">
+        {steps.map((s, i) => (
+          <li key={s.title} className="flex items-start gap-2.5 sm:flex-col sm:gap-2">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-[8px] bg-primary text-white">
+              <s.icon size={15} />
+            </span>
+            <span>
+              <span className="block text-[13px] font-semibold text-ink">{i + 1}. {s.title}</span>
+              <span className="block text-[12px] text-ink-faint">{s.body}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
     </div>
   );
 }

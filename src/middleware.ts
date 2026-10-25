@@ -30,11 +30,13 @@ export async function middleware(req: NextRequest) {
   const roleCookie = req.cookies.get(cookieNames.role)?.value;
 
   if (pathname === "/") {
-    if (roleCookie && !searchParams.has("switch")) {
-      const to = roleCookie === "reseller" ? "/reseller" : roleCookie === "admin" ? "/admin" : "/market";
-      return redirect(req, to);
+    // Customers never see a gate: the storefront is open. The code gate is only
+    // for sellers ("Sell with us" → /?switch=1&role=reseller).
+    if (searchParams.get("role") === "reseller") return NextResponse.next();
+    if (!searchParams.has("switch") && (roleCookie === "reseller" || roleCookie === "admin")) {
+      return redirect(req, roleCookie === "reseller" ? "/reseller" : "/admin");
     }
-    return NextResponse.next();
+    return redirect(req, "/market");
   }
 
   const session = await verifySession(req.cookies.get(SESSION_COOKIE)?.value);
