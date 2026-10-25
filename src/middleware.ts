@@ -16,7 +16,11 @@ function redirect(req: NextRequest, to: string) {
   const url = new URL(to, req.url);
   const host = req.headers.get("x-forwarded-host");
   const proto = req.headers.get("x-forwarded-proto");
-  if (host) url.host = host;
+  if (host) {
+    // Assigning `host` without a port keeps the old one (:3000), so clear it first.
+    url.port = "";
+    url.host = host;
+  }
   if (proto) url.protocol = `${proto}:`;
   return NextResponse.redirect(url);
 }
