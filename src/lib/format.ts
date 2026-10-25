@@ -17,6 +17,13 @@ export function formatINR(paise: number): string {
   return inr.format(Math.round(paise / 100));
 }
 
+const inrPaise = new Intl.NumberFormat("en-IN", { style: "currency", currency: "INR", minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+/** ₹87.55 when there are paise, ₹1,499 when the amount is whole — never rounds money away. */
+export function formatINRPrecise(paise: number): string {
+  return paise % 100 === 0 ? inr.format(paise / 100) : inrPaise.format(paise / 100);
+}
+
 /** 25,000 (no symbol). */
 export function formatINRNumber(paise: number): string {
   return inrNumber.format(Math.round(paise / 100));

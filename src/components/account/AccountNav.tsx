@@ -5,11 +5,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const items = [
-  { href: "/account", label: "Account" },
-  { href: "/account/purchases", label: "My purchases" },
+  { href: "/account", label: "Wallet & orders" },
   { href: "/account/growth", label: "Growth panel" },
-  { href: "/account/orders", label: "Orders & invoices" },
-  { href: "/account/redeem", label: "Redeem code" },
 ];
 
 export function AccountNav({ role }: { role: string }) {

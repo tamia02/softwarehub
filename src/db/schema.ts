@@ -23,9 +23,11 @@ export const users = pgTable(
     gstin: text("gstin"),
     referredByResellerId: text("referred_by_reseller_id"),
     walletPaise: integer("wallet_paise").notNull().default(0),
+    /** Telegram user id (as text — too large for a JS number) when signed in with Telegram; it is the Lucifer bot account. */
+    telegramId: text("telegram_id"),
     createdAt: ts("created_at").notNull().defaultNow(),
   },
-  (t) => [uniqueIndex("users_email_idx").on(t.email), uniqueIndex("users_phone_idx").on(t.phone)],
+  (t) => [uniqueIndex("users_email_idx").on(t.email), uniqueIndex("users_phone_idx").on(t.phone), uniqueIndex("users_telegram_idx").on(t.telegramId)],
 );
 
 export const otpCodes = pgTable(

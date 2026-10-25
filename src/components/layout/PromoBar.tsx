@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, Send, X } from "lucide-react";
 
-const KEY = "shp_promo_dismissed_v4";
+const KEY = "shp_promo_dismissed_v5";
 
 /** Thin announcement strip above the header. Dismissal is remembered per browser. */
 export function PromoBar() {
@@ -19,9 +19,9 @@ export function PromoBar() {
   if (!open) return null;
   return (
     <div className="anim-promo-in relative z-50 flex min-h-[36px] items-center justify-center bg-accent px-12 text-center text-on-accent">
-      <Link href="/market#how" className="group inline-flex items-center gap-1.5 text-[13px] font-medium leading-tight">
-        <ShieldCheck size={14} className="shrink-0" />
-        <span className="hidden sm:inline">Instant delivery ·</span> Every order escrow-protected until you confirm it works
+      <Link href="/login" className="group inline-flex items-center gap-1.5 text-[13px] font-medium leading-tight">
+        <Send size={14} className="shrink-0" />
+        <span className="hidden sm:inline">New ·</span> Log in with Telegram — your Lucifer wallet and orders, right here
         <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
       </Link>
       <button

@@ -46,11 +46,18 @@ services:
       # to the browser. Reached over the vending-bot_default Docker network.
       VENDING_API_URL: "${VENDING_API_URL:-http://vending-deep-agent:5000}"
       VENDING_ADMIN_TOKEN: "${VENDING_ADMIN_TOKEN:-}"
+      # Lucifer bot internal API (catalog, wallets, orders) — server-side only,
+      # reached over the bot's Docker network, never exposed to the browser.
+      LUCIFER_API_URL: "${LUCIFER_API_URL:-http://lucifer-bot-live-bot-1:8092}"
+      LUCIFER_INTERNAL_KEY: "${LUCIFER_INTERNAL_KEY:-}"
+      LUCIFER_BOT_TOKEN: "${LUCIFER_BOT_TOKEN:-}"
+      LUCIFER_BOT_USERNAME: "${LUCIFER_BOT_USERNAME:-DevilLucifer777_bot}"
     depends_on:
       - shp-db
     networks:
       - internal
       - web
+      - lucifer
     labels:
       - "traefik.enable=true"
       - "traefik.docker.network=shp_web"
@@ -77,6 +84,11 @@ networks:
   internal:
   web:
     name: shp_web
+  # The Lucifer bot's compose network (/docker/lucifer-bot-live), joined so the
+  # app can reach the bot's internal API by container name.
+  lucifer:
+    name: lucifer-bot-live_default
+    external: true
 
 volumes:
   shp-db-data:

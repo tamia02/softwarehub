@@ -146,7 +146,7 @@ function HeaderSearch({ className }: { className?: string }) {
         type="search"
         value={q}
         onChange={(e) => setQ(e.target.value)}
-        placeholder="Search Netflix, Valorant points, ChatGPT…"
+        placeholder="Search ChatGPT, Netflix, Canva…"
         aria-label="Search products"
         className="h-full w-full rounded-[8px] border border-transparent bg-white pl-10 pr-24 text-[14px] text-ink placeholder:text-ink-faint focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/20"
       />

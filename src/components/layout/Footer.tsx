@@ -1,9 +1,17 @@
 import Link from "next/link";
-import { BadgeCheck, Headphones, ShieldCheck, Zap } from "lucide-react";
+import { Headphones, Send, Wallet, Zap } from "lucide-react";
 import { LogoLockup } from "@/components/brand/Logo";
 import { nav, site } from "@/config/site";
+import { luciferBotUrl } from "@/lib/lucifer.server";
 
-const categories = ["AI Tools", "Subscriptions", "Game Top-Up", "Game Accounts", "Gift Cards", "Software"];
+const categories = [
+  { id: "ai", name: "AI & Productivity" },
+  { id: "creative", name: "Design & Video" },
+  { id: "entertain", name: "Music & Streaming" },
+  { id: "telegram", name: "Telegram Services" },
+  { id: "learn", name: "Learning & Tools" },
+  { id: "other", name: "More Services" },
+];
 
 const legal = [
   { label: "Terms of service", href: "/terms" },
@@ -13,10 +21,10 @@ const legal = [
 ];
 
 const promises = [
-  { icon: ShieldCheck, title: "Escrow protection", body: "Paid out only after you confirm" },
-  { icon: Zap, title: "Instant delivery", body: "Codes in seconds, 24/7" },
-  { icon: BadgeCheck, title: "Verified sellers", body: "Every seller is ID-checked" },
-  { icon: Headphones, title: "Real support", body: "WhatsApp & email, every day" },
+  { icon: Send, title: "Telegram login", body: "Same account as the Lucifer bot" },
+  { icon: Wallet, title: "One wallet", body: "Top up with UPI or crypto" },
+  { icon: Zap, title: "1-tap checkout", body: "Pay from your wallet instantly" },
+  { icon: Headphones, title: "Real support", body: "On Telegram, every day" },
 ];
 
 export function Footer() {
@@ -41,12 +49,12 @@ export function Footer() {
       <div className="container-page grid gap-10 py-12 sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
         <div>
           <LogoLockup tone="light" />
-          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-white/55">{site.tagline} Prices in INR, payments via UPI, cards and net-banking.</p>
-          <a className="mt-4 inline-block text-[14px] font-medium text-white/85 hover:text-white" href={`mailto:${site.supportEmail}`}>
-            {site.supportEmail}
+          <p className="mt-4 max-w-sm text-[14px] leading-relaxed text-white/55">Premium AI tools, subscriptions and digital services — powered by the Lucifer bot. Log in with Telegram and pay from one wallet.</p>
+          <a className="mt-4 inline-flex items-center gap-2 text-[14px] font-medium text-white/85 hover:text-white" href={luciferBotUrl} target="_blank" rel="noreferrer">
+            <Send size={15} className="text-[#229ED9]" /> Support on Telegram
           </a>
         </div>
-        <FooterCol title="Categories" links={categories.map((c) => ({ label: c, href: `/market?cat=${encodeURIComponent(c)}#products` }))} />
+        <FooterCol title="Categories" links={categories.map((c) => ({ label: c.name, href: `/market?cat=${c.id}#products` }))} />
         <FooterCol title="Explore" links={[...nav, { label: "Become a seller", href: "/?switch=1&role=reseller" }, { label: "My account", href: "/account" }]} />
         <FooterCol title="Help & legal" links={legal} />
       </div>
