@@ -6,12 +6,12 @@ export const site = {
   name: "Online Sallutions",
   shortName: "OS",
   tagline: "Premium software, subscriptions and game top-ups, activated instantly with a code.",
-  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@softwarehubpool.example",
+  supportEmail: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@onlinesallutions.com",
   whatsapp: process.env.NEXT_PUBLIC_WHATSAPP ?? "918120291167",
   currency: "INR" as const,
   locale: "en-IN" as const,
   /** Public origin, no trailing slash - set NEXT_PUBLIC_SITE_URL in production. */
-  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://softwarehubpool.example").replace(/\/$/, ""),
+  url: (process.env.NEXT_PUBLIC_SITE_URL ?? "https://onlinesallutions.com").replace(/\/$/, ""),
 };
 
 /**

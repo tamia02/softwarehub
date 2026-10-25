@@ -117,7 +117,7 @@ export const products: Product[] = [
     nav: "Methods",
     name: "Methods & Tools",
     dark: true,
-    eyebrow: "root@softwarehub:~$",
+    eyebrow: "root@onlinesallutions:~$",
     headline: "Learn the method, then run the tools — a builder's playbook library.",
     highlight: ["method", "playbook"],
     hand: "// step by step",

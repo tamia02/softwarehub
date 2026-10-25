@@ -69,13 +69,13 @@ export async function seed(db: Db) {
   );
 
   // Users
-  const admin = { id: uuid(), name: "Admin", email: "admin@softwarehubpool.example", role: "admin" };
-  const reseller = { id: uuid(), name: "Demo Reseller", email: "reseller@softwarehubpool.example", phone: "+919800000001", role: "reseller" };
-  const customer = { id: uuid(), name: "Demo Customer", email: "customer@softwarehubpool.example", phone: "+919800000002", role: "customer" };
+  const admin = { id: uuid(), name: "Admin", email: "admin@onlinesallutions.example", role: "admin" };
+  const reseller = { id: uuid(), name: "Demo Reseller", email: "reseller@onlinesallutions.example", phone: "+919800000001", role: "reseller" };
+  const customer = { id: uuid(), name: "Demo Customer", email: "customer@onlinesallutions.example", phone: "+919800000002", role: "customer" };
   const members = Array.from({ length: 12 }).map((_, i) => ({
     id: uuid(),
     name: `Member ${i + 1}`,
-    email: `member${i + 1}@softwarehubpool.example`,
+    email: `member${i + 1}@onlinesallutions.example`,
     role: "customer",
   }));
   await db.insert(schema.users).values([admin, reseller, customer, ...members]);

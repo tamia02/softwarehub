@@ -6,7 +6,7 @@ import { ShieldCheck, Terminal } from "lucide-react";
 import { methods } from "@/data/methods";
 
 const LINES = [
-  "$ ssh guest@softwarehub.lab",
+  "$ ssh guest@onlinesallutions.lab",
   "> access granted — welcome, builder",
   "$ ./load --methods --tools",
   "> decrypting playbooks ... ok",
@@ -49,7 +49,7 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
             <span className="inline-flex items-center gap-1.5 rounded-sm border border-[#233029] bg-[#0e1512] px-2 py-1 text-[#34d399]">
               <Terminal size={13} /> guest@anon
             </span>
-            <span className="tracking-[0.25em] text-[#5f746b]">root@softwarehub:~$</span>
+            <span className="tracking-[0.25em] text-[#5f746b]">root@onlinesallutions:~$</span>
           </div>
           <h1 className="glitch anim-flicker mt-4 font-cyber text-[48px] font-bold uppercase leading-[0.92] tracking-[0.02em] text-[#e7f6ef] text-neon md:text-[78px]" data-text="Methods & Tools.">
             Methods
@@ -71,7 +71,7 @@ export function MethodsHero({ toolCount }: { toolCount: number }) {
             <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
             <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
             <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
-            <span className="ml-3 font-term text-[12px] text-[#7f948b]">bash — softwarehub.lab</span>
+            <span className="ml-3 font-term text-[12px] text-[#7f948b]">bash — onlinesallutions.lab</span>
           </div>
           <div className="min-h-[220px] p-4 font-term text-[13px] leading-[1.7]">
             {shown.map((l, i) => (

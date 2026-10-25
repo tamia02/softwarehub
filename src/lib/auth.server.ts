@@ -191,8 +191,10 @@ export function demoLoginAllowed(): boolean {
  */
 export async function establishDemoSession(role: Role): Promise<User> {
   const db = await getDb();
-  const email = `${role}@softwarehubpool.example`;
+  const email = `${role}@onlinesallutions.example`;
   let [user] = await db.select().from(schema.users).where(eq(schema.users.email, email));
+  // Databases seeded before the rebrand still hold the demo users under the old domain.
+  if (!user) [user] = await db.select().from(schema.users).where(eq(schema.users.email, `${role}@softwarehubpool.example`));
   if (!user) {
     [user] = await db
       .insert(schema.users)

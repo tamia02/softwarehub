@@ -45,7 +45,7 @@ r=$(curl -s -b "$TMP/c" -H "$J" -X POST "$H/api/codes/redeem" -d "{\"bundle_code
 claims=$(curl -s -b "$TMP/c" "$H/account" | grep -oE 'Claim</button>' | wc -l | tr -d ' '); [ "$claims" -ge 30 ] && ok "My Pass shows $claims claimable tools" || bad "claims ($claims)"
 
 echo "5. Pool (escrow) - 5 seats (configured minimum), five members, auto-fulfil"
-role=$(login "$TMP/r" "reseller@softwarehubpool.example"); [ "$role" = "reseller" ] && ok "reseller signed in" || bad "reseller login ($role)"
+role=$(login "$TMP/r" "reseller@onlinesallutions.example"); [ "$role" = "reseller" ] && ok "reseller signed in" || bad "reseller login ($role)"
 p=$(curl -s -b "$TMP/r" -H "$J" -X POST "$H/api/pools" -d '{"tier":"starter","seats":5,"name":"UAT pool","splitMode":"share_equal","asReseller":true}'); pid=$(echo "$p" | json "d['pool']['id']"); [ -n "$pid" ] && ok "reseller pool created ($pid, 5 seats)" || bad "pool create: $p"
 for i in 1 2 3 4 5; do
   login "$TMP/m$i" "member-uat-$i@example.com" >/dev/null
@@ -63,7 +63,7 @@ echo "6. Expiry cron"
 r=$(curl -s -H "Authorization: Bearer ${CRON_SECRET:-}" "$H/api/cron/pools-expire" | json "d['ok']"); [ "$r" = "True" ] && ok "cron endpoint runs (nothing due yet)" || bad "cron ($r)"
 
 echo "7. Admin"
-role=$(login "$TMP/a" "admin@softwarehubpool.example"); [ "$role" = "admin" ] && ok "admin signed in" || bad "admin login ($role)"
+role=$(login "$TMP/a" "admin@onlinesallutions.example"); [ "$role" = "admin" ] && ok "admin signed in" || bad "admin login ($role)"
 n=$(curl -s -b "$TMP/a" -H "$J" -X POST "$H/api/admin/codes/generate" -d '{"kind":"bundle","tier":"pro","count":3,"batch":"uat"}' | json "len(d['codes'])"); [ "$n" = "3" ] && ok "admin generated 3 pro codes" || bad "generate ($n)"
 r=$(curl -s -b "$TMP/c" -H "$J" -X POST "$H/api/admin/codes/generate" -d '{"kind":"bundle","tier":"pro","count":1}' | json "d['error']"); [ -n "$r" ] && ok "customer blocked from admin API" || bad "admin rbac"
 r=$(curl -s -b "$TMP/a" -H "$J" -X PATCH "$H/api/admin/settings" -d '{"settings":{"usdInrRate":85}}' | json "d['settings']['usdInrRate']"); [ "$r" = "85" ] && ok "exchange rate updated to 85" || bad "settings ($r)"

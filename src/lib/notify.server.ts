@@ -20,7 +20,7 @@ export async function sendEmail(to: string, subject: string, html: string, text?
   }
   const { Resend } = await import("resend");
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const from = process.env.EMAIL_FROM ?? `${site.name} <noreply@softwarehubpool.example>`;
+  const from = process.env.EMAIL_FROM ?? `${site.name} <noreply@onlinesallutions.com>`;
   const { error } = await resend.emails.send({ from, to, subject, html, text });
   if (error) {
     console.error("[email] send failed", error);
@@ -112,6 +112,6 @@ export async function notifyPassExpiring(user: { email?: string | null; phone?: 
 }
 
 export async function notifyAdmin(subject: string, body: string) {
-  const to = process.env.ADMIN_EMAIL ?? "admin@softwarehubpool.example";
+  const to = process.env.ADMIN_EMAIL ?? "admin@onlinesallutions.com";
   await sendEmail(to, `[SHP] ${subject}`, wrap(subject, `<p>${body}</p>`), body);
 }

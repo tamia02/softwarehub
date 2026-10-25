@@ -21,7 +21,7 @@ export default function MethodsPage() {
         <div className="container-page flex h-9 items-center justify-between font-term text-[12px] text-[#5f746b]">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#34d399] shadow-[0_0_8px_#34d399]" />
-            <span className="text-[#34d399]">softwarehub.lab</span>
+            <span className="text-[#34d399]">onlinesallutions.lab</span>
             <span className="hidden sm:inline">— secure shell // 100% client-side</span>
           </div>
           <Link href="/market" className="group inline-flex items-center gap-2 transition-colors hover:text-[#34d399]">
@@ -39,7 +39,7 @@ export default function MethodsPage() {
       {/* terminal footer — minimal, anonymous */}
       <footer className="relative z-10 border-t border-[#132019] bg-[#070a09]/85 py-7">
         <div className="container-page flex flex-col items-center gap-2 text-center font-term text-[11px] text-[#5f746b]">
-          <pre className="text-[#233029] leading-[1.15]">{`  ┌─[ softwarehub.lab ]─[ ~/methods ]
+          <pre className="text-[#233029] leading-[1.15]">{`  ┌─[ onlinesallutions.lab ]─[ ~/methods ]
   └──$ _`}</pre>
           <p>{"// no logins · no tracking · nothing ever leaves this tab"}</p>
           <Link href="/market" className="text-[#7f948b] transition-colors hover:text-[#34d399]">$ cd /marketplace</Link>
