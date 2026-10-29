@@ -1,10 +1,9 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { cookieNames } from "@/config/site";
 import { SESSION_COOKIE, verifySession } from "@/lib/session-edge";
 
 /**
  * RBAC at the edge (§11 security):
- *  - "/"            → if a role is remembered (and not ?switch), skip the gate
+ *  - "/"            → straight to the storefront (gate only for ?role=reseller)
  *  - "/account/*"   → any signed-in user
  *  - "/reseller/*"  → reseller or admin session
  *  - "/admin/*"     → admin session
@@ -27,15 +26,11 @@ function redirect(req: NextRequest, to: string) {
 
 export async function middleware(req: NextRequest) {
   const { pathname, searchParams } = req.nextUrl;
-  const roleCookie = req.cookies.get(cookieNames.role)?.value;
 
   if (pathname === "/") {
-    // Customers never see a gate: the storefront is open. The code gate is only
-    // for sellers ("Sell with us" → /?switch=1&role=reseller).
+    // Everyone lands straight on the storefront. The code screen is only shown
+    // to new resellers activating a code (/?role=reseller from the reseller login).
     if (searchParams.get("role") === "reseller") return NextResponse.next();
-    if (!searchParams.has("switch") && (roleCookie === "reseller" || roleCookie === "admin")) {
-      return redirect(req, roleCookie === "reseller" ? "/reseller" : "/admin");
-    }
     return redirect(req, "/market");
   }
 
@@ -48,7 +43,7 @@ export async function middleware(req: NextRequest) {
   } else if (pathname.startsWith("/reseller")) {
     if (!session) {
       // Came through the reseller gate but not signed in yet → OTP, then back here.
-      return login(pathname);
+      return redirect(req, `/login?as=reseller&next=${encodeURIComponent(pathname)}`);
     }
     if (session.role !== "reseller" && session.role !== "admin") return redirect(req, "/?switch=1&role=reseller");
   } else if (pathname.startsWith("/account")) {

@@ -1,4 +1,6 @@
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { KeyRound, ShoppingBag, Store } from "lucide-react";
 import { OtpForm } from "@/components/auth/OtpForm";
 import { DemoLogin } from "@/components/auth/DemoLogin";
 import { TelegramLogin } from "@/components/auth/TelegramLogin";
@@ -6,6 +8,7 @@ import { Logo } from "@/components/brand/Logo";
 import { demoLoginAllowed, getSessionUser } from "@/lib/auth.server";
 import { googleConfigured } from "@/lib/google-auth.server";
 import { luciferBotUsername } from "@/lib/lucifer.server";
+import { cn } from "@/lib/utils";
 
 export const metadata = { title: "Sign in" };
 export const dynamic = "force-dynamic";
@@ -27,20 +30,51 @@ function Divider({ label }: { label: string }) {
   );
 }
 
-export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; identifier?: string; error?: string }> }) {
-  const { next, identifier, error } = await searchParams;
+export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; identifier?: string; error?: string; as?: string }> }) {
+  const { next, identifier, error, as } = await searchParams;
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : undefined;
+  const reseller = as === "reseller" || (!as && !!safeNext?.startsWith("/reseller"));
+  // Resellers land on their dashboard; customers on their account (or wherever they came from).
+  const target = reseller ? (safeNext?.startsWith("/reseller") ? safeNext : "/reseller") : safeNext;
   const user = await getSessionUser();
-  if (user) redirect(safeNext ?? (user.role === "admin" ? "/admin" : user.role === "reseller" ? "/reseller" : "/account"));
+  if (user) redirect(target ?? (user.role === "admin" ? "/admin" : user.role === "reseller" ? "/reseller" : "/account"));
   const demo = demoLoginAllowed();
   const google = googleConfigured();
+  const tabHref = (role: "customer" | "reseller") => `/login?as=${role}${safeNext && !safeNext.startsWith("/reseller") ? `&next=${encodeURIComponent(safeNext)}` : ""}`;
 
   return (
     <div className="container-page flex min-h-[70vh] items-start justify-center py-6 sm:items-center sm:py-12">
       <div className="card w-full min-w-0 max-w-md p-5 sm:p-8">
         <Logo size={40} />
-        <h1 className="mt-4 text-[24px] font-black leading-tight sm:text-[26px]">Sign in or create an account</h1>
-        <p className="mt-1 text-[14px] text-ink-muted">One account for the website and the Lucifer bot — your wallet and orders follow you.</p>
+
+        <nav aria-label="Login type" className="mt-5 grid grid-cols-2 gap-1 rounded-[10px] bg-bg p-1">
+          {([
+            { role: "customer", label: "Customer login", icon: ShoppingBag },
+            { role: "reseller", label: "Reseller login", icon: Store },
+          ] as const).map((t) => {
+            const active = (t.role === "reseller") === reseller;
+            return (
+              <Link
+                key={t.role}
+                href={tabHref(t.role)}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "flex h-10 items-center justify-center gap-2 rounded-[8px] text-[13.5px] font-semibold transition-colors",
+                  active ? "bg-bg-card text-ink shadow-[var(--shadow-card)]" : "text-ink-muted hover:text-ink",
+                )}
+              >
+                <t.icon size={15} /> {t.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <h1 className="mt-5 text-[24px] font-black leading-tight sm:text-[26px]">{reseller ? "Reseller sign in" : "Sign in or create an account"}</h1>
+        <p className="mt-1 text-[14px] text-ink-muted">
+          {reseller
+            ? "Manage your products, codes, API and payouts from the seller dashboard."
+            : "One account for the website and the Lucifer bot — your wallet and orders follow you."}
+        </p>
 
         {error && (
           <p role="alert" className="mt-4 rounded-[8px] bg-rose-50 px-3 py-2 text-[13px] text-rose-700">
@@ -51,29 +85,44 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
         <div className="mt-6 flex flex-col gap-3">
           {google && (
             <a
-              href={`/api/auth/google${safeNext ? `?next=${encodeURIComponent(safeNext)}` : ""}`}
+              href={`/api/auth/google${target ? `?next=${encodeURIComponent(target)}` : ""}`}
               className="flex h-12 w-full items-center justify-center gap-3 rounded-[10px] border border-line-strong bg-bg-card text-[15px] font-semibold text-ink transition-colors hover:bg-bg"
             >
               <GoogleMark /> Continue with Google
             </a>
           )}
 
-          <div className="rounded-[12px] border border-line bg-bg p-4">
-            <p className="mb-3 text-center text-[13px] font-semibold text-ink">Log in with Telegram</p>
-            <TelegramLogin botUsername={luciferBotUsername} next={safeNext} />
-            <p className="mt-3 text-center text-[12px] text-ink-faint">Wallet, top-ups and orders are shared with @{luciferBotUsername}.</p>
-          </div>
+          {!reseller && (
+            <div className="rounded-[12px] border border-line bg-bg p-4">
+              <p className="mb-3 text-center text-[13px] font-semibold text-ink">Log in with Telegram</p>
+              <TelegramLogin botUsername={luciferBotUsername} next={safeNext} />
+              <p className="mt-3 text-center text-[12px] text-ink-faint">Wallet, top-ups and orders are shared with @{luciferBotUsername}.</p>
+            </div>
+          )}
         </div>
 
         {demo && (
           <>
             <Divider label="or try the demo" />
-            <DemoLogin next={safeNext} />
+            <DemoLogin next={target} />
           </>
         )}
 
         <Divider label="or get a code by email" />
-        <OtpForm next={safeNext} initialIdentifier={identifier?.slice(0, 120) ?? ""} />
+        <OtpForm next={target} initialIdentifier={identifier?.slice(0, 120) ?? ""} />
+
+        {reseller && (
+          <Link
+            href="/?role=reseller"
+            className="mt-5 flex items-center gap-3 rounded-[12px] border border-dashed border-line-strong p-4 text-[13px] text-ink-muted transition-colors hover:border-accent hover:text-ink"
+          >
+            <KeyRound size={18} className="shrink-0 text-accent-2" />
+            <span>
+              <span className="block font-semibold text-ink">New reseller?</span>
+              Activate your reseller code to open a seller account.
+            </span>
+          </Link>
+        )}
       </div>
     </div>
   );

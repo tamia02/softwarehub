@@ -25,10 +25,28 @@ const steps = [
   { icon: Zap, title: "Order & get delivery", body: "Pay from your wallet in one click. Delivery comes to you on Telegram." },
 ];
 
+/** "Notion Plus 1 Month (FW)" → "Notion": the app name before plan / duration details. */
+function appName(name: string) {
+  return name.split(/\s+(?:\d|[-–|(]|(?:plus|pro|premium|business|team|individual|family|basic|standard|ultra|max|advanced|edu|student|lifetime|monthly|yearly|annual|account|subscription|nw|fw)\b)/i)[0].trim() || name;
+}
+
 export default async function MarketPage({ searchParams }: { searchParams: Promise<{ q?: string; cat?: string }> }) {
   const [{ products, error }, { q = "", cat = "all" }] = await Promise.all([getLuciferCatalogSafe(), searchParams]);
   const inStock = products.filter((p) => p.stock === null || p.stock > 0);
-  const trending = [...inStock.filter((p) => p.logoSlug && p.section === "ai"), ...inStock.filter((p) => p.logoSlug && p.section !== "ai")].slice(0, 6);
+  // One row per app (Notion, Canva, …), not one per plan: keep the cheapest plan and count the rest.
+  const byApp = new Map<string, { product: (typeof inStock)[number]; plans: number }>();
+  // Branded apps first (they have a real logo), AI before other sections.
+  const rank = (p: (typeof inStock)[number]) => (p.logoSlug ? 0 : 2) + (p.section === "ai" ? 0 : 1);
+  for (const p of [...inStock].sort((x, y) => rank(x) - rank(y))) {
+    const key = p.logoSlug ?? appName(p.name).toLowerCase();
+    const seen = byApp.get(key);
+    if (!seen) byApp.set(key, { product: p, plans: 1 });
+    else {
+      seen.plans++;
+      if (p.pricePaise < seen.product.pricePaise) seen.product = p;
+    }
+  }
+  const trending = [...byApp.values()].slice(0, 6);
   const counts = new Map<string, number>();
   for (const p of products) counts.set(p.section, (counts.get(p.section) ?? 0) + 1);
   const sections = SECTIONS.map((s) => ({ id: s.id, name: s.name }));
@@ -86,16 +104,19 @@ export default async function MarketPage({ searchParams }: { searchParams: Promi
             </div>
             {trending.length ? (
               <ul className="mt-3 flex flex-1 flex-col gap-1">
-                {trending.map((p, i) => (
+                {trending.map(({ product: p, plans }, i) => (
                   <li key={p.ref}>
-                    <Link href={`/market/${p.ref}`} className="flex items-center gap-3 rounded-[10px] p-2 transition-colors hover:bg-bg">
+                    <Link href={plans > 1 ? `/market?q=${encodeURIComponent(appName(p.name))}#products` : `/market/${p.ref}`} className="flex items-center gap-3 rounded-[10px] p-2 transition-colors hover:bg-bg">
                       <span className="w-4 text-center font-display text-[13px] font-bold text-ink-faint">{i + 1}</span>
                       <ToolLogo slug={`lucifer-${p.ref}`} name={p.name} logoUrl={p.logoUrl} size={38} />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-[13.5px] font-semibold text-ink">{p.name}</span>
-                        <span className="block truncate text-[12px] text-ink-faint">{p.sectionName}</span>
+                        <span className="block truncate text-[13.5px] font-semibold text-ink">{appName(p.name)}</span>
+                        <span className="block truncate text-[12px] text-ink-faint">{plans > 1 ? `${plans} plans` : p.sectionName}</span>
                       </span>
-                      <span className="font-display text-[14px] font-bold text-ink">{formatINRPrecise(p.pricePaise)}</span>
+                      <span className="text-right">
+                        {plans > 1 && <span className="block text-[10.5px] leading-none text-ink-faint">from</span>}
+                        <span className="font-display text-[14px] font-bold text-ink">{formatINRPrecise(p.pricePaise)}</span>
+                      </span>
                     </Link>
                   </li>
                 ))}

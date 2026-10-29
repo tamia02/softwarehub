@@ -43,10 +43,10 @@ export function Header() {
   }, [open]);
 
   const role = me.role;
-  const sellHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/?switch=1&role=reseller";
-  const sellLabel = role === "reseller" ? "Seller dashboard" : role === "admin" ? "Admin" : "Sell with us";
+  const sellHref = role === "reseller" ? "/reseller" : role === "admin" ? "/admin" : "/login?as=reseller";
+  const sellLabel = role === "reseller" ? "Seller dashboard" : role === "admin" ? "Admin" : "Reseller login";
   const accountHref = me.signedIn ? "/account" : "/login";
-  const accountLabel = me.signedIn ? "My account" : "Sign in";
+  const accountLabel = me.signedIn ? "My account" : "Customer login";
 
   return (
     <>

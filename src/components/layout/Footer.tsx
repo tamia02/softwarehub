@@ -55,7 +55,7 @@ export function Footer() {
           </a>
         </div>
         <FooterCol title="Categories" links={categories.map((c) => ({ label: c.name, href: `/market?cat=${c.id}#products` }))} />
-        <FooterCol title="Explore" links={[...nav, { label: "Become a seller", href: "/?switch=1&role=reseller" }, { label: "My account", href: "/account" }]} />
+        <FooterCol title="Explore" links={[...nav, { label: "Become a seller", href: "/login?as=reseller" }, { label: "My account", href: "/account" }]} />
         <FooterCol title="Help & legal" links={legal} />
       </div>
 
