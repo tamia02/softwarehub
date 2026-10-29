@@ -16,7 +16,7 @@ export default async function ResellerProductsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">My products</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-3">
         <StatCard label="Live products" value={String(products.filter((p) => p.active).length)} sub={`${products.length} total`} />
         <StatCard label="In escrow (held)" value={formatINR(sales.held)} sub={`${sales.orders} orders`} />
         <StatCard label="Earned (released)" value={formatINR(sales.earned)} accent />

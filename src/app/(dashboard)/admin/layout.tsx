@@ -18,7 +18,7 @@ const nav = [
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const user = await requireUser("admin", "/admin");
   return (
-    <DashboardShell nav={nav} title="Admin" topRight={<p className="text-xs text-ink-faint">{user.email}</p>}>
+    <DashboardShell nav={nav} title="Admin" topRight={<p className="max-w-[45vw] truncate text-xs text-ink-faint md:max-w-none">{user.email}</p>}>
       {children}
     </DashboardShell>
   );

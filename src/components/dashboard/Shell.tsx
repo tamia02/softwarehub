@@ -25,9 +25,9 @@ export function DashboardShell({
       </aside>
       <div className="flex min-w-0 flex-1 flex-col">
         <header className="sticky top-0 z-30 flex h-16 items-center justify-between gap-4 border-b border-line bg-bg-card/80 px-4 backdrop-blur md:px-8">
-          <div className="md:hidden"><LogoLockup /></div>
+          <Link href="/market" className="shrink-0 md:hidden"><LogoLockup /></Link>
           <div className="hidden md:block" />
-          <div className="flex items-center gap-3">{topRight}</div>
+          <div className="flex min-w-0 items-center gap-2 sm:gap-3">{topRight}</div>
         </header>
         <nav className="flex gap-1 overflow-x-auto border-b border-line bg-bg-card px-3 py-2 md:hidden">
           <SidebarNav items={nav} horizontal />
@@ -40,9 +40,9 @@ export function DashboardShell({
 
 export function StatCard({ label, value, sub, accent }: { label: string; value: string; sub?: string; accent?: boolean }) {
   return (
-    <div className={`rounded-[20px] border p-5 ${accent ? "border-primary/30 bg-primary text-on-primary" : "border-line bg-bg-card"}`}>
+    <div className={`min-w-0 rounded-[20px] border p-4 sm:p-5 ${accent ? "border-primary/30 bg-primary text-on-primary" : "border-line bg-bg-card"}`}>
       <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-on-primary/80" : "text-ink-faint"}`}>{label}</p>
-      <p className="mt-2 font-display text-[28px] font-black leading-none tabular-nums">{value}</p>
+      <p className="mt-2 truncate font-display text-[22px] font-black leading-none tabular-nums sm:text-[28px]">{value}</p>
       {sub && <p className={`mt-1.5 text-xs ${accent ? "text-on-primary/80" : "text-ink-muted"}`}>{sub}</p>}
     </div>
   );
@@ -62,10 +62,18 @@ export function Panel({ title, action, children, className }: { title?: string; 
   );
 }
 
+/** On phones each row becomes a card; the per-table rule below labels every cell with its column name (see .rtable in globals.css). */
 export function Table({ head, children }: { head: string[]; children: React.ReactNode }) {
+  let h = 0;
+  for (const c of head.join("|")) h = (h * 31 + c.charCodeAt(0)) | 0;
+  const cls = `rt-${(h >>> 0).toString(36)}`;
+  const labels = head
+    .map((label, i) => (label ? `.${cls} td:nth-child(${i + 1}):not([colspan])::before{content:${JSON.stringify(label)}}` : ""))
+    .join("");
   return (
     <div className="-mx-5 -my-5 overflow-x-auto">
-      <table className="w-full text-left text-sm">
+      <style>{`@media (max-width:767px){${labels}}`}</style>
+      <table className={`rtable ${cls} w-full text-left text-sm`}>
         <thead className="bg-bg-soft text-[11px] uppercase tracking-wider text-ink-faint">
           <tr>{head.map((h) => <th key={h} className="whitespace-nowrap px-4 py-2.5 font-bold">{h}</th>)}</tr>
         </thead>

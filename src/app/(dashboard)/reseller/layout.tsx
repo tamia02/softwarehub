@@ -20,11 +20,11 @@ export default async function ResellerLayout({ children }: { children: React.Rea
       title="Reseller"
       topRight={
         <>
-          <div className="text-right">
-            <p className="text-xs text-ink-faint">{user.name ?? user.email ?? user.phone}</p>
-            <p className="text-sm font-bold tabular-nums">Balance {formatINR(rev.availablePaise)}</p>
+          <div className="min-w-0 text-right">
+            <p className="hidden truncate text-xs text-ink-faint sm:block">{user.name ?? user.email ?? user.phone}</p>
+            <p className="whitespace-nowrap text-sm font-bold tabular-nums"><span className="hidden sm:inline">Balance </span>{formatINR(rev.availablePaise)}</p>
           </div>
-          <Button href="/reseller/products" size="sm">Add product</Button>
+          <Button href="/reseller/products" size="sm" className="shrink-0 px-3"><span className="sm:hidden">+ Add</span><span className="hidden sm:inline">Add product</span></Button>
         </>
       }
     >

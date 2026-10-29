@@ -55,7 +55,7 @@ export function Footer() {
           </a>
         </div>
         <FooterCol title="Categories" links={categories.map((c) => ({ label: c.name, href: `/market?cat=${c.id}#products` }))} />
-        <FooterCol title="Explore" links={[...nav, { label: "Become a seller", href: "/login?as=reseller" }, { label: "My account", href: "/account" }]} />
+        <FooterCol title="Explore" links={[...nav, { label: "Customer login", href: "/login" }, { label: "Reseller login", href: "/login?as=reseller" }]} />
         <FooterCol title="Help & legal" links={legal} />
       </div>
 
@@ -64,7 +64,6 @@ export function Footer() {
           <span>© {new Date().getFullYear()} {site.name}. All rights reserved.</span>
           <span className="flex flex-wrap items-center gap-x-4 gap-y-1">
             <span>Tool names and logos belong to their respective owners.</span>
-            <a href="/api/gate/switch" className="hover:text-white/70">Switch role</a>
           </span>
         </div>
       </div>

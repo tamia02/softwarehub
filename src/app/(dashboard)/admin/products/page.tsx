@@ -14,7 +14,7 @@ export default async function AdminProductsPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Products & marketplace</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Products" value={String(ov.products)} sub={`${ov.live} live`} />
         <StatCard label="Orders" value={String(ov.orders)} sub={`${formatINR(ov.gmvPaise)} GMV`} />
         <StatCard label="In escrow" value={formatINR(ov.heldPaise)} />

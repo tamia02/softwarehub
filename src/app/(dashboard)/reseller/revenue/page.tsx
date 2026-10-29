@@ -19,7 +19,7 @@ export default async function ResellerRevenuePage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Revenue & payouts</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4">
         <StatCard label="Earned" value={formatINR(rev.earnedPaise)} sub="your share of fulfilled pools" />
         <StatCard label="Paid out" value={formatINR(rev.paidOutPaise)} />
         <StatCard label="Pending" value={formatINR(rev.pendingPayoutPaise)} />

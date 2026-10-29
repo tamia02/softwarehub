@@ -53,7 +53,7 @@ export default async function BotPage() {
         </span>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Products" value={String(prods.length)} accent />
         <StatCard label="Resellers" value={String(resl.length)} />
         <StatCard label="Links in stock" value={String(unused)} sub={`${links.length} total`} />

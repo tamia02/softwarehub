@@ -10,7 +10,7 @@ export default async function AdminPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-2xl font-black">Overview</h1>
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Revenue this month" value={formatINR(o.revenueMonthPaise)} sub={`${o.ordersMonth} paid orders`} accent />
         <StatCard label="Platform inventory" value={`${o.inventory.starter} / ${o.inventory.pro}`} sub="starter / pro codes unassigned" />
         <StatCard label="Pools" value={`${o.openPools} open`} sub={`${o.fulfilledPools} fulfilled`} />
