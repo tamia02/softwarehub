@@ -9,6 +9,7 @@
  *    AES-GCM encrypted copy until they are delivered to the buyer, then it is wiped.
  */
 import { boolean, index, integer, jsonb, pgTable, text, timestamp, uniqueIndex } from "drizzle-orm/pg-core";
+import type { Method } from "@/data/methods";
 
 const ts = (name: string) => timestamp(name, { withTimezone: true, mode: "date" });
 
@@ -491,6 +492,12 @@ export const apiKeys = pgTable(
   },
   (t) => [uniqueIndex("api_keys_hash_idx").on(t.keyHash), index("api_keys_user_idx").on(t.userId)],
 );
+
+export const methodPlaybooks = pgTable("method_playbooks", {
+  slug: text("slug").primaryKey(),
+  content: jsonb("content").$type<Omit<Method, "slug">>().notNull(),
+  createdAt: ts("created_at").notNull().defaultNow(),
+});
 
 export type User = typeof users.$inferSelect;
 export type Reseller = typeof resellers.$inferSelect;

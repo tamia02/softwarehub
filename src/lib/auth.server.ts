@@ -1,4 +1,5 @@
 import "server-only";
+import { createHash } from "node:crypto";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -6,7 +7,7 @@ import { getDb, schema } from "@/db";
 import { cookieNames, type Role } from "@/config/site";
 import { audit } from "./audit.server";
 import { bindResellerGateCode } from "./codes.server";
-import { randomDigits, safeEqualHex, sha256Salted } from "./crypto.server";
+import { authSecret, hmacSha256Hex, randomDigits, safeEqualHex, sha256Salted } from "./crypto.server";
 import { uuid } from "./ids";
 import { notifyOtp, emailConfigured, smsConfigured } from "./notify.server";
 import { rateLimit } from "./rate-limit.server";
@@ -33,10 +34,32 @@ export function normalizeIdentifier(raw: string): { channel: "email" | "sms"; id
    ------------------------------------------------------------------ */
 
 const OTP_TTL_MS = 10 * 60 * 1000;
+const demoAdminEmails = new Set(["admin@onlinesallutions.example", "admin@softwarehubpool.example"]);
+
+function adminAccessHash() {
+  const hash = process.env.ADMIN_ACCESS_KEY_HASH;
+  return hash && /^[a-f0-9]{64}$/i.test(hash) ? hash : null;
+}
+
+export function adminAccessConfigured() {
+  return adminAccessHash() !== null;
+}
+
+function adminAccessProof(hash: string) {
+  return hmacSha256Hex(authSecret(), `admin-access:${hash}`);
+}
+
+function otpDeliveryConfigured(channel: "email" | "sms") {
+  return channel === "email" ? emailConfigured() : smsConfigured();
+}
 
 export async function requestOtp(raw: string, ip: string) {
   const id = normalizeIdentifier(raw);
   if (!id) return { ok: false as const, error: "Enter a valid email address or 10-digit Indian mobile number." };
+  const providerConfigured = otpDeliveryConfigured(id.channel);
+  if (process.env.NODE_ENV === "production" && !providerConfigured) {
+    return { ok: false as const, error: "Login codes are unavailable for this method. Sign in with Google or Telegram." };
+  }
 
   const rl = rateLimit(`otp:${ip}:${id.identifier}`, 5, OTP_TTL_MS);
   if (!rl.allowed) return { ok: false as const, error: `Too many codes requested. Try again in ${Math.ceil(rl.retryAfterSec / 60)} min.` };
@@ -52,14 +75,16 @@ export async function requestOtp(raw: string, ip: string) {
   });
   await notifyOtp(id.channel, id.identifier, code);
 
-  const providerMissing = id.channel === "email" ? !emailConfigured() : !smsConfigured();
-  const devCode = providerMissing && (process.env.NODE_ENV !== "production" || process.env.ALLOW_DEV_OTP === "true") ? code : undefined;
+  const devCode = providerConfigured ? undefined : code;
   return { ok: true as const, channel: id.channel, identifier: id.identifier, devCode };
 }
 
 export async function verifyOtp(raw: string, code: string): Promise<{ ok: true; user: User } | { ok: false; error: string }> {
   const id = normalizeIdentifier(raw);
   if (!id) return { ok: false, error: "Invalid identifier." };
+  if (process.env.NODE_ENV === "production" && !otpDeliveryConfigured(id.channel)) {
+    return { ok: false, error: "Login codes are unavailable for this method. Sign in with Google or Telegram." };
+  }
   const db = await getDb();
   const [otp] = await db
     .select()
@@ -150,6 +175,10 @@ export async function getSessionUser(): Promise<User | null> {
   if (!claims) return null;
   const db = await getDb();
   const [user] = await db.select().from(schema.users).where(eq(schema.users.id, claims.sub));
+  if (process.env.NODE_ENV === "production" && user?.role === "admin" && user.email && demoAdminEmails.has(user.email)) {
+    const hash = adminAccessHash();
+    if (!hash || claims.adminAccess !== adminAccessProof(hash)) return null;
+  }
   return user ?? null;
 }
 
@@ -181,15 +210,19 @@ export async function requireApiUser(role?: Role | Role[]): Promise<User | null>
 
 /** True when password-free demo sign-in is allowed (never in a real prod build). */
 export function demoLoginAllowed(): boolean {
-  return process.env.NODE_ENV !== "production" || process.env.ALLOW_DEV_OTP === "true";
+  return process.env.NODE_ENV !== "production";
 }
 
 /**
  * Signs in as one of the seeded demo users (customer / reseller / admin)
  * without an OTP. Creates the row if the demo DB was reset without a seed.
- * Only callable when `demoLoginAllowed()`.
+ * In production the existing admin requires the private access key.
  */
-export async function establishDemoSession(role: Role): Promise<User> {
+export async function establishDemoSession(role: Role, adminKey?: string): Promise<User | null> {
+  const hash = role === "admin" && adminKey ? adminAccessHash() : null;
+  const adminAccess = hash && adminKey && safeEqualHex(hash, createHash("sha256").update(adminKey).digest("hex"))
+    ? adminAccessProof(hash) : undefined;
+  if (!demoLoginAllowed() && !adminAccess) return null;
   const db = await getDb();
   const email = `${role}@onlinesallutions.example`;
   let [user] = await db.select().from(schema.users).where(eq(schema.users.email, email));
@@ -202,7 +235,7 @@ export async function establishDemoSession(role: Role): Promise<User> {
       .returning();
     await audit({ actorId: user.id, entity: "user", entityId: user.id, to: `demo-${role}` }, db);
   }
-  const token = await signSession({ sub: user.id, role: user.role as Role, name: user.name });
+  const token = await signSession({ sub: user.id, role: user.role as Role, name: user.name, adminAccess });
   const jar = await cookies();
   jar.set(SESSION_COOKIE, token, cookieOpts());
   jar.set(cookieNames.role, user.role, cookieOpts());

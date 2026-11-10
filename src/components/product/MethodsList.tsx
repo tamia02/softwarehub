@@ -1,5 +1,5 @@
 import { ChevronDown, Clock } from "lucide-react";
-import { methods } from "@/data/methods";
+import type { Method } from "@/data/methods";
 import { cn } from "@/lib/utils";
 
 const tierTone: Record<string, string> = {
@@ -15,7 +15,7 @@ const categoryTone: Record<string, string> = {
 };
 
 /** Step-by-step playbooks, as expandable cards. */
-export function MethodsList() {
+export function MethodsList({ methods }: { methods: Method[] }) {
   return (
     <section id="playbooks" className="container-page scroll-mt-32 pt-10">
       <div className="mb-4">

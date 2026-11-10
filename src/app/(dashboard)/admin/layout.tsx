@@ -7,6 +7,7 @@ const nav = [
   { href: "/admin/orders", label: "Orders" },
   { href: "/admin/products", label: "Products" },
   { href: "/admin/tools", label: "Tools" },
+  { href: "/admin/methods", label: "Methods" },
   { href: "/admin/vendors", label: "Vendors" },
   { href: "/admin/payouts", label: "Resellers & payouts" },
   { href: "/admin/bot", label: "WhatsApp Bot" },

@@ -2,10 +2,11 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { KeyRound, ShoppingBag, Store } from "lucide-react";
 import { OtpForm } from "@/components/auth/OtpForm";
+import { AdminAccessForm } from "@/components/auth/AdminAccessForm";
 import { DemoLogin } from "@/components/auth/DemoLogin";
 import { TelegramLogin } from "@/components/auth/TelegramLogin";
 import { Logo } from "@/components/brand/Logo";
-import { demoLoginAllowed, getSessionUser } from "@/lib/auth.server";
+import { adminAccessConfigured, demoLoginAllowed, getSessionUser } from "@/lib/auth.server";
 import { googleConfigured } from "@/lib/google-auth.server";
 import { luciferBotUsername } from "@/lib/lucifer.server";
 import { cn } from "@/lib/utils";
@@ -33,10 +34,24 @@ function Divider({ label }: { label: string }) {
 export default async function LoginPage({ searchParams }: { searchParams: Promise<{ next?: string; identifier?: string; error?: string; as?: string }> }) {
   const { next, identifier, error, as } = await searchParams;
   const safeNext = next && next.startsWith("/") && !next.startsWith("//") ? next : undefined;
+  const adminNext = safeNext && /^\/admin(?:\/|$)/.test(safeNext) ? safeNext : undefined;
   const reseller = as === "reseller" || (!as && !!safeNext?.startsWith("/reseller"));
   // Resellers land on their dashboard; customers on their account (or wherever they came from).
   const target = reseller ? (safeNext?.startsWith("/reseller") ? safeNext : "/reseller") : safeNext;
   const user = await getSessionUser();
+  if ((as === "admin" || adminNext) && adminAccessConfigured()) {
+    if (user?.role === "admin") redirect(adminNext ?? "/admin");
+    return (
+      <div className="container-page flex justify-center py-10">
+        <div className="card w-full max-w-md p-5 sm:p-8">
+          <Logo size={40} />
+          <h1 className="mt-5 text-2xl font-black">Admin sign in</h1>
+          <AdminAccessForm next={adminNext ?? "/admin"} />
+          <Link href="/login" className="mt-4 inline-block text-sm font-semibold text-accent-2">Other sign-in options</Link>
+        </div>
+      </div>
+    );
+  }
   if (user) redirect(target ?? (user.role === "admin" ? "/admin" : user.role === "reseller" ? "/reseller" : "/account"));
   const demo = demoLoginAllowed();
   const google = googleConfigured();

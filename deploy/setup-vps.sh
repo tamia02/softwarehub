@@ -65,9 +65,8 @@ CODE_ENCRYPTION_KEY=$(openssl rand -hex 32)
 AUTH_SECRET=$(openssl rand -hex 32)
 CRON_SECRET=$(openssl rand -hex 32)
 
-# Demo switches: remove both once Razorpay and email/SMS keys are filled in.
+# Demo payments: remove once Razorpay keys are filled in.
 ALLOW_MOCK_GATEWAY=true
-ALLOW_DEV_OTP=true
 
 # RAZORPAY_KEY_ID=
 # RAZORPAY_KEY_SECRET=

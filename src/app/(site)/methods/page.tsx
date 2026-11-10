@@ -3,7 +3,8 @@ import { MethodsList } from "@/components/product/MethodsList";
 import { MethodsTools } from "@/components/product/MethodsTools";
 import { methodTools } from "@/data/methodTools";
 import { Button } from "@/components/ui/Button";
-import { methods } from "@/data/methods";
+import { getSessionUser } from "@/lib/auth.server";
+import { listMethods } from "@/lib/methods.server";
 
 const TOOL_COUNT = methodTools.length;
 
@@ -15,7 +16,8 @@ const points = [
   { icon: Lock, title: "Private by design", body: "Tools work on your device. Nothing you paste is sent anywhere." },
 ];
 
-export default function MethodsPage() {
+export default async function MethodsPage() {
+  const [methods, user] = await Promise.all([listMethods(), getSessionUser()]);
   return (
     <div className="pb-6">
       {/* Hero */}
@@ -91,7 +93,13 @@ export default function MethodsPage() {
         </ul>
       </section>
 
-      <MethodsList />
+      {user?.role === "admin" && (
+        <div className="container-page flex flex-wrap items-center gap-3 pt-6">
+          <Button href="/admin/methods#add-method" size="sm">Add method</Button>
+          <Button href="/admin/methods" variant="secondary" size="sm">Manage methods</Button>
+        </div>
+      )}
+      <MethodsList methods={methods} />
       <MethodsTools />
     </div>
   );

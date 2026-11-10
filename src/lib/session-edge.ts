@@ -12,6 +12,7 @@ export interface SessionClaims {
   sub: string;
   role: Role;
   name?: string | null;
+  adminAccess?: string;
 }
 
 function key() {
@@ -21,7 +22,7 @@ function key() {
 }
 
 export async function signSession(claims: SessionClaims): Promise<string> {
-  return new SignJWT({ role: claims.role, name: claims.name ?? undefined })
+  return new SignJWT({ role: claims.role, name: claims.name ?? undefined, adminAccess: claims.adminAccess })
     .setProtectedHeader({ alg: "HS256" })
     .setSubject(claims.sub)
     .setIssuedAt()
@@ -35,7 +36,12 @@ export async function verifySession(token: string | undefined): Promise<SessionC
     const { payload } = await jwtVerify(token, key());
     const role = payload.role;
     if (!payload.sub || (role !== "customer" && role !== "reseller" && role !== "admin")) return null;
-    return { sub: payload.sub, role, name: (payload.name as string | undefined) ?? null };
+    return {
+      sub: payload.sub,
+      role,
+      name: (payload.name as string | undefined) ?? null,
+      adminAccess: typeof payload.adminAccess === "string" ? payload.adminAccess : undefined,
+    };
   } catch {
     return null;
   }

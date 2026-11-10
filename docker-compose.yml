@@ -38,10 +38,10 @@ services:
       CODE_HASH_SALT: "${CODE_HASH_SALT}"
       CODE_ENCRYPTION_KEY: "${CODE_ENCRYPTION_KEY}"
       AUTH_SECRET: "${AUTH_SECRET}"
+      ADMIN_ACCESS_KEY_HASH: "${ADMIN_ACCESS_KEY_HASH:-}"
       CRON_SECRET: "${CRON_SECRET}"
-      # Demo mode — remove both when you add Razorpay + email/SMS keys.
+      # Demo payment mode — remove when you add Razorpay keys.
       ALLOW_MOCK_GATEWAY: "true"
-      ALLOW_DEV_OTP: "true"
       # WhatsApp/vending bot (vending-deep-agent) — server-side only, never exposed
       # to the browser. Reached over the vending-bot_default Docker network.
       VENDING_API_URL: "${VENDING_API_URL:-http://vending-deep-agent:5000}"

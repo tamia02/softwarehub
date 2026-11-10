@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { ArrowRight, RefreshCw, Terminal, TrendingUp, Wallet, Zap } from "lucide-react";
 import { smmPlatforms, smmStats } from "@/data/smm";
-import { methods } from "@/data/methods";
+import { methods as defaultMethods } from "@/data/methods";
+import { listMethods } from "@/lib/methods.server";
 
 const growPoints = [
   { icon: RefreshCw, text: "Non-drop growth with auto-refill" },
@@ -13,7 +14,8 @@ const growPoints = [
  * Home showcase for the two non-marketplace sections: Grow (SMM panel) and
  * Methods (playbooks + browser tools). Counts come from the real catalogues.
  */
-export function SectionShowcase() {
+export async function SectionShowcase() {
+  const methods = await listMethods().catch(() => defaultMethods);
   const preview = methods.slice(0, 4);
   return (
     <section className="container-page pt-4" aria-label="Grow and Methods">
